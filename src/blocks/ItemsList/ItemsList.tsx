@@ -5,7 +5,7 @@ interface ItemsProps<T> {
   renderItem: (item: T) => React.ReactNode;
 }
 
-export default function ItemsList<T>({ items,  renderItem }:ItemsProps<T>) {
+function ItemsList<T>({ items,  renderItem }:ItemsProps<T>) {
   return (
     <ul>
       {items.map((item, index) => (
@@ -14,3 +14,5 @@ export default function ItemsList<T>({ items,  renderItem }:ItemsProps<T>) {
     </ul>
   )
 }
+
+export default ItemsList;
