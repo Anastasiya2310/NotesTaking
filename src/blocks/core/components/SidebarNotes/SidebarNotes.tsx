@@ -1,17 +1,6 @@
 // import './App.css';
 import ItemsList from "../../../ItemsList/ItemsList"
-
-interface INote {
-  title: string;
-  tags: string[];
-  content: string;
-  lastEdited: string;
-  isArchived: boolean;
-}
-
-interface INotesList {
-  notes: INote[];
-}
+import { INotesList } from "../../../../interfaces/interfaces";
 
 function SidebarNotes({ notes }: INotesList) {
   return (

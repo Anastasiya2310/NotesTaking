@@ -1,27 +1,14 @@
 import ItemsList from "../../../ItemsList/ItemsList"
+import { ITagsList } from "../../../../interfaces/interfaces";
 
-interface INote {
-  title: string;
-  tags: string[];
-  content: string;
-  lastEdited: string;
-  isArchived: boolean;
-}
-
-interface INotesList {
-  tags: INote[];
-}
-
-function SidebarTags({ tags }: INotesList) {
+function SidebarTags({ tags }: ITagsList) {
   return (
     <>
       <ItemsList 
         items={tags}
         renderItem={(tag) => (
           <div>
-            {tag.tags.map((tag, index) => (
-              <p key={index}>{tag}</p>
-            ))}
+            <p>{tag}</p>
           </div>
         )}
       />

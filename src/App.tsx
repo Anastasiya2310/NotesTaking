@@ -4,6 +4,9 @@ import SidebarNotes from "./blocks/core/components/SidebarNotes/SidebarNotes"
 import SidebarTags from "./blocks/core/components/SidebarTags/SidebarTags"
 
 function App() {
+  let tagsArray = data.notes.flatMap((obj) => obj.tags);
+  let tagsUnique = [...new Set(tagsArray)];
+
   return (
     <>
       <div style={{
@@ -13,7 +16,7 @@ function App() {
         flexWrap: "wrap",
         justifyContent: "flex-start"
       }}>
-        <SidebarTags tags={data.notes}  />
+        <SidebarTags tags={tagsUnique}  />
         <SidebarNotes notes={data.notes}  />
       </div>
     </>
