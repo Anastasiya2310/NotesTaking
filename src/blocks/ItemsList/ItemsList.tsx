@@ -1,9 +1,4 @@
-import React from "react"
-
-interface ItemsProps<T> {
-  items: T[];
-  renderItem: (item: T) => React.ReactNode;
-}
+import { ItemsProps } from '../../interfaces/interfaces'
 
 function ItemsList<T>({ items,  renderItem }:ItemsProps<T>) {
   return (
