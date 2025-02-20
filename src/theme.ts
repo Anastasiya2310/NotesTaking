@@ -1,7 +1,7 @@
 import { createTheme, ThemeOptions } from "@mui/material/styles";
-import "@fontsource/inter";
-import "@fontsource/noto-serif";
-import "@fontsource/source-code-pro";
+// import "@fontsource/inter";
+// import "@fontsource/noto-serif";
+// import "@fontsource/source-code-pro";
 
 declare module "@mui/material/styles" {
   interface Palette {
