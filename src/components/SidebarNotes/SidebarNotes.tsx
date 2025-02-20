@@ -1,8 +1,10 @@
 // import './App.css';
-import ItemsList from "../../../ItemsList/ItemsList"
-import { INotesList } from "../../../../interfaces/interfaces";
+import ItemsList from "../ItemsList/ItemsList"
+import { INotesList } from "../../interfaces/interfaces"
+import { formatDate } from "../../utils/dateUtils"
 
 function SidebarNotes({ notes }: INotesList) {
+  
   return (
     <>
       <ItemsList 
@@ -15,6 +17,7 @@ function SidebarNotes({ notes }: INotesList) {
                 <li key={index}>{tag}</li>
               ))}
             </ul>
+            <p>{formatDate(note.lastEdited)}</p>
           </div>
         )}
       />

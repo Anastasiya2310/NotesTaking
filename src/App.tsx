@@ -1,7 +1,9 @@
-import './App.css';
+import "./App.css";
+import "@fontsource/inter";
 import data from "./data.json"
-import SidebarNotes from "./blocks/core/components/SidebarNotes/SidebarNotes"
-import SidebarTags from "./blocks/core/components/SidebarTags/SidebarTags"
+import Content from "./components/Content/Content";
+import SidebarTags from "./components/SidebarTags/SidebarTags"
+import SidebarNotes from "./components/SidebarNotes/SidebarNotes"
 
 function App() {
   let tagsArray = data.notes.flatMap((obj) => obj.tags);
@@ -10,14 +12,18 @@ function App() {
   return (
     <>
       <div style={{
-        width: "500px",
+        width: "100%",
         display: "flex",
-        flexDirection: "column",
+        flexDirection: "row",
         flexWrap: "wrap",
         justifyContent: "flex-start"
       }}>
-        <SidebarTags tags={tagsUnique}  />
-        <SidebarNotes notes={data.notes}  />
+        <SidebarTags tags={tagsUnique} />
+        <div>
+          <SidebarNotes notes={ data.notes } />
+          <Content notes={ data.notes } />
+        </div>
+        
       </div>
     </>
   );
