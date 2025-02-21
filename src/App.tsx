@@ -7,6 +7,7 @@ import data from "./data.json"
 import Content from "./components/Content/Content";
 import SidebarTags from "./components/SidebarTags/SidebarTags"
 import SidebarNotes from "./components/SidebarNotes/SidebarNotes"
+import { Box } from "@mui/material";
 
 function App() {
   let tagsArray = data.notes.flatMap((obj) => obj.tags);
@@ -22,10 +23,14 @@ function App() {
           flexWrap: "wrap",
           justifyContent: "flex-start"
         }}>
-          <SidebarTags tags={tagsUnique} />
-          <div>
-            <SidebarNotes notes={ data.notes } />
-            <Content notes={ data.notes } />
+          <SidebarTags tags={tagsUnique}  />
+          <div style={{
+            width: "70%",
+          }}>
+            <Box sx={{ pt: 2.5, pr: 2, pb: 2.5, pl: 4 }}>
+              <SidebarNotes notes={ data.notes } />
+              <Content notes={ data.notes } />
+            </Box>
           </div>
         </div>
       </Typography>

@@ -39,6 +39,23 @@ const sharedStyle = {
 //   mono: `"Source Code Pro", monospace`,
 // }
 
+const spacingValues = {
+  0: 0,
+  0.25: 2,
+  0.5: 4,
+  0.75: 6,
+  1: 8,
+  1.5: 12,
+  2: 16,
+  2.5: 20,
+  3: 24,
+  4: 32,
+  5: 40,
+  6: 48,
+  8: 64,
+  10: 80,
+};
+
 const theme: ThemeOptions = createTheme({
   palette: {
     primary: {
@@ -69,7 +86,7 @@ const theme: ThemeOptions = createTheme({
       letterSpacing: "-0.5px",
     },
     h3: {
-      fontSize: "15rem",// 16px
+      fontSize: "1rem",// 16px
       lineHeight: "120%",
       letterSpacing: "-0.3px",
     },
@@ -80,7 +97,8 @@ const theme: ThemeOptions = createTheme({
       lineHeight: "120%",
       letterSpacing: "-0.2px",
     }
-  }
+  },
+  spacing: (factor: number) => spacingValues[factor as keyof typeof spacingValues] ?? factor * 8,
 });
 
 export default theme;
