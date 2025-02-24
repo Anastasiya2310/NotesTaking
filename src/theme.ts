@@ -10,6 +10,23 @@ declare module "@mui/material/styles" {
   interface PaletteOptions {
     neutral?: typeof neutral;
   }
+  interface BreakpointOverrides {
+    xs: true;
+    sm: true;
+    md: true;
+    lg: true;
+    xl: false;
+  }
+  interface Theme {
+    custom: {
+      columnSettings: typeof columnSettings;
+    }
+  }
+  interface ThemeOptions {
+    custom?: {
+      columnSettings?: typeof columnSettings;
+    }
+  }
 }
 
 const neutral = {
@@ -56,6 +73,21 @@ const spacingValues = {
   10: 80,
 };
 
+const columnSettings = {
+  width: {
+    xs: 24,
+    sm: 67,
+    md: 70,
+    lg: 70,
+  },
+  gap: {
+    xs: 0,
+    sm: 24,
+    md: 24,
+    lg: 24,
+  },
+};
+
 const theme: ThemeOptions = createTheme({
   palette: {
     primary: {
@@ -99,6 +131,17 @@ const theme: ThemeOptions = createTheme({
     }
   },
   spacing: (factor: number) => spacingValues[factor as keyof typeof spacingValues] ?? factor * 8,
+  breakpoints: {
+    values: {
+      xs: 320,
+      sm: 768,
+      md: 1104,
+      lg: 1440,
+    },
+  },
+  custom: {
+    columnSettings,
+  },
 });
 
 export default theme;
