@@ -131,17 +131,17 @@ const theme: ThemeOptions = createTheme({
     }
   },
   spacing: (factor: number) => spacingValues[factor as keyof typeof spacingValues] ?? factor * 8,
-  breakpoints: {
-    values: {
-      xs: 320,
-      sm: 768,
-      md: 1104,
-      lg: 1440,
-    },
-  },
-  custom: {
-    columnSettings,
-  },
+  // breakpoints: {
+  //   values: {
+  //     xs: 320,
+  //     sm: 768,
+  //     md: 1104,
+  //     lg: 1440,
+  //   },
+  // },
+  // custom: {
+  //   columnSettings,
+  // },
 });
 
 export default theme;
