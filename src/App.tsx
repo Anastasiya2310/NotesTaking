@@ -1,7 +1,8 @@
 import { useState } from "react";
+import logo from "./assets/images/logo.svg";
 import "./App.css"
 import "@fontsource/inter"
-import { Typography, ThemeProvider, Box, Grid2, useMediaQuery, useTheme, Tab } from '@mui/material'
+import { Typography, ThemeProvider, Box, Grid2, useMediaQuery, useTheme, Tab, Button } from '@mui/material'
 import theme from './theme'
 import data from "./data.json"
 import Content from "./components/Content/Content"
@@ -14,7 +15,9 @@ function App() {
   let tagsUnique = [...new Set(tagsArray)];
   const appliedTheme = useTheme();
   const isLargeScreen = useMediaQuery(appliedTheme.breakpoints.up('lg'));
-  const [selectedNoteId, setSelectedNoteId] = useState(data.notes.length > 0 ? "0" : "")
+  const [selectedNoteId, setSelectedNoteId] = useState(data.notes.length > 0 ? "0" : "");
+  const [showArchived, setShowArchived] = useState(false);
+  const filteredIsArchived = data.notes.filter(note => showArchived ? note.isArchived : note);
 
   return (
     <ThemeProvider theme={theme}>
@@ -26,10 +29,27 @@ function App() {
             position: isLargeScreen ? "relative" : "fixed",
             bottom: isLargeScreen ? "" : "0",
           }}>
-            <SidebarTags tags={tagsUnique} />
+
+            <Box component="aside" sx={{ px: 2, py: 1.5 }}>
+              <Box sx={{ width: "100%", height: "auto", py: 1.5 }}>
+                <Box component="img" src={logo} alt="Logo"  />
+              </Box>
+              <Button onClick={() => setShowArchived(false)} variant="text" sx={{ "justifyContent": "flex-start", width: "100%" }}>
+                All Notes
+              </Button>
+              <Button onClick={() => setShowArchived(true)} variant="text" sx={{ "justifyContent": "flex-start", width: "100%" }}>
+                Archived Notes
+              </Button>
+              <SidebarTags tags={tagsUnique} />
+            </Box>
           </Box>
         
-          <Grid2 container sx={{ px: 4, pt: 2.5, pb: 2.5 }} columnSpacing={3}>
+          <Grid2 container sx={{ px: 4, pt: 2.5, pb: 2.5, width: {
+            xs: 375,
+            sm: 768,
+            md: 1104,
+            lg: 1440,
+          } }} columnSpacing={3}>
             <TabContext value={selectedNoteId}>
               <Grid2 size={{ lg: 3 }}>
                 <Box sx={{ maxHeight: "100vh", overflow: "scroll" }}>
@@ -39,14 +59,14 @@ function App() {
                     orientation="vertical"
                     scrollButtons="auto"
                   >
-                    {data.notes.map((note, index) => (
+                    {filteredIsArchived.map((note, index) => (
                       <Tab key={index} label={<SidebarNotes note={note} />} value={String(index)}/>
                     ))}
                   </TabList>
                 </Box>
               </Grid2>
               <Grid2 size={{ lg: 9 }}>
-                {data.notes.map((note, index) => (
+                {filteredIsArchived.map((note, index) => (
                   <TabPanel key={index} value={String(index)}>
                     <Content note={note} />
                   </TabPanel>
