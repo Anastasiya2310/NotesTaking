@@ -18,5 +18,11 @@ export interface INotesList {
 }
 
 export interface ITagsList {
-  tags: string[]
+  tags: string[];
+}
+
+export interface ITitle {
+  all: string;
+  archived: string;
+  searched: string;
 }
