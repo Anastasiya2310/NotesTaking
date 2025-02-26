@@ -111,16 +111,19 @@ const theme: ThemeOptions = createTheme({
       fontSize: "1.5rem",// 24px
       lineHeight: "120%",
       letterSpacing: "-0.5px",
+      fontWeight: "bold",
     },
     h2: {
       fontSize: "1.25rem",// 20px
       lineHeight: "120%",
       letterSpacing: "-0.5px",
+      fontWeight: "bold",
     },
     h3: {
       fontSize: "1rem",// 16px
       lineHeight: "120%",
       letterSpacing: "-0.3px",
+      fontWeight: "semi-bold",
     },
     h4: {...sharedStyle},
     h5: {...sharedStyle},
