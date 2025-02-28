@@ -1,18 +1,16 @@
-// import './App.css';
-// import ItemsList from "../ItemsList/ItemsList"
 import { INote } from "../../interfaces/interfaces"
 import { formatDate } from "../../utils/dateUtils"
 import { Box, Typography } from "@mui/material";
 
 function SidebarNotes({ note }: { note: INote }) {
   return (
-    <Box p={1}>
+    <Box>
       <Typography variant="h3">{note.title}</Typography>
-      <ul>
+      <Box>
         {note.tags.map((tag: string, index: number) => (
-          <li key={index}>{tag}</li>
+          <Box key={index}>{tag}</Box>
         ))}
-      </ul>
+      </Box>
       <p>{formatDate(note.lastEdited)}</p>
     </Box>
   );

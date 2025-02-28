@@ -26,3 +26,9 @@ export interface ITitle {
   archived: string;
   searched: string;
 }
+
+export interface ISidebarLeftProps extends ITagsList {
+  setShowArchived: (value: boolean) => void;
+  setTitle: (value: string) => void;
+  headerTitle: ITitle;
+}
