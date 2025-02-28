@@ -1,13 +1,13 @@
 import { useState } from "react";
-import logo from "./assets/images/logo.svg";
 import "./App.css"
 import "@fontsource/inter"
-import { Typography, ThemeProvider, Box, Grid2, useMediaQuery, useTheme, Tab, Button } from '@mui/material'
+import { Typography, ThemeProvider, Box, Grid2, useMediaQuery, useTheme, Tab, Divider } from '@mui/material'
 import theme from './theme'
 import data from "./data.json"
 import Content from "./components/Content/Content"
-import SidebarTags from "./components/SidebarTags/SidebarTags"
+import SidebarLeft from "./components/SidebarLeft/SidebarLeft"
 import SidebarNotes from "./components/SidebarNotes/SidebarNotes"
+import SidebarRight from "./components/SidebarRight/SidebarRight"
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { ITitle } from "./interfaces/interfaces";
 import Header from "./components/Header/Header";
@@ -37,55 +37,50 @@ function App() {
             position: isLargeScreen ? "relative" : "fixed",
             bottom: isLargeScreen ? "" : "0",
           }}>
-
-            <Box component="aside" sx={{ px: 2, py: 1.5 }}>
-              <Box sx={{ width: "100%", height: "auto", py: 1.5 }}>
-                <Box component="img" src={logo} alt="Logo"  />
-              </Box>
-              <Button onClick={() => {
-                setShowArchived(false);
-                setTitle(headerTitle.all);
-              }} variant="text" sx={{ "justifyContent": "flex-start", width: "100%" }}>
-                {headerTitle.all}
-              </Button>
-              <Button onClick={() => {
-                setShowArchived(true);
-                setTitle(headerTitle.archived);
-              }} variant="text" sx={{ "justifyContent": "flex-start", width: "100%" }}>
-                {headerTitle.archived}
-              </Button>
-              <SidebarTags tags={tagsUnique} />
-            </Box>
+          <SidebarLeft 
+            tags={tagsUnique} 
+            setShowArchived={setShowArchived} 
+            setTitle={setTitle} 
+            headerTitle={headerTitle} 
+          />
           </Box>
           <Grid2 container sx={{ flexDirection: "column", width: {
             xs: 375,
             sm: 768,
             md: 1104,
             lg: 1440,
-          }, alignItems: "flex-start"}} columnSpacing={3}>
+          }, alignItems: "flex-start"}}>
             <Header title={title} />
             <TabContext value={selectedNoteId}>
-              <Grid2 container sx={{ alignItems: "flex-start" }}>
+              <Grid2 container sx={{ alignItems: "flex-start", pl: 4, pr: 4 }}>
                 <Grid2 size={{ lg: 3 }}>
-                  <Box sx={{ maxHeight: "100vh", overflow: "scroll" }}>
-                    <TabList 
-                      onChange={(_event:React.SyntheticEvent, newValue:string) => { setSelectedNoteId(newValue) }}
-                      variant="scrollable"
-                      orientation="vertical"
-                      scrollButtons="auto"
-                    >
-                      {filteredIsArchived.map((note, index) => (
-                        <Tab key={index} label={<SidebarNotes note={note} />} value={String(index)}/>
-                      ))}
-                    </TabList>
+                  <Box sx={{ display: "flex" }}>
+                    <Box sx={{ maxHeight: "100vh", overflow: "scroll" }}>
+                      <TabList 
+                        onChange={(_event:React.SyntheticEvent, newValue:string) => { setSelectedNoteId(newValue) }}
+                        variant="scrollable"
+                        orientation="vertical"
+                        scrollButtons="auto"
+                      >
+                        {filteredIsArchived.map((note, index) => (
+                          <Tab key={index} label={<SidebarNotes note={note} />} value={String(index)} sx={{ justifyContent: "flex-start" }}/>
+                        ))}
+                      </TabList>
+                    </Box>
+                    <Divider orientation="vertical" flexItem />
                   </Box>
                 </Grid2>
-                <Grid2 size={{ lg: 9 }}>
+
+                <Grid2 size={{ lg: 6 }}>
                   {filteredIsArchived.map((note, index) => (
                     <TabPanel key={index} value={String(index)}>
                       <Content note={note} />
                     </TabPanel>
                   ))}
+                </Grid2>
+
+                <Grid2 size={{ lg: 3 }}>
+                  <SidebarRight />
                 </Grid2>
               </Grid2>
             </TabContext>
