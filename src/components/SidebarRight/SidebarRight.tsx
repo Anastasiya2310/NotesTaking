@@ -1,6 +1,5 @@
 import { Button, Box, Divider } from "@mui/material";
-import IconArchive from "../../assets/icons/IconArchive";
-import IconDelete from "../../assets/icons/IconDelete";
+import { IconArchive, IconDelete }  from "../../assets/icons";
 
 function SidebarRight() {
   return (

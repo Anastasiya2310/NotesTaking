@@ -1,7 +1,15 @@
 import { useState } from "react";
 import "./App.css"
 import "@fontsource/inter"
-import { Typography, ThemeProvider, Box, Grid2, useMediaQuery, useTheme, Tab, Divider } from '@mui/material'
+import { Typography, 
+        ThemeProvider, 
+        Box, 
+        Grid2, 
+        useMediaQuery, 
+        useTheme, 
+        Tab, 
+        Divider, 
+        Button } from '@mui/material'
 import theme from './theme'
 import data from "./data.json"
 import Content from "./components/Content/Content"
@@ -11,6 +19,7 @@ import SidebarRight from "./components/SidebarRight/SidebarRight"
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { ITitle } from "./interfaces/interfaces";
 import Header from "./components/Header/Header";
+import { IconPlus }  from "./assets/icons";
 
 function App() {
   let tagsArray = data.notes.flatMap((obj) => obj.tags);
@@ -62,6 +71,12 @@ function App() {
                         orientation="vertical"
                         scrollButtons="auto"
                       >
+                        <Box sx={{ pt: 2.5, pr: 2, pb: 2 }}>
+                          <Button variant="contained" sx={{ "justifyContent": "flex-start", width: "100%", mb: 1.5, px: 2, py: 1.5 }}>
+                            <IconPlus sx={{ mr: 1 }} />
+                            Create New Note
+                          </Button>
+                        </Box>
                         {filteredIsArchived.map((note, index) => (
                           <Tab key={index} label={<SidebarNotes note={note} />} value={String(index)} sx={{ justifyContent: "flex-start" }}/>
                         ))}

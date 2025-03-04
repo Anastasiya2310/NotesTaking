@@ -74,6 +74,10 @@ const spacingValues = {
   10: 80,
 };
 
+const shape = {
+  borderRadius: 8,
+};
+
 const columnSettings = {
   width: {
     xs: 24,
@@ -146,6 +150,7 @@ const theme: ThemeOptions = createTheme({
   // custom: {
   //   columnSettings,
   // },
+  shape: shape,
 });
 
 export default theme;
