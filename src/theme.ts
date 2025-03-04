@@ -151,6 +151,19 @@ const theme: ThemeOptions = createTheme({
   //   columnSettings,
   // },
   shape: shape,
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: "none",
+          boxShadow: "none",
+          "&:hover": {
+            boxShadow: "none"
+          }
+        }
+      }
+    }
+  }
 });
 
 export default theme;
