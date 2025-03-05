@@ -161,6 +161,7 @@ const theme: ThemeOptions = createTheme({
           color: neutral[700],
           "&:hover": {
             boxShadow: "none",
+            backgroundColor: neutral[100],
           },
           "&:active": {
             backgroundColor: neutral[100],
