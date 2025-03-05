@@ -22,20 +22,21 @@ import Header from "./components/Header/Header";
 import { IconPlus }  from "./assets/icons";
 
 function App() {
-  let tagsArray = data.notes.flatMap((obj) => obj.tags);
+  const notes = data.notes;
+  const [activeTag, setActiveTag] = useState("");
+  let tagsArray = notes.flatMap((obj) => obj.tags);
   let tagsUnique = [...new Set(tagsArray)];
   const appliedTheme = useTheme();
   const isLargeScreen = useMediaQuery(appliedTheme.breakpoints.up('lg'));
-  const [selectedNoteId, setSelectedNoteId] = useState(data.notes.length > 0 ? "0" : "");
+  const [selectedNoteId, setSelectedNoteId] = useState(notes.length > 0 ? "0" : "");
   const [showArchived, setShowArchived] = useState(false);
-  const filteredIsArchived = data.notes.filter(note => showArchived ? note.isArchived : note);
+  const filteredIsArchived = notes.filter(note => !showArchived ? (activeTag === "" || note.tags?.includes(activeTag)) : note.isArchived);
+  const [title, setTitle] = useState("All Notes");
+  
   const headerTitle:ITitle = {
     all: "All Notes",
     archived: "Archived Notes",
-    searched: "",
   }
-  const [title, setTitle] = useState("All Notes");
-
   return (
     <ThemeProvider theme={theme}>
       <Typography variant="body1" component="div">
@@ -50,7 +51,8 @@ function App() {
             tags={tagsUnique} 
             setShowArchived={setShowArchived} 
             setTitle={setTitle} 
-            headerTitle={headerTitle} 
+            headerTitle={headerTitle}
+            setActiveTag={setActiveTag} 
           />
           </Box>
           <Grid2 container sx={{ flexDirection: "column", width: {
@@ -61,10 +63,10 @@ function App() {
           }, alignItems: "flex-start"}}>
             <Header title={title} />
             <TabContext value={selectedNoteId}>
-              <Grid2 container sx={{ alignItems: "flex-start", pl: 4, pr: 4 }}>
+              <Grid2 container sx={{ alignItems: "flex-start", pl: 4, pr: 4, width: "100%" }}>
                 <Grid2 size={{ lg: 3 }}>
                   <Box sx={{ display: "flex" }}>
-                    <Box sx={{ maxHeight: `calc(100vh - 90px)`, overflow: "scroll" }}>
+                    <Box sx={{ maxHeight: `calc(100vh - 90px)`, overflow: "scroll", flexDirection: "column" }}>
                       <TabList 
                         onChange={(_event:React.SyntheticEvent, newValue:string) => { setSelectedNoteId(newValue) }}
                         variant="scrollable"

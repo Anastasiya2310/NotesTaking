@@ -1,10 +1,18 @@
 import TagsList from "../TagsList/TagsList"
 import logo from "../../assets/images/logo.svg";
 import { ISidebarLeftProps } from "../../interfaces/interfaces";
-import { Typography, Grid2, Box, Divider, Button } from "@mui/material";
+import { Grid2, Box, Divider, Button } from "@mui/material";
 import { IconTag, IconHome, IconArchive } from "../../assets/icons";
 
-function SidebarLeft({ tags, setShowArchived, setTitle, headerTitle }: ISidebarLeftProps) {
+function SidebarLeft({ tags, setShowArchived, setTitle, headerTitle, setActiveTag}: ISidebarLeftProps) {
+  const handleTagClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const tag = e.currentTarget.innerText?.trim();
+    if(tag) {
+      setActiveTag(tag);
+      setShowArchived(false);
+      setTitle(`Notes Tagged: ${tag}`);
+    }
+  };
   return (
     <Box sx={{ display: "flex", height: `calc(100vh - 10px)`, width: "272px" }}>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -17,6 +25,7 @@ function SidebarLeft({ tags, setShowArchived, setTitle, headerTitle }: ISidebarL
             onClick={() => {
               setShowArchived(false);
               setTitle(headerTitle.all);
+              setActiveTag("");
             }}
             variant="text"
             sx={{ justifyContent: "flex-start", width: "100%", px: 1.5, py: 1.25 }}
@@ -28,6 +37,7 @@ function SidebarLeft({ tags, setShowArchived, setTitle, headerTitle }: ISidebarL
             onClick={() => {
               setShowArchived(true);
               setTitle(headerTitle.archived);
+              setActiveTag("");
             }}
             variant="text"
             sx={{ justifyContent: "flex-start", width: "100%", px: 1.5, py: 1.25 }}
@@ -42,8 +52,11 @@ function SidebarLeft({ tags, setShowArchived, setTitle, headerTitle }: ISidebarL
           items={tags}
           renderItem={(tag) => (
             <Grid2 container>
-              <IconTag />
-              <Typography component="span">{tag}</Typography>
+              <Button
+                onClick={handleTagClick}>
+                <IconTag />
+                {tag.trim()}
+              </Button>
             </Grid2>
           )}
         />
