@@ -5,7 +5,7 @@ import { IconClock, IconTag } from '../../assets/icons';
 
 function Content({ note }: { note: INote }) {
   return (
-    <Box display="flex" sx={{ flexDirection: "column", minHeight: "85vh" }}>
+    <Box display="flex" sx={{ flexDirection: "column", minHeight: `calc(100vh - 130px)` }}>
       <Typography variant="h1" component="h1" sx={{ mb: 2 }}>{note.title}</Typography>
       <Box>
         <Grid2 container spacing={1} sx={{ mb: 1 }}>

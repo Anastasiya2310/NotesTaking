@@ -6,7 +6,7 @@ import { IconTag, IconHome, IconArchive } from "../../assets/icons";
 
 function SidebarLeft({ tags, setShowArchived, setTitle, headerTitle }: ISidebarLeftProps) {
   return (
-    <Box sx={{ display: "flex", height: "100vh", width: "272px" }}>
+    <Box sx={{ display: "flex", height: `calc(100vh - 10px)`, width: "272px" }}>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         {/* Sidebar Header */}
         <Box sx={{ px: 2, py: 1.5 }}>
