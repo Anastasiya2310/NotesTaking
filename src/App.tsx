@@ -42,7 +42,7 @@ function App() {
         <Box sx={{ display: "flex", width: "100vw", justifyContent: "center" }}>
           <Box sx={{ 
             width: isLargeScreen ? 272 : "100vw", 
-            height: isLargeScreen ? "100vh" : "74px",
+            height: isLargeScreen ? `calc(100vh - 130px)` : "74px",
             position: isLargeScreen ? "relative" : "fixed",
             bottom: isLargeScreen ? "" : "0",
           }}>
@@ -64,7 +64,7 @@ function App() {
               <Grid2 container sx={{ alignItems: "flex-start", pl: 4, pr: 4 }}>
                 <Grid2 size={{ lg: 3 }}>
                   <Box sx={{ display: "flex" }}>
-                    <Box sx={{ maxHeight: "100vh", overflow: "scroll" }}>
+                    <Box sx={{ maxHeight: `calc(100vh - 90px)`, overflow: "scroll" }}>
                       <TabList 
                         onChange={(_event:React.SyntheticEvent, newValue:string) => { setSelectedNoteId(newValue) }}
                         variant="scrollable"
