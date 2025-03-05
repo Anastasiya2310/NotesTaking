@@ -130,12 +130,13 @@ const theme: ThemeOptions = createTheme({
       letterSpacing: "-0.3px",
       fontWeight: "semi-bold",
     },
-    h4: {...sharedStyle},
-    h5: {...sharedStyle},
+    h4: {...sharedStyle, fontWeight: "normal"},
+    h5: {...sharedStyle, fontWeight: "normal"},
     h6: {
       fontSize: "0.75rem",// 12px
       lineHeight: "120%",
       letterSpacing: "-0.2px",
+      fontWeight: "normal"
     }
   },
   spacing: (factor: number) => spacingValues[factor as keyof typeof spacingValues] ?? factor * 8,
@@ -157,9 +158,14 @@ const theme: ThemeOptions = createTheme({
         root: {
           textTransform: "none",
           boxShadow: "none",
+          color: neutral[700],
           "&:hover": {
-            boxShadow: "none"
-          }
+            boxShadow: "none",
+            backgroundColor: neutral[100],
+          },
+          "&:active": {
+            backgroundColor: neutral[100],
+          },
         }
       }
     }
