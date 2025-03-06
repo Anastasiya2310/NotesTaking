@@ -23,7 +23,7 @@ function SidebarLeft({ tags, setShowArchived, setTitle, headerTitle, setActiveTa
         {/* Sidebar Header */}
         <Box sx={{ py: 1.5 }}>
           <Box sx={{ width: "100%", height: "auto", py: 1.5 }}>
-            <Box component="img" src={logo} alt="Logo" />
+            <Box component="img" src={logo} alt="Logo" sx={{  }} />
           </Box>
           <Button
             onClick={() => {

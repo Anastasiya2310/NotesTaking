@@ -29,8 +29,12 @@ function Content({ note }: { note: INote }) {
       </Box>
       <Divider sx={{ my: 2 }} />
       <Box display="flex" sx={{ "alignItems": "flex-end" }}>
-        <Button variant="contained" sx={{ mr: 2 }}>Save Note</Button>
-        <Button variant="contained" sx={{ bgcolor: "neutral.100", color: "neutral.600" }}>Cancel</Button>
+        <Button variant="contained" sx={{ mr: 2 }}>
+          <Typography variant="h4">Save Note</Typography>
+        </Button>
+        <Button variant="containedCancel">
+          <Typography variant="h4">Cancel</Typography>
+        </Button>
       </Box>
     </Box>
   )

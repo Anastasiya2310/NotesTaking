@@ -29,6 +29,12 @@ declare module "@mui/material/styles" {
   }
 }
 
+declare module "@mui/material/Button" {
+  interface ButtonPropsVariantOverrides {
+    containedCancel: true
+  }
+}
+
 const neutral = {
   0: "#FFFFFF",
   50: "#F5F7FA",
@@ -158,16 +164,35 @@ const theme: ThemeOptions = createTheme({
         root: {
           textTransform: "none",
           boxShadow: "none",
+          padding: "12px 16px",
           color: neutral[700],
+          "&.MuiButton-text:hover": {
+            backgroundColor: neutral[100],
+          },
           "&:hover": {
             boxShadow: "none",
-            backgroundColor: neutral[100],
           },
           "&:active": {
             backgroundColor: neutral[100],
           },
+          "&.MuiButton-contained": {
+            color: "white",
+          }
         }
-      }
+      },
+      variants: [
+        {
+          props: {
+            variant: "containedCancel",
+          },
+          style: {
+            backgroundColor: neutral[100],
+            borderRadius: "8px",
+            color: neutral[600],
+            padding: "12px 16px",
+          }
+        }
+      ]
     }
   }
 });

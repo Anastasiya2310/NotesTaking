@@ -63,15 +63,14 @@ function App() {
           }, alignItems: "flex-start"}}>
             <Header title={title} />
             <TabContext value={selectedNoteId}>
-              <Grid2 container spacing={3} sx={{ alignItems: "flex-start", pl: 4, pr: 4, width: "100%" }}>
+              <Grid2 container spacing={3} sx={{ alignItems: "flex-start", px: 4, width: "100%" }}>
                 <Grid2 size={{ lg: 3 }}>
-
-                  <Box sx={{ height: `calc(100vh - 90px)`, overflow: "scroll", flexDirection: "column", pr: 2, textAlign: "left", borderRight: 1, borderColor: "neutral.200"}}>
+                  <Box sx={{ height: `calc(100vh - 90px)`, overflow: "scroll", flexDirection: "column", pr: 2, pt: 2.5, textAlign: "left", borderRight: 1, borderColor: "neutral.200"}}>
                     <TabList 
                       onChange={(_event:React.SyntheticEvent, newValue:string) => { setSelectedNoteId(newValue) }}
                       variant="scrollable"
                       orientation="vertical"
-                      scrollButtons="auto"
+                      scrollButtons={false}
                       sx={{ 
                         height: `calc(100vh - 90px)`,
                         textAlign: "left",
@@ -80,10 +79,10 @@ function App() {
                         }, 
                       }}
                     >
-                      <Box sx={{ pt: 2.5, pb: 2 }}>
-                        <Button variant="contained" sx={{ "justifyContent": "flex-start", width: "100%", mb: 1.5, px: 2, py: 1.5 }}>
+                      <Box sx={{ pb: 2 }}>
+                        <Button variant="contained" sx={{ display: "flex", justifyContent: "center", width: "100%", mb: 1.5, px: 2, py: 1.5 }}>
                           <IconPlus sx={{ mr: 1 }} />
-                          Create New Note
+                          <Typography variant="h4">Create New Note</Typography>
                         </Button>
                       </Box>
                       {filteredIsArchived.map((note, index) => (
@@ -121,7 +120,9 @@ function App() {
                 </Grid2>
 
                 <Grid2 size={{ lg: 3 }}>
-                  <SidebarRight />
+                  <Box sx={{ borderLeft: 1, borderColor: "neutral.200" }}>
+                    <SidebarRight />
+                  </Box>
                 </Grid2>
               </Grid2>
             </TabContext>
