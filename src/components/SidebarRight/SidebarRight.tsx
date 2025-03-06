@@ -1,10 +1,10 @@
-import { Button, Box, Divider } from "@mui/material";
+import { Button, Box } from "@mui/material";
 import { IconArchive, IconDelete }  from "../../assets/icons";
 
 function SidebarRight() {
   return (
-    <Box sx={{ display: "flex" }}>
-      <Divider orientation="vertical" flexItem />
+    <Box>
+      {/* <Divider orientation="vertical" flexItem /> */}
       <Box sx={{ pl: 2, py: 2.5, height: `calc(100vh - 130px)` }}>
         <Button variant="outlined" sx={{ "justifyContent": "flex-start", width: "100%", mb: 1.5, px: 2, py: 1.5 }}>
           <IconArchive sx={{ mr: 1 }} />
