@@ -8,7 +8,7 @@ import { Typography,
         useMediaQuery, 
         useTheme, 
         Tab, 
-        Divider, 
+ 
         Button } from '@mui/material'
 import theme from './theme'
 import data from "./data.json"
@@ -63,28 +63,52 @@ function App() {
           }, alignItems: "flex-start"}}>
             <Header title={title} />
             <TabContext value={selectedNoteId}>
-              <Grid2 container sx={{ alignItems: "flex-start", pl: 4, pr: 4, width: "100%" }}>
+              <Grid2 container spacing={3} sx={{ alignItems: "flex-start", pl: 4, pr: 4, width: "100%" }}>
                 <Grid2 size={{ lg: 3 }}>
-                  <Box sx={{ display: "flex" }}>
-                    <Box sx={{ maxHeight: `calc(100vh - 90px)`, overflow: "scroll", flexDirection: "column" }}>
-                      <TabList 
-                        onChange={(_event:React.SyntheticEvent, newValue:string) => { setSelectedNoteId(newValue) }}
-                        variant="scrollable"
-                        orientation="vertical"
-                        scrollButtons="auto"
-                      >
-                        <Box sx={{ pt: 2.5, pr: 2, pb: 2 }}>
-                          <Button variant="contained" sx={{ "justifyContent": "flex-start", width: "100%", mb: 1.5, px: 2, py: 1.5 }}>
-                            <IconPlus sx={{ mr: 1 }} />
-                            Create New Note
-                          </Button>
-                        </Box>
-                        {filteredIsArchived.map((note, index) => (
-                          <Tab key={index} label={<SidebarNotes note={note} />} value={String(index)} sx={{ justifyContent: "flex-start" }}/>
-                        ))}
-                      </TabList>
-                    </Box>
-                    <Divider orientation="vertical" flexItem />
+
+                  <Box sx={{ height: `calc(100vh - 90px)`, overflow: "scroll", flexDirection: "column", pr: 2, textAlign: "left", borderRight: 1, borderColor: "neutral.200"}}>
+                    <TabList 
+                      onChange={(_event:React.SyntheticEvent, newValue:string) => { setSelectedNoteId(newValue) }}
+                      variant="scrollable"
+                      orientation="vertical"
+                      scrollButtons="auto"
+                      sx={{ 
+                        height: `calc(100vh - 90px)`,
+                        textAlign: "left",
+                        "& .MuiTabs-indicator": {
+                          display: "none",
+                        }, 
+                      }}
+                    >
+                      <Box sx={{ pt: 2.5, pb: 2 }}>
+                        <Button variant="contained" sx={{ "justifyContent": "flex-start", width: "100%", mb: 1.5, px: 2, py: 1.5 }}>
+                          <IconPlus sx={{ mr: 1 }} />
+                          Create New Note
+                        </Button>
+                      </Box>
+                      {filteredIsArchived.map((note, index) => (
+                        <Tab 
+                          key={index} 
+                          label={<SidebarNotes note={note} />} 
+                          value={String(index)} 
+                          sx={{ 
+                            textTransform: "capitalize",
+                            display: "flex",
+                            alignItems: "flex-start",
+                            p: 1,
+                            borderBottom: 1, 
+                            borderColor: "neutral.200",
+                            "&.Mui-selected": {
+                              borderRadius: 0.75,
+                              backgroundColor: "neutral.100",
+                              color: "neutral.900",
+                              borderBottom: 1,
+                              borderColor: "transparent",
+                            },
+                            
+                          }}/>
+                      ))}
+                    </TabList>
                   </Box>
                 </Grid2>
 

@@ -18,8 +18,8 @@ function SidebarLeft({ tags, setShowArchived, setTitle, headerTitle, setActiveTa
   const [activeButton, setActiveButton] = useState<string>(headerTitle.all);
 
   return (
-    <Box sx={{ display: "flex", height: `calc(100vh - 10px)`, width: "272px" }}>
-      <Box sx={{ display: "flex", flexDirection: "column", px: 2 }}>
+    <Box sx={{ display: "flex", height: `calc(100vh - 10px)`}}>
+      <Box sx={{ px: 2 }}>
         {/* Sidebar Header */}
         <Box sx={{ py: 1.5 }}>
           <Box sx={{ width: "100%", height: "auto", py: 1.5 }}>
