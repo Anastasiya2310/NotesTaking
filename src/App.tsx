@@ -40,27 +40,27 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Typography variant="body1" component="div">
-        <Box sx={{ display: "flex", width: "100vw", justifyContent: "center" }}>
+        <Grid2 container sx={{ width: {
+            xs: 375,
+            sm: 768,
+            md: 1104,
+            lg: 1440,
+          }, margin: "0 auto"}}>
           <Box sx={{ 
             width: isLargeScreen ? 272 : "100vw", 
             height: isLargeScreen ? `calc(100vh - 130px)` : "74px",
             position: isLargeScreen ? "relative" : "fixed",
             bottom: isLargeScreen ? "" : "0",
           }}>
-          <SidebarLeft 
-            tags={tagsUnique} 
-            setShowArchived={setShowArchived} 
-            setTitle={setTitle} 
-            headerTitle={headerTitle}
-            setActiveTag={setActiveTag} 
-          />
+            <SidebarLeft 
+              tags={tagsUnique} 
+              setShowArchived={setShowArchived} 
+              setTitle={setTitle} 
+              headerTitle={headerTitle}
+              setActiveTag={setActiveTag} 
+            />
           </Box>
-          <Grid2 container sx={{ flexDirection: "column", width: {
-            xs: 375,
-            sm: 768,
-            md: 1104,
-            lg: 1440,
-          }, alignItems: "flex-start"}}>
+          <Grid2 size={{ xs: 12, lg: 9 }} sx={{ flexDirection: "column", alignItems: "flex-start" }}>
             <Header title={title} />
             <TabContext value={selectedNoteId}>
               <Grid2 container spacing={3} sx={{ alignItems: "flex-start", px: 4, width: "100%" }}>
@@ -127,7 +127,7 @@ function App() {
               </Grid2>
             </TabContext>
           </Grid2>
-        </Box>
+        </Grid2>
       </Typography>
     </ThemeProvider>
   );

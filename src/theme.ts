@@ -177,6 +177,9 @@ const theme: ThemeOptions = createTheme({
           },
           "&.MuiButton-contained": {
             color: "white",
+          },
+          "&.MuiButton-outlined": {
+            borderColor: neutral[300],
           }
         }
       },
