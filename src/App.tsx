@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./App.css"
 import "@fontsource/inter"
 import { Typography, 
@@ -34,14 +34,6 @@ function App() {
   const filteredIsArchived = notes?.filter(note => !showArchived ? (activeTag === "" || note.tags?.includes(activeTag)) : note.isArchived);
   const [title, setTitle] = useState("All Notes");
 
-  useEffect(() => {
-    if(filteredIsArchived.length > 0) {
-      setSelectedNoteId(filteredIsArchived[0].id);
-    } else {
-      setSelectedNoteId(0);
-    }
-  }, [activeTag, showArchived, filteredIsArchived]);
-  
   const headerTitle:ITitle = {
     all: "All Notes",
     archived: "Archived Notes",
