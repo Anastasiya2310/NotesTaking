@@ -11,7 +11,6 @@ import { Typography,
  
         Button } from '@mui/material'
 import theme from './theme'
-import data from "./data.json"
 import Content from "./components/Content/Content"
 import SidebarLeft from "./components/SidebarLeft/SidebarLeft"
 import SidebarNotes from "./components/SidebarNotes/SidebarNotes"
@@ -20,17 +19,19 @@ import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { ITitle } from "./interfaces/interfaces";
 import Header from "./components/Header/Header";
 import { IconPlus }  from "./assets/icons";
+import useFetchData from "./hooks/useFetchData";
 
 function App() {
-  const notes = data.notes;
+  const { data } = useFetchData("/data.json");
+  const notes = data?.notes || [];
   const [activeTag, setActiveTag] = useState("");
-  let tagsArray = notes.flatMap((obj) => obj.tags);
+  let tagsArray = notes?.flatMap((obj) => obj.tags);
   let tagsUnique = [...new Set(tagsArray)];
   const appliedTheme = useTheme();
   const isLargeScreen = useMediaQuery(appliedTheme.breakpoints.up('lg'));
-  const [selectedNoteId, setSelectedNoteId] = useState(notes.length > 0 ? "0" : "");
+  const [selectedNoteId, setSelectedNoteId] = useState(notes?.length > 0 ? "0" : "");
   const [showArchived, setShowArchived] = useState(false);
-  const filteredIsArchived = notes.filter(note => !showArchived ? (activeTag === "" || note.tags?.includes(activeTag)) : note.isArchived);
+  const filteredIsArchived = notes?.filter(note => !showArchived ? (activeTag === "" || note.tags?.includes(activeTag)) : note.isArchived);
   const [title, setTitle] = useState("All Notes");
   
   const headerTitle:ITitle = {
@@ -67,7 +68,7 @@ function App() {
                 <Grid2 size={{ lg: 3 }}>
                   <Box sx={{ height: `calc(100vh - 90px)`, overflow: "scroll", flexDirection: "column", pr: 2, pt: 2.5, textAlign: "left", borderRight: 1, borderColor: "neutral.200"}}>
                     <TabList 
-                      onChange={(_event:React.SyntheticEvent, newValue:string) => { setSelectedNoteId(newValue) }}
+                      onChange={(_event:React.SyntheticEvent, newValue:string) => { setSelectedNoteId(newValue)}}
                       variant="scrollable"
                       orientation="vertical"
                       scrollButtons={false}
@@ -85,7 +86,7 @@ function App() {
                           <Typography variant="h4">Create New Note</Typography>
                         </Button>
                       </Box>
-                      {filteredIsArchived.map((note, index) => (
+                      {filteredIsArchived?.map((note, index) => (
                         <Tab 
                           key={index} 
                           label={<SidebarNotes note={note} />} 
@@ -112,7 +113,7 @@ function App() {
                 </Grid2>
 
                 <Grid2 size={{ lg: 6 }}>
-                  {filteredIsArchived.map((note, index) => (
+                  {filteredIsArchived?.map((note, index) => (
                     <TabPanel key={index} value={String(index)}>
                       <Content note={note} />
                     </TabPanel>
@@ -121,6 +122,7 @@ function App() {
 
                 <Grid2 size={{ lg: 3 }}>
                   <Box sx={{ borderLeft: 1, borderColor: "neutral.200" }}>
+                    {/* <SidebarRight notes={notes} selectedNoteId={selectedNoteId} /> */}
                     <SidebarRight />
                   </Box>
                 </Grid2>
