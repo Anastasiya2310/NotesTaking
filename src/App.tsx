@@ -122,7 +122,6 @@ function App() {
 
                 <Grid2 size={{ lg: 3 }}>
                   <Box sx={{ borderLeft: 1, borderColor: "neutral.200" }}>
-                    {/* <SidebarRight notes={notes} selectedNoteId={selectedNoteId} /> */}
                     <SidebarRight />
                   </Box>
                 </Grid2>
