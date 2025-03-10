@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css"
 import "@fontsource/inter"
 import { Typography, 
@@ -29,10 +29,18 @@ function App() {
   let tagsUnique = [...new Set(tagsArray)];
   const appliedTheme = useTheme();
   const isLargeScreen = useMediaQuery(appliedTheme.breakpoints.up('lg'));
-  const [selectedNoteId, setSelectedNoteId] = useState(notes?.length > 0 ? "0" : "");
+  const [selectedNoteId, setSelectedNoteId] = useState(0);
   const [showArchived, setShowArchived] = useState(false);
   const filteredIsArchived = notes?.filter(note => !showArchived ? (activeTag === "" || note.tags?.includes(activeTag)) : note.isArchived);
   const [title, setTitle] = useState("All Notes");
+
+  useEffect(() => {
+    if(filteredIsArchived.length > 0) {
+      setSelectedNoteId(filteredIsArchived[0].id);
+    } else {
+      setSelectedNoteId(0);
+    }
+  }, [activeTag, showArchived, filteredIsArchived]);
   
   const headerTitle:ITitle = {
     all: "All Notes",
@@ -59,16 +67,17 @@ function App() {
               setTitle={setTitle} 
               headerTitle={headerTitle}
               setActiveTag={setActiveTag} 
+              activeTag={activeTag}
             />
           </Box>
           <Grid2 size={{ xs: 12, lg: 9 }} sx={{ flexDirection: "column", alignItems: "flex-start" }}>
             <Header title={title} />
-            <TabContext value={selectedNoteId}>
+            <TabContext value={filteredIsArchived.some(note => note.id === selectedNoteId) ? selectedNoteId : (filteredIsArchived[0]?.id || 0)}>
               <Grid2 container spacing={3} sx={{ alignItems: "flex-start", px: 4, width: "100%" }}>
                 <Grid2 size={{ lg: 3 }}>
                   <Box sx={{ height: `calc(100vh - 90px)`, overflow: "scroll", flexDirection: "column", pr: 2, pt: 2.5, textAlign: "left", borderRight: 1, borderColor: "neutral.200"}}>
                     <TabList 
-                      onChange={(_event:React.SyntheticEvent, newValue:string) => { setSelectedNoteId(newValue)}}
+                      onChange={(_event:React.SyntheticEvent, newValue:number) => { setSelectedNoteId(newValue)}}
                       variant="scrollable"
                       orientation="vertical"
                       scrollButtons={false}
@@ -86,11 +95,11 @@ function App() {
                           <Typography variant="h4">Create New Note</Typography>
                         </Button>
                       </Box>
-                      {filteredIsArchived?.map((note, index) => (
+                      {filteredIsArchived?.map((note) => (
                         <Tab 
-                          key={index} 
+                          key={note.id} 
                           label={<SidebarNotes note={note} />} 
-                          value={String(index)} 
+                          value={note.id} 
                           sx={{ 
                             textTransform: "capitalize",
                             display: "flex",
@@ -105,16 +114,18 @@ function App() {
                               borderBottom: 1,
                               borderColor: "transparent",
                             },
-                            
-                          }}/>
+                          }}
+                          onClick={() => console.log('filteredIsArchived: ', filteredIsArchived)}
+                          />
                       ))}
                     </TabList>
                   </Box>
                 </Grid2>
 
                 <Grid2 size={{ lg: 6 }}>
-                  {filteredIsArchived?.map((note, index) => (
-                    <TabPanel key={index} value={String(index)}>
+                  {filteredIsArchived?.map((note) => (
+                    
+                    <TabPanel key={note.id} value={note.id}>
                       <Content note={note} />
                     </TabPanel>
                   ))}

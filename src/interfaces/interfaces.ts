@@ -6,6 +6,7 @@ export interface ItemsProps<T> {
 }
 
 export interface INote {
+  id: number;
   title: string;
   tags: string[];
   content: string;
@@ -31,6 +32,7 @@ export interface ISidebarLeftProps extends ITagsList {
   setTitle: (value: string) => void;
   headerTitle: ITitle;
   setActiveTag: (value: string) => void;
+  activeTag: string;
 }
 
 export interface IFilteredTags {
