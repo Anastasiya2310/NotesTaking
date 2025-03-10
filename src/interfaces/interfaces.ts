@@ -30,11 +30,14 @@ export interface ISidebarLeftProps extends ITagsList {
   setShowArchived: (value: boolean) => void;
   setTitle: (value: string) => void;
   headerTitle: ITitle;
-  // filteredByTag: (value: string) => void;
   setActiveTag: (value: string) => void;
 }
 
 export interface IFilteredTags {
   notes: INotesList;
   selectedTag: string;
+}
+
+export interface IRightSidebar extends INotesList {
+  selectedNoteId: string;
 }

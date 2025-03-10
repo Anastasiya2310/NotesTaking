@@ -1,7 +1,7 @@
 import { Button, Box, Typography } from "@mui/material";
 import { IconArchive, IconDelete }  from "../../assets/icons";
 
-function SidebarRight() {
+function SidebarRight(){
   return (
     <Box>
       <Box sx={{ pl: 2, py: 2.5, height: `calc(100vh - 130px)` }}>
