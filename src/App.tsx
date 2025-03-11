@@ -1,14 +1,13 @@
 import { useState } from "react";
 import "./App.css"
 import "@fontsource/inter"
-import { Typography, 
-        ThemeProvider, 
-        Box, 
-        Grid2, 
-        useMediaQuery, 
-        useTheme, 
-        Tab, 
- 
+import { Typography,
+        ThemeProvider,
+        Box,
+        Grid2,
+        useMediaQuery,
+        useTheme,
+        Tab,
         Button } from '@mui/material'
 import theme from './theme'
 import Content from "./components/Content/Content"
@@ -22,7 +21,7 @@ import { IconPlus }  from "./assets/icons";
 import useFetchData from "./hooks/useFetchData";
 
 function App() {
-  const { data } = useFetchData("/data.json");
+  const { data, loading, error } = useFetchData("/notes");
   const notes = data?.notes || [];
   const [activeTag, setActiveTag] = useState("");
   let tagsArray = notes?.flatMap((obj) => obj.tags);
@@ -33,6 +32,9 @@ function App() {
   const [showArchived, setShowArchived] = useState(false);
   const filteredIsArchived = notes?.filter(note => !showArchived ? (activeTag === "" || note.tags?.includes(activeTag)) : note.isArchived);
   const [title, setTitle] = useState("All Notes");
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
 
   const headerTitle:ITitle = {
     all: "All Notes",

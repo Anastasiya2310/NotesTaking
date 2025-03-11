@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { INotesList } from "../interfaces/interfaces"
+import axios from "axios";
 
 const useFetchData = (url:string) => {
   const [data, setData] = useState<INotesList | null>(null);
@@ -9,9 +10,8 @@ const useFetchData = (url:string) => {
   useEffect(() => {
     const fetchData = async() => {
       try {
-        const response = await fetch(url);
-        const result = await response.json();
-        setData(result);
+        const response = await axios.get(url);
+        setData(response.data);
         
       } catch {
         setError("Failed to fetch data")
