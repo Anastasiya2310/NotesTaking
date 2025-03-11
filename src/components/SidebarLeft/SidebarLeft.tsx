@@ -5,32 +5,29 @@ import { ISidebarLeftProps } from "../../interfaces/interfaces";
 import { Grid2, Box, Divider, Button, Typography } from "@mui/material";
 import { IconTag, IconHome, IconArchive, IconChevronR } from "../../assets/icons";
 
-function SidebarLeft({ tags, setShowArchived, setTitle, headerTitle, setActiveTag}: ISidebarLeftProps) {
+function SidebarLeft({ tags, setShowArchived, setTitle, headerTitle, setActiveTag, activeTag}: ISidebarLeftProps) {
   const handleTagClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const tag = e.currentTarget.innerText?.trim();
-    if(tag) {
-      setActiveTag(tag);
-      setShowArchived(false);
-      setTitle(`Notes Tagged: ${tag}`);
-      setActiveButton(tag);
-    }
+    setActiveTag(tag === activeTag ? "" : tag);
+    setShowArchived(false);
+    setTitle(`Notes Tagged: ${tag}`);
+    setActiveButton(tag);
   };
+
   const [activeButton, setActiveButton] = useState<string>(headerTitle.all);
 
   return (
     <Box sx={{ display: "flex", height: `calc(100vh - 10px)`}}>
       <Box sx={{ px: 2 }}>
-        {/* Sidebar Header */}
         <Box sx={{ py: 1.5 }}>
           <Box sx={{ width: "100%", height: "auto", py: 1.5 }}>
-            <Box component="img" src={logo} alt="Logo" sx={{  }} />
+            <Box component="img" src={logo} alt="Logo" />
           </Box>
           <Button
             onClick={() => {
               setShowArchived(false);
               setTitle(headerTitle.all);
-              setActiveTag("");
-              setActiveButton(headerTitle.all);
+              setActiveButton(headerTitle.all)
             }}
             variant="text"
             sx={{ backgroundColor: (activeButton === headerTitle.all) ? "neutral.100" : "transparent", width: "100%", px: 1.5, py: 1.25, justifyContent: "space-between", alignItems: "center" }}
@@ -47,7 +44,6 @@ function SidebarLeft({ tags, setShowArchived, setTitle, headerTitle, setActiveTa
             onClick={() => {
               setShowArchived(true);
               setTitle(headerTitle.archived);
-              setActiveTag("");
               setActiveButton(headerTitle.archived);
             }}
             variant="text"

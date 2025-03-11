@@ -8,7 +8,7 @@ function Header({ title }: {title: string}) {
         <Box component="header">
           <Typography variant="h1">{title}</Typography>
         </Box>
-        <Box component="div">
+        <Box>
           <Grid2 container sx={{ alignItems: "center" }}>
             <TextField id="outlined-basic" label="Search by title, content or tags..." defaultValue="" variant="outlined" sx={{ 
               width: {
