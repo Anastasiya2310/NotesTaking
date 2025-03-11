@@ -20,7 +20,7 @@ const sql = neon(connectionString);
 app.get("/notes", async (_, res) => {
   try {
     const notes = await sql("SELECT * FROM notes");
-    res.json(notes);
+    res.json(notes)
   } catch (error:any) {
     res.status(500).json({ Error: "Failed to fetch notes", details: error.message });
   }

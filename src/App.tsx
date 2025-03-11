@@ -15,16 +15,16 @@ import SidebarLeft from "./components/SidebarLeft/SidebarLeft"
 import SidebarNotes from "./components/SidebarNotes/SidebarNotes"
 import SidebarRight from "./components/SidebarRight/SidebarRight"
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { ITitle } from "./interfaces/interfaces";
+import { ITitle, INotesList } from "./interfaces/interfaces";
 import Header from "./components/Header/Header";
 import { IconPlus }  from "./assets/icons";
 import useFetchData from "./hooks/useFetchData";
 
 function App() {
   const { data, loading, error } = useFetchData("/notes");
-  const notes = data?.notes || [];
+  const notes: INotesList = data || [];
   const [activeTag, setActiveTag] = useState("");
-  let tagsArray = notes?.flatMap((obj) => obj.tags);
+  let tagsArray = notes.flatMap((obj) => obj.tags);
   let tagsUnique = [...new Set(tagsArray)];
   const appliedTheme = useTheme();
   const isLargeScreen = useMediaQuery(appliedTheme.breakpoints.up('lg'));

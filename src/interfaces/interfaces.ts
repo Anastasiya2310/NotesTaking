@@ -14,9 +14,7 @@ export interface INote {
   isArchived: boolean;
 }
 
-export interface INotesList {
-  notes: INote[];
-}
+export type INotesList = INote[];
 
 export interface ITagsList {
   tags: string[];
