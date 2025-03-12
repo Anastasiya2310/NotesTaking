@@ -27,7 +27,8 @@ function SidebarLeft({ tags, setShowArchived, setTitle, headerTitle, setActiveTa
             onClick={() => {
               setShowArchived(false);
               setTitle(headerTitle.all);
-              setActiveButton(headerTitle.all)
+              setActiveButton(headerTitle.all);
+              setActiveTag("");
             }}
             variant="text"
             sx={{ backgroundColor: (activeButton === headerTitle.all) ? "neutral.100" : "transparent", width: "100%", px: 1.5, py: 1.25, justifyContent: "space-between", alignItems: "center" }}
@@ -42,9 +43,10 @@ function SidebarLeft({ tags, setShowArchived, setTitle, headerTitle, setActiveTa
           </Button>
           <Button
             onClick={() => {
-              setShowArchived(true);
               setTitle(headerTitle.archived);
               setActiveButton(headerTitle.archived);
+              setActiveTag("");
+              setShowArchived(true);
             }}
             variant="text"
             sx={{ backgroundColor: (activeButton === headerTitle.archived) ? "neutral.100" : "transparent", width: "100%", px: 1.5, py: 1.25, justifyContent: "space-between", alignItems: "center" }}

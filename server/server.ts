@@ -26,6 +26,27 @@ app.get("/notes", async (_, res) => {
   }
 });
 
+app.post("/notes/archive", async (req, res) => {
+  const { id, is_archived } = req.body;
+  if(typeof id !== "number" || typeof is_archived !== "boolean") {
+    return res.status(400).json({ error: "Invalid request data" })
+  }
+
+  try {
+    const result = await sql(
+      "UPDATE notes SET is_archived = $1 WHERE id = $2 RETURNING *",
+      [is_archived, id]
+    );
+    if(result.length === 0) {
+      return res.status(404).json({ error: "Note not found" });
+    }
+    res.json({ message: "Note updated successfully", note: result[0] })
+  } catch(error) {
+    const err = error as Error;
+    res.status(500).json({ error: "Failed to update note", details: err.message })
+  }
+})
+
 app.listen(PORT, () => {
   console.log(`server is working at port http://localhost:${PORT}`);
 });

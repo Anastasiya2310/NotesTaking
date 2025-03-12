@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css"
 import "@fontsource/inter"
 import { Typography,
@@ -22,16 +22,22 @@ import useFetchData from "./hooks/useFetchData";
 
 function App() {
   const { data, loading, error } = useFetchData("/notes");
-  const notes: INotesList = data || [];
+  const [notes, setNotes] = useState<INotesList>([]);
   const [activeTag, setActiveTag] = useState("");
   let tagsArray = notes.flatMap((obj) => obj.tags);
   let tagsUnique = [...new Set(tagsArray)];
   const appliedTheme = useTheme();
   const isLargeScreen = useMediaQuery(appliedTheme.breakpoints.up('lg'));
-  const [selectedNoteId, setSelectedNoteId] = useState(0);
+  const [selectedNoteId, setSelectedNoteId] = useState(1);
   const [showArchived, setShowArchived] = useState(false);
-  const filteredIsArchived = notes?.filter(note => !showArchived ? (activeTag === "" || note.tags?.includes(activeTag)) : note.isArchived);
+  const filteredIsArchived = notes?.filter(note => !showArchived ? (activeTag === "" || note.tags?.includes(activeTag)) : note.is_archived);
   const [title, setTitle] = useState("All Notes");
+
+  useEffect(() => {
+    if(data) {
+      setNotes(data);
+    }
+  }, [data]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -40,6 +46,8 @@ function App() {
     all: "All Notes",
     archived: "Archived Notes",
   }
+  const selectedNote = notes.find(note => note.id === selectedNoteId);
+
   return (
     <ThemeProvider theme={theme}>
       <Typography variant="body1" component="div">
@@ -109,8 +117,8 @@ function App() {
                               borderColor: "transparent",
                             },
                           }}
-                          onClick={() => console.log('filteredIsArchived: ', filteredIsArchived)}
-                          />
+                        />
+                        
                       ))}
                     </TabList>
                   </Box>
@@ -127,7 +135,13 @@ function App() {
 
                 <Grid2 size={{ lg: 3 }}>
                   <Box sx={{ borderLeft: 1, borderColor: "neutral.200" }}>
-                    <SidebarRight />
+                  {selectedNote && (
+                    <SidebarRight 
+                      id={selectedNote.id} 
+                      is_archived={selectedNote.is_archived}
+                      setNotes={setNotes}
+                    />
+                  )}
                   </Box>
                 </Grid2>
               </Grid2>

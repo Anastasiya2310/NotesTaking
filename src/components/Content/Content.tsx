@@ -20,7 +20,7 @@ function Content({ note }: { note: INote }) {
             <IconClock sx={{ mr: 0.75 }} />
             Last Edited: &nbsp;
           </Grid2>
-          <Grid2>{formatDate(note.lastEdited)}</Grid2>
+          <Grid2>{formatDate(note.last_edited)}</Grid2>
         </Grid2>
       </Box>
       <Divider sx={{ my: 2 }} />

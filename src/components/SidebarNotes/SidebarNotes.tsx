@@ -13,7 +13,7 @@ function SidebarNotes({ note }: { note: INote }) {
           </Box>
         ))}
       </Box>
-      <Typography variant="h6" sx={{ color: "neutral.700", mt: 1.5, textAlign: "left" }}>{formatDate(note.lastEdited)}</Typography>
+      <Typography variant="h6" sx={{ color: "neutral.700", mt: 1.5, textAlign: "left" }}>{formatDate(note.last_edited)}</Typography>
     </Box>
   );
 }
