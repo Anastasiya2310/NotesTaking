@@ -23,6 +23,21 @@ function SidebarRight({ id, is_archived, setNotes }: SidebarRightProps){
     }
   }
 
+  const deleteNote = async(id:number) => {
+    try {
+      const response = await axiosInstance.delete(`./notes/${id}`);
+
+      if(response.status === 200) {
+        setNotes((prevNotes: INotesList) => {
+          return prevNotes.filter(note => note.id !== id)
+        });
+      }
+      
+    } catch(error) {
+      console.error("Failed to delete note", error);
+    }
+  }
+
   return (
     <Box>
       <Box sx={{ pl: 2, py: 2.5, height: `calc(100vh - 130px)` }}>
@@ -34,7 +49,10 @@ function SidebarRight({ id, is_archived, setNotes }: SidebarRightProps){
           <Typography variant="h4"> 
             {is_archived ? 'Unarchive Note':'Archive Note'}</Typography>
         </Button>
-        <Button variant="outlined" sx={{ "justifyContent": "flex-start", width: "100%", px: 2, py: 1.5 }}>
+        <Button variant="outlined" 
+          sx={{ "justifyContent": "flex-start", width: "100%", px: 2, py: 1.5 }}
+          onClick={() => deleteNote(id)}
+        >
           <IconDelete sx={{ mr: 1 }} />
           <Typography variant="h4">Delete Note</Typography>
         </Button>
