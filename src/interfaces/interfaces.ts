@@ -10,8 +10,8 @@ export interface INote {
   title: string;
   tags: string[];
   content: string;
-  lastEdited: string;
-  isArchived: boolean;
+  last_edited: string;
+  is_archived: boolean;
 }
 
 export type INotesList = INote[];
@@ -40,4 +40,9 @@ export interface IFilteredTags {
 
 export interface IRightSidebar extends INotesList {
   selectedNoteId: string;
+}
+export interface SidebarRightProps {
+  id: number;
+  is_archived: boolean;
+  setNotes: React.Dispatch<React.SetStateAction<INotesList>>;
 }

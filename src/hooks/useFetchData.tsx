@@ -12,7 +12,6 @@ const useFetchData = (url:string) => {
       try {
         const response = await axios.get<INotesList>(url);
         setData(response.data);
-        
       } catch {
         setError("Failed to fetch data")
       } finally {
