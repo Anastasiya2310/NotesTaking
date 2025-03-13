@@ -71,7 +71,23 @@ app.delete("/notes/:id", async (req, res) => {
     const err = error as Error;
     res.status(500).json({ error: "Failed to delete note", details: err.message })
   }
-})
+});
+
+app.post("/notes", async (req, res) => {
+  const { title, content, tags } = req.body;
+
+  if(!title || !content) {
+    return res.status(404).json({ error: "Title and content fields are required" })
+  }
+
+  try {
+    const result = await sql("INSERT INTO notes (title, content, tags, last_edited) VALUES ($1, $2, $3, NOW()) RETURNING *", [title, content, tags || []]);
+    res.status(201).json({ message: "Note was successfully created", note: result[0] })
+  } catch(error) {
+    const err = error as Error;
+    res.status(404).json({ error: "Failed to create new note", details: err.message })
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`server is working at port http://localhost:${PORT}`);

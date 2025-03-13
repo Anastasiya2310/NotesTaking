@@ -127,7 +127,7 @@ function App() {
                 <Grid2 size={{ lg: 6 }}>
                   {filteredIsArchived?.map((note) => (
                     
-                    <TabPanel key={note.id} value={note.id}>
+                    <TabPanel key={note.id} value={note.id} sx={{ px: 0 }}>
                       <Content note={note} />
                     </TabPanel>
                   ))}
