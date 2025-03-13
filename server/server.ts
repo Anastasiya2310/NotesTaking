@@ -20,7 +20,11 @@ const sql = neon(connectionString);
 app.get("/notes", async (_, res) => {
   try {
     const notes = await sql("SELECT * FROM notes");
-    res.json(notes)
+    const decodeContent = notes.map(note => ({
+      ...note,
+      content: note.content.replace(/\\n/g, "\n")
+    }))
+    res.json(decodeContent);
   } catch (error:any) {
     res.status(500).json({ Error: "Failed to fetch notes", details: error.message });
   }
