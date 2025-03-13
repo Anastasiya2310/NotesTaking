@@ -24,7 +24,7 @@ function Content({ note }: { note: INote }) {
         </Grid2>
       </Box>
       <Divider sx={{ my: 2 }} />
-      <Box component="p" sx={{ m: 0, height: "100%", flexGrow: 1 }}> 
+      <Box component="p" sx={{ m: 0, height: "100%", flexGrow: 1, whiteSpace: "pre-wrap" }}> 
         {note.content}
       </Box>
       <Divider sx={{ my: 2 }} />
