@@ -28,10 +28,11 @@ function App() {
   let tagsUnique = [...new Set(tagsArray)];
   const appliedTheme = useTheme();
   const isLargeScreen = useMediaQuery(appliedTheme.breakpoints.up('lg'));
-  const [selectedNoteId, setSelectedNoteId] = useState(1);
+  const [selectedNoteId, setSelectedNoteId] = useState(0);
   const [showArchived, setShowArchived] = useState(false);
   const filteredIsArchived = notes?.filter(note => !showArchived ? (activeTag === "" || note.tags?.includes(activeTag)) : note.is_archived);
   const [title, setTitle] = useState("All Notes");
+  const newNote = {id: 0, title: "Enter a title...", tags: [], content: "Start typing youre note here...", last_edited: "", is_archived: false}
 
   useEffect(() => {
     if(data) {
@@ -74,7 +75,7 @@ function App() {
           </Box>
           <Grid2 size={{ xs: 12, lg: 9 }} sx={{ flexDirection: "column", alignItems: "flex-start" }}>
             <Header title={title} />
-            <TabContext value={filteredIsArchived.some(note => note.id === selectedNoteId) ? selectedNoteId : (filteredIsArchived[0]?.id || 0)}>
+            <TabContext value={filteredIsArchived.some(note => note.id === selectedNoteId) ? selectedNoteId : (filteredIsArchived[0]?.id)}>
               <Grid2 container spacing={3} sx={{ alignItems: "flex-start", px: 4, width: "100%" }}>
                 <Grid2 size={{ lg: 3 }}>
                   <Box sx={{ height: `calc(100vh - 90px)`, overflow: "scroll", flexDirection: "column", pr: 2, pt: 2.5, textAlign: "left", borderRight: 1, borderColor: "neutral.200"}}>
@@ -92,7 +93,13 @@ function App() {
                       }}
                     >
                       <Box sx={{ pb: 2 }}>
-                        <Button variant="contained" sx={{ display: "flex", justifyContent: "center", width: "100%", mb: 1.5, px: 2, py: 1.5 }}>
+                        <Button variant="contained" 
+                          sx={{ display: "flex", justifyContent: "center", width: "100%", mb: 1.5, px: 2, py: 1.5 }} 
+                          onClick={() => {
+                            setNotes((prevNotes) => [newNote, ...prevNotes ])
+                            setSelectedNoteId(newNote.id)
+                          }}
+                        >
                           <IconPlus sx={{ mr: 1 }} />
                           <Typography variant="h4">Create New Note</Typography>
                         </Button>
