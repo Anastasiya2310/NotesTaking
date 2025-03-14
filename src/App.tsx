@@ -135,7 +135,7 @@ function App() {
                   {filteredIsArchived?.map((note) => (
                     
                     <TabPanel key={note.id} value={note.id} sx={{ px: 0 }}>
-                      <Content note={note} />
+                      <Content note={note} setNotes={setNotes}/>
                     </TabPanel>
                   ))}
                 </Grid2>
