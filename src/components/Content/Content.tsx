@@ -1,12 +1,52 @@
+import { useState } from "react"
 import { INote } from "../../interfaces/interfaces";
 import { formatDate } from "../../utils/dateUtils"
-import { Typography, Box, Divider, Grid2, Button } from '@mui/material'
+import { Typography, Box, Divider, Grid2, Button, TextField } from '@mui/material'
 import { IconClock, IconTag } from '../../assets/icons';
 
-function Content({ note }: { note: INote }) {
+function Content({ note, setNotes }: { note: INote, setNotes: (callback: (prevNotes: INote[]) => INote[]) => void }) {
+  const [title, setTitle] = useState(note.title);
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newTitle = e.target.value;
+    setTitle(newTitle);
+
+    setNotes((prevNotes) => {
+      return prevNotes.map((item) => (item.id === note.id ? {...item, title: newTitle} : item))
+    })
+  }
+
   return (
     <Box display="flex" sx={{ flexDirection: "column", minHeight: `calc(100vh - 130px)` }}>
-      <Typography variant="h1" component="h1" sx={{ mb: 2 }}>{note.title}</Typography>
+      <Box
+        component="form"
+        noValidate
+        autoComplete="off"
+      >
+        <TextField 
+          fullWidth
+          id="standard-basic"
+          variant="standard"
+          value={title}
+          onChange={handleTitleChange}
+          slotProps={{
+            input: {
+              sx: {
+                typography: "h1",
+                mb: 2,
+                width: "100%",
+              },
+            },
+          }}
+          sx={{
+            width: "100%",
+            "& .MuiInput-underline:before": { borderBottom: "none" },
+            "& .MuiInput-underline:after": { borderBottom: "none" },
+            "& .MuiInput-underline:hover:not(.Mui-disabled):before": { borderBottom: "none" }
+          }}
+        />
+      </Box>
+      {/* <Typography variant="h1" component="h1" sx={{ mb: 2 }}>{note.title}</Typography> */}
       <Box>
         <Grid2 container spacing={1} sx={{ mb: 1 }}>
           <Grid2 size={4} sx={{ display: "flex", alignItems: "center" }}>
