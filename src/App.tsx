@@ -40,6 +40,12 @@ function App() {
     }
   }, [data]);
 
+  useEffect(() => {
+    if(filteredIsArchived.length > 0 && !filteredIsArchived.some(note => note.id === selectedNoteId)) {
+      setSelectedNoteId(filteredIsArchived[0].id);
+    }
+  }, [filteredIsArchived, selectedNoteId]);
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
@@ -133,9 +139,8 @@ function App() {
 
                 <Grid2 size={{ lg: 6 }}>
                   {filteredIsArchived?.map((note) => (
-                    
                     <TabPanel key={note.id} value={note.id} sx={{ px: 0 }}>
-                      <Content note={note} setNotes={setNotes}/>
+                      <Content note={note} setNotes={setNotes} tagsUnique={tagsUnique}/>
                     </TabPanel>
                   ))}
                 </Grid2>
