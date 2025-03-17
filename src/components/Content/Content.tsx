@@ -1,14 +1,46 @@
 import { useState } from "react"
-import { INote } from "../../interfaces/interfaces";
+import { INote, INotesList } from "../../interfaces/interfaces"
 import { formatDate } from "../../utils/dateUtils"
-import { Typography, Box, Divider, Grid2, Button, TextField } from "@mui/material"
-import { IconClock, IconTag } from "../../assets/icons";
+import { Typography, Box, Divider, Grid2, Button, TextField, SelectChangeEvent } from "@mui/material"
+import { IconClock, IconTag } from "../../assets/icons"
 import MultipleSelectCheckmarks from "../MultipleSelect/MultipleSelect"
+import axiosInstance from "../../axiosInstance"
 
 function Content({ note, setNotes, tagsUnique }: { note: INote, setNotes: (callback: (prevNotes: INote[]) => INote[]) => void, tagsUnique: string[]}) {
   const [title, setTitle] = useState(note.title || "Enter a title...");
   const [lastEdited, setLastEdited] = useState<Date | string>(note.last_edited || new Date());
   const [content, setContent] = useState(note.content || "Start typing your note here...");
+  const [selectedTags, setSelectedTags] = useState<string[]>(note.tags || []);
+  const tags = tagsUnique;
+
+  const handleTagChange = (event: SelectChangeEvent<typeof selectedTags>) => {
+    const {
+      target: { value },
+    } = event;
+    setSelectedTags(
+      typeof value === "string" ? value.split(",") : value,
+    );
+  };
+
+  const handleSave = async() => {
+    try {
+      const newNote = {
+        title: title,
+        content: content,
+        tags: selectedTags
+      };
+      const response = await axiosInstance.post("/notes", newNote);
+      if(response.status === 201) {
+        const createdNote = response.data.note;
+        setNotes((prevNotes:INotesList) => [
+          createdNote,
+          ...prevNotes
+        ]);
+      }
+    } catch(error) {
+      console.error("Error saving note: ", error)
+    }
+  }
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTitle = e.target.value;
@@ -70,7 +102,11 @@ function Content({ note, setNotes, tagsUnique }: { note: INote, setNotes: (callb
           </Grid2> 
           
           <Grid2>
-            <MultipleSelectCheckmarks tagsList={tagsUnique} note={note}/> 
+            <MultipleSelectCheckmarks 
+              tagsList={tags} 
+              selectedTags={selectedTags}
+              handleTagChange={handleTagChange}
+            /> 
           </Grid2>
         </Grid2>
         <Grid2 container spacing={1}>
@@ -114,7 +150,7 @@ function Content({ note, setNotes, tagsUnique }: { note: INote, setNotes: (callb
         </Box>
       <Divider sx={{ my: 2 }} />
       <Box display="flex" sx={{ "alignItems": "flex-end" }}>
-        <Button variant="contained" sx={{ mr: 2 }}>
+        <Button variant="contained" sx={{ mr: 2 }} onClick={handleSave}>
           <Typography variant="h4">Save Note</Typography>
         </Button>
         <Button variant="containedCancel">

@@ -1,21 +1,14 @@
-import { useState } from "react"
 import { Box, MenuItem, FormControl, ListItemText, Select, SelectChangeEvent, Checkbox, Typography } from "@mui/material";
-import { INote } from "../../interfaces/interfaces";
 
-function MultipleSelectCheckmarks({ tagsList, note }: { tagsList: string[], note: INote }) {
-  const [selectedTags, setSelectedTags] = useState<string[]>(note.tags || []);
-
-  const tags = tagsList;
-
-  const handleChange = (event: SelectChangeEvent<typeof selectedTags>) => {
-    const {
-      target: { value },
-    } = event;
-    setSelectedTags(
-      typeof value === "string" ? value.split(",") : value,
-    );
-  };
-
+function MultipleSelectCheckmarks({ 
+  tagsList, 
+  selectedTags, 
+  handleTagChange 
+  }: { 
+    tagsList: string[], 
+    selectedTags: string[],
+    handleTagChange: (event: SelectChangeEvent<typeof selectedTags>) => void; 
+  }) {
   return (
     <div>
       <FormControl sx={{ m: 0, width: 300, p: 0 }}>
@@ -24,7 +17,7 @@ function MultipleSelectCheckmarks({ tagsList, note }: { tagsList: string[], note
           id="demo-multiple-checkbox"
           multiple
           value={selectedTags}
-          onChange={handleChange}
+          onChange={handleTagChange}
           displayEmpty
           renderValue={(selected) => {
             if(selected.length === 0) {
@@ -43,7 +36,7 @@ function MultipleSelectCheckmarks({ tagsList, note }: { tagsList: string[], note
           <MenuItem value="" disabled>
             Select tags...
           </MenuItem>
-          {tags.map((tag) => (
+          {tagsList.map((tag) => (
             <MenuItem key={tag} value={tag}>
               <Checkbox checked={selectedTags.includes(tag)} />
               <ListItemText primary={tag} />
