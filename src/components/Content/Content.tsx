@@ -1,10 +1,11 @@
 import { useState } from "react"
 import { INote } from "../../interfaces/interfaces";
 import { formatDate } from "../../utils/dateUtils"
-import { Typography, Box, Divider, Grid2, Button, TextField } from '@mui/material'
-import { IconClock, IconTag } from '../../assets/icons';
+import { Typography, Box, Divider, Grid2, Button, TextField } from "@mui/material"
+import { IconClock, IconTag } from "../../assets/icons";
+import MultipleSelectCheckmarks from "../MultipleSelect/MultipleSelect"
 
-function Content({ note, setNotes }: { note: INote, setNotes: (callback: (prevNotes: INote[]) => INote[]) => void }) {
+function Content({ note, setNotes, tagsUnique }: { note: INote, setNotes: (callback: (prevNotes: INote[]) => INote[]) => void, tagsUnique: string[]}) {
   const [title, setTitle] = useState(note.title);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,7 +25,6 @@ function Content({ note, setNotes }: { note: INote, setNotes: (callback: (prevNo
         autoComplete="off"
       >
         <TextField 
-          fullWidth
           id="standard-basic"
           variant="standard"
           value={title}
@@ -34,26 +34,26 @@ function Content({ note, setNotes }: { note: INote, setNotes: (callback: (prevNo
               sx: {
                 typography: "h1",
                 mb: 2,
-                width: "100%",
               },
             },
           }}
           sx={{
-            width: "100%",
             "& .MuiInput-underline:before": { borderBottom: "none" },
             "& .MuiInput-underline:after": { borderBottom: "none" },
             "& .MuiInput-underline:hover:not(.Mui-disabled):before": { borderBottom: "none" }
           }}
         />
       </Box>
-      {/* <Typography variant="h1" component="h1" sx={{ mb: 2 }}>{note.title}</Typography> */}
       <Box>
         <Grid2 container spacing={1} sx={{ mb: 1 }}>
           <Grid2 size={4} sx={{ display: "flex", alignItems: "center" }}>
             <IconTag sx={{ mr: 0.75 }}/>
             Tags: &nbsp;
-          </Grid2>  
-          <Grid2>{note.tags.map((tag, index) => (<span key={index} style={{display: "inline-block", paddingRight: "5px"}}>{tag}{index !== note.tags.length-1 && ","}</span>))}</Grid2>
+          </Grid2> 
+          
+          <Grid2>
+            <MultipleSelectCheckmarks tagsList={tagsUnique} note={note}/> 
+          </Grid2>
         </Grid2>
         <Grid2 container spacing={1}>
           <Grid2 size={4} sx={{ display: "flex", alignItems: "center" }}>
