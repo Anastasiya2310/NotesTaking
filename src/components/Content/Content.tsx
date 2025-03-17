@@ -6,14 +6,32 @@ import { IconClock, IconTag } from "../../assets/icons";
 import MultipleSelectCheckmarks from "../MultipleSelect/MultipleSelect"
 
 function Content({ note, setNotes, tagsUnique }: { note: INote, setNotes: (callback: (prevNotes: INote[]) => INote[]) => void, tagsUnique: string[]}) {
-  const [title, setTitle] = useState(note.title);
+  const [title, setTitle] = useState(note.title || "Enter a title...");
+  const [lastEdited, setLastEdited] = useState<Date | string>(note.last_edited || new Date());
+  const [content, setContent] = useState(note.content || "Start typing your note here...");
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTitle = e.target.value;
     setTitle(newTitle);
-
     setNotes((prevNotes) => {
       return prevNotes.map((item) => (item.id === note.id ? {...item, title: newTitle} : item))
+    })
+  }
+
+  const handleTimeChange = () => {
+    const currentDate = new Date();
+    const currentDateString = currentDate.toISOString();
+    setLastEdited(currentDateString);
+    setNotes((prevNotes) => {
+      return prevNotes.map((item) => item.id === note.id ? { ...item, last_edited: currentDateString } : item)
+    })
+  }
+
+  const handleContentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newContent = e.target.value;
+    setContent(newContent);
+    setNotes((prevNotes) => {
+      return prevNotes.map((item) => item.id === note.id ? {...item, content: newContent} : item);
     })
   }
 
@@ -48,7 +66,7 @@ function Content({ note, setNotes, tagsUnique }: { note: INote, setNotes: (callb
         <Grid2 container spacing={1} sx={{ mb: 1 }}>
           <Grid2 size={4} sx={{ display: "flex", alignItems: "center" }}>
             <IconTag sx={{ mr: 0.75 }}/>
-            Tags: &nbsp;
+            <Typography variant="h5">Tags: &nbsp;</Typography>
           </Grid2> 
           
           <Grid2>
@@ -58,15 +76,42 @@ function Content({ note, setNotes, tagsUnique }: { note: INote, setNotes: (callb
         <Grid2 container spacing={1}>
           <Grid2 size={4} sx={{ display: "flex", alignItems: "center" }}>
             <IconClock sx={{ mr: 0.75 }} />
-            Last Edited: &nbsp;
+            <Typography variant="h5">Last Edited: &nbsp;</Typography>
           </Grid2>
-          <Grid2>{formatDate(note.last_edited)}</Grid2>
+          <Grid2 onChange={handleTimeChange} sx={{ cursor: 'pointer' }}>
+          <Typography variant="h5">{formatDate(typeof lastEdited === 'string' ? lastEdited : lastEdited.toISOString())}</Typography>
+          </Grid2>
         </Grid2>
       </Box>
       <Divider sx={{ my: 2 }} />
-      <Box component="p" sx={{ m: 0, height: "100%", flexGrow: 1, whiteSpace: "pre-wrap" }}> 
-        {note.content}
-      </Box>
+        <Box
+          component="form"
+          noValidate
+          autoComplete="off"
+          sx={{ "min-height": "100%", flex: 1 }}
+        >
+          <TextField 
+            fullWidth
+            id="standard-basic"
+            variant="standard"
+            value={content}
+            onChange={handleContentChange}
+            multiline
+            slotProps={{
+              input: {
+                sx: {
+                  typography: "h5",
+                  whiteSpace: "pre-wrap"
+                },
+              },
+            }}
+            sx={{
+              "& .MuiInput-underline:before": { borderBottom: "none" },
+              "& .MuiInput-underline:after": { borderBottom: "none" },
+              "& .MuiInput-underline:hover:not(.Mui-disabled):before": { borderBottom: "none" }
+            }}
+          />
+        </Box>
       <Divider sx={{ my: 2 }} />
       <Box display="flex" sx={{ "alignItems": "flex-end" }}>
         <Button variant="contained" sx={{ mr: 2 }}>

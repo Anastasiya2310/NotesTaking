@@ -32,7 +32,7 @@ function App() {
   const [showArchived, setShowArchived] = useState(false);
   const filteredIsArchived = notes?.filter(note => !showArchived ? (activeTag === "" || note.tags?.includes(activeTag)) : note.is_archived);
   const [title, setTitle] = useState("All Notes");
-  const newNote = {id: 0, title: "Enter a title...", tags: [], content: "Start typing youre note here...", last_edited: "", is_archived: false}
+  const newNote = {id: 0, title: "Enter a title...", tags: [], content: "Start typing youre note here...", last_edited: new Date().toISOString(), is_archived: false}
 
   useEffect(() => {
     if(data) {

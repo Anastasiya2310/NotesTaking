@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Box, MenuItem, FormControl, ListItemText, Select, SelectChangeEvent, Checkbox } from "@mui/material";
+import { Box, MenuItem, FormControl, ListItemText, Select, SelectChangeEvent, Checkbox, Typography } from "@mui/material";
 import { INote } from "../../interfaces/interfaces";
 
 function MultipleSelectCheckmarks({ tagsList, note }: { tagsList: string[], note: INote }) {
@@ -28,9 +28,9 @@ function MultipleSelectCheckmarks({ tagsList, note }: { tagsList: string[], note
           displayEmpty
           renderValue={(selected) => {
             if(selected.length === 0) {
-              return <Box sx={{ color: "neutral.300" }}>Select tags...</Box>
+              return <Box sx={{ color: "neutral.300" }}><Typography variant="h5">Select tags...</Typography></Box>
             }
-            return selected.join(", ");
+            return <Typography variant="h5">{selected.join(", ")}</Typography>
           }}
           sx={{
             p: 0,
