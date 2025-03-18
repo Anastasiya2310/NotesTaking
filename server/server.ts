@@ -25,8 +25,9 @@ app.get("/notes", async (_, res) => {
       content: note.content.replace(/\\n/g, "\n")
     }))
     res.json(decodeContent);
-  } catch (error:any) {
-    res.status(500).json({ Error: "Failed to fetch notes", details: error.message });
+  } catch(error) {
+    const err = error as Error
+    res.status(500).json({ Error: "Failed to fetch notes", details: err.message });
   }
 });
 
@@ -88,6 +89,29 @@ app.post("/notes", async (req, res) => {
     res.status(404).json({ error: "Failed to create new note", details: err.message })
   }
 });
+
+app.put("/notes/:id", async(req, res) => {
+  const { id } = req.params;
+  const { title, content, tags } = req.body;
+
+  if(!id || isNaN(Number(id))) {
+    res.status(400).json("Invalid note ID");
+  }
+
+  try {
+    const result = await sql("UPDATE notes SET title = $1, content = $2, tags = $3, last_edited = NOW() WHERE id = $4 RETURNING *",
+      [title, content, tags || [], id]
+    );
+    if(result.length === 0) {
+      res.status(404).json("Note not found");
+    }
+
+    res.status(200).json({ message: "Note was updated successfully", note: result[0] })
+  } catch(error) {
+    const err = error as Error;
+    res.status(500).json({ err: "Failed to update note", details: err.message });
+  }
+})
 
 app.listen(PORT, () => {
   console.log(`server is working at port http://localhost:${PORT}`);
