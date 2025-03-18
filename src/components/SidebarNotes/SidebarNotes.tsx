@@ -5,7 +5,18 @@ import { Box, Typography} from "@mui/material";
 function SidebarNotes({ note }: { note: INote }) {
   return (
     <Box>
-      <Typography variant="h3" sx={{ mb: 1.5, textAlign: "left" }}>{note.title}</Typography>
+      <Typography 
+        variant="h3"
+        sx={{ 
+          mb: 1.5, 
+          textAlign: "left", 
+          overflow: "hidden", 
+          whiteSpace: "nowrap", 
+          textOverflow: "ellipsis", 
+          maxWidth: "200px" 
+        }}>
+        {note.title}
+      </Typography>
       <Box sx={{ display: "flex" }}>
         {note.tags.map((tag: string, index: number) => (
           <Box sx={{ mr: 0.5, px: 0.75, py: 0.25, backgroundColor: "neutral.200", borderRadius: 0.5, color: "neutral.950" }} key={index}>

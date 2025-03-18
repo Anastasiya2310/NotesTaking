@@ -24,18 +24,29 @@ function Content({ note, setNotes, tagsUnique }: { note: INote, setNotes: (callb
 
   const handleSave = async() => {
     try {
-      const newNote = {
+      const updatedNote = {
         title: title,
         content: content,
         tags: selectedTags
       };
-      const response = await axiosInstance.post("/notes", newNote);
-      if(response.status === 201) {
-        const createdNote = response.data.note;
-        setNotes((prevNotes:INotesList) => [
-          createdNote,
-          ...prevNotes
-        ]);
+
+      if(note.id) {
+        const response = await axiosInstance.put(`/notes/${note.id}`, updatedNote);
+        if(response.status === 200) {
+          const updatedNote = response.data.note;
+          setNotes((prevNotes:INotesList) => 
+            prevNotes.map((item) => (item.id === note.id ? updatedNote : item))
+          );
+        }
+      } else {
+        const response = await axiosInstance.post("/notes", updatedNote);
+        if(response.status === 201) {
+          const createdNote = response.data.note;
+          setNotes((prevNotes:INotesList) => [
+            createdNote,
+            ...prevNotes
+          ]);
+        }
       }
     } catch(error) {
       console.error("Error saving note: ", error)
@@ -92,8 +103,7 @@ function Content({ note, setNotes, tagsUnique }: { note: INote, setNotes: (callb
           sx={{
             "& .MuiInput-underline:before": { borderBottom: "none" },
             "& .MuiInput-underline:after": { borderBottom: "none" },
-            "& .MuiInput-underline:hover:not(.Mui-disabled):before": { borderBottom: "none" },
-            "text-wrap": "pre-wrap"
+            "& .MuiInput-underline:hover:not(.Mui-disabled):before": { borderBottom: "none" }
           }}
         />
       </Box>
