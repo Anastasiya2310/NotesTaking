@@ -111,6 +111,8 @@ function App() {
                           <Typography variant="h4">Create New Note</Typography>
                         </Button>
                       </Box>
+                      {showArchived ? <Typography variant="h5" sx={{ color: "neutral.700", mb: 2, overflowWrap: "break-word", whiteSpace: "normal" }}>All your archived notes are stored here. You can restore or delete them anytime.</Typography> : null }
+                      {activeTag !== "" ? <Typography variant="h5" sx={{ color: "neutral.700", mb: 2, overflowWrap: "break-word", whiteSpace: "normal" }}>All notes with the ”{activeTag}” tag are shown here.</Typography> : null }
                       {filteredIsArchived?.map((note) => (
                         <Tab 
                           key={note.id} 
