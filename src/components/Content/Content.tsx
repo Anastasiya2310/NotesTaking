@@ -78,19 +78,22 @@ function Content({ note, setNotes, tagsUnique }: { note: INote, setNotes: (callb
           id="standard-basic"
           variant="standard"
           value={title}
+          fullWidth
+          multiline
           onChange={handleTitleChange}
           slotProps={{
             input: {
               sx: {
                 typography: "h1",
-                mb: 2,
+                mb: 2
               },
             },
           }}
           sx={{
             "& .MuiInput-underline:before": { borderBottom: "none" },
             "& .MuiInput-underline:after": { borderBottom: "none" },
-            "& .MuiInput-underline:hover:not(.Mui-disabled):before": { borderBottom: "none" }
+            "& .MuiInput-underline:hover:not(.Mui-disabled):before": { borderBottom: "none" },
+            "text-wrap": "pre-wrap"
           }}
         />
       </Box>

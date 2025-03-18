@@ -31,12 +31,13 @@ function App() {
   const [selectedNoteId, setSelectedNoteId] = useState(0);
   const [showArchived, setShowArchived] = useState(false);
   const filteredIsArchived = notes?.filter(note => !showArchived ? (activeTag === "" || note.tags?.includes(activeTag)) : note.is_archived);
+  filteredIsArchived.sort((a, b) => new Date(b.last_edited).getTime() - new Date(a.last_edited).getTime());
   const [title, setTitle] = useState("All Notes");
   const newNote = {id: 0, title: "Enter a title...", tags: [], content: "Start typing youre note here...", last_edited: new Date().toISOString(), is_archived: false}
 
   useEffect(() => {
     if(data) {
-      setNotes(data);
+      setNotes([...data].sort((a, b) => new Date(b.last_edited).getTime() - new Date(a.last_edited).getTime()));
     }
   }, [data]);
 
