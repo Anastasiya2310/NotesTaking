@@ -1,5 +1,5 @@
 import { Button, Box, Typography } from "@mui/material";
-import { IconArchive, IconDelete }  from "../../assets/icons";
+import { IconArchive, IconDelete, IconRestore }  from "../../assets/icons";
 import { SidebarRightProps, INote, INotesList } from "../../interfaces/interfaces"
 import axiosInstance from "../../axiosInstance"
 
@@ -45,9 +45,10 @@ function SidebarRight({ id, is_archived, setNotes }: SidebarRightProps){
           sx={{ "justifyContent": "flex-start", width: "100%", mb: 1.5, px: 2, py: 1.5 }}
           onClick={() => toggleIsArchived(id, is_archived)}
         >
-          <IconArchive sx={{ mr: 1 }} />
-          <Typography variant="h4"> 
-            {is_archived ? 'Unarchive Note':'Archive Note'}</Typography>
+          {is_archived 
+            ? <><IconRestore sx={{ mr: 1 }} /><Typography variant="h4">Restore Note</Typography></>
+            : <><IconArchive sx={{ mr: 1 }} /><Typography variant="h4">Archive Note</Typography></>
+          }
         </Button>
         <Button variant="outlined" 
           sx={{ "justifyContent": "flex-start", width: "100%", px: 2, py: 1.5 }}
