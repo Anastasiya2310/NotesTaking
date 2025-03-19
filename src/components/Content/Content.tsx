@@ -6,7 +6,7 @@ import { IconClock, IconTag, IconStatus } from "../../assets/icons"
 import MultipleSelectCheckmarks from "../MultipleSelect/MultipleSelect"
 import axiosInstance from "../../axiosInstance"
 
-function Content({ note, setNotes, tagsUnique }: { note: INote, setNotes: (callback: (prevNotes: INote[]) => INote[]) => void, tagsUnique: string[]}) {
+function Content({ note, setNotes, tagsUnique, setNewNote }: { note: INote, setNotes: (callback: (prevNotes: INote[]) => INote[]) => void, tagsUnique: string[], setNewNote: (value: INote) => void}) {
   const [title, setTitle] = useState(note.title || "Enter a title...");
   const [lastEdited, setLastEdited] = useState<Date | string>(note.last_edited || new Date());
   const [content, setContent] = useState(note.content || "Start typing your note here...");
@@ -44,7 +44,7 @@ function Content({ note, setNotes, tagsUnique }: { note: INote, setNotes: (callb
           const createdNote = response.data.note;
           setNotes((prevNotes:INotesList) => [
             createdNote,
-            ...prevNotes
+            ...prevNotes.filter((item) => item.id !== 0)
           ]);
         }
       }
