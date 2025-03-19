@@ -15,7 +15,7 @@ import SidebarLeft from "./components/SidebarLeft/SidebarLeft"
 import SidebarNotes from "./components/SidebarNotes/SidebarNotes"
 import SidebarRight from "./components/SidebarRight/SidebarRight"
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { ITitle, INotesList } from "./interfaces/interfaces";
+import { ITitle, INotesList, INote } from "./interfaces/interfaces";
 import Header from "./components/Header/Header";
 import { IconPlus }  from "./assets/icons";
 import useFetchData from "./hooks/useFetchData";
@@ -33,11 +33,14 @@ function App() {
   const filteredIsArchived = notes?.filter(note => !showArchived ? (activeTag === "" || note.tags?.includes(activeTag)) : note.is_archived);
   filteredIsArchived.sort((a, b) => new Date(b.last_edited).getTime() - new Date(a.last_edited).getTime());
   const [title, setTitle] = useState("All Notes");
-  const newNote = {id: 0, title: "Enter a title...", tags: [], content: "Start typing youre note here...", last_edited: new Date().toISOString(), is_archived: false}
-
+  const tempNote = {id: 0, title: "Enter a title...", tags: [], content: "Start typing youre note here...", last_edited: new Date().toISOString(), is_archived: false}
+  const [newNote, setNewNote] = useState<INote>(tempNote);
+  
   useEffect(() => {
     if(data) {
-      setNotes([...data].sort((a, b) => new Date(b.last_edited).getTime() - new Date(a.last_edited).getTime()));
+      setNotes([...data]
+        .filter(note => note.id !== 0)
+        .sort((a, b) => new Date(b.last_edited).getTime() - new Date(a.last_edited).getTime()))
     }
   }, [data]);
 
@@ -103,8 +106,8 @@ function App() {
                         <Button variant="contained" 
                           sx={{ display: "flex", justifyContent: "center", width: "100%", mb: 1.5, px: 2, py: 1.5 }} 
                           onClick={() => {
-                            setNotes((prevNotes) => [newNote, ...prevNotes ])
                             setSelectedNoteId(newNote.id)
+                            setNotes((prevNotes) => [newNote, ...prevNotes ])
                           }}
                         >
                           <IconPlus sx={{ mr: 1 }} />
@@ -143,7 +146,7 @@ function App() {
                 <Grid2 size={{ lg: 6 }}>
                   {filteredIsArchived?.map((note) => (
                     <TabPanel key={note.id} value={note.id} sx={{ px: 0 }}>
-                      <Content note={note} setNotes={setNotes} tagsUnique={tagsUnique}/>
+                      <Content note={note} setNotes={setNotes} tagsUnique={tagsUnique} setNewNote={setNewNote}/>
                     </TabPanel>
                   ))}
                 </Grid2>
