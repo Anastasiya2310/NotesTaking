@@ -2,7 +2,7 @@ import { useState } from "react"
 import { INote, INotesList } from "../../interfaces/interfaces"
 import { formatDate } from "../../utils/dateUtils"
 import { Typography, Box, Divider, Grid2, Button, TextField, SelectChangeEvent } from "@mui/material"
-import { IconClock, IconTag } from "../../assets/icons"
+import { IconClock, IconTag, IconStatus } from "../../assets/icons"
 import MultipleSelectCheckmarks from "../MultipleSelect/MultipleSelect"
 import axiosInstance from "../../axiosInstance"
 
@@ -111,7 +111,7 @@ function Content({ note, setNotes, tagsUnique }: { note: INote, setNotes: (callb
         <Grid2 container spacing={1} sx={{ mb: 1 }}>
           <Grid2 size={4} sx={{ display: "flex", alignItems: "center" }}>
             <IconTag sx={{ mr: 0.75 }}/>
-            <Typography variant="h5">Tags: &nbsp;</Typography>
+            <Typography variant="h5">Tags &nbsp;</Typography>
           </Grid2> 
           
           <Grid2>
@@ -122,13 +122,24 @@ function Content({ note, setNotes, tagsUnique }: { note: INote, setNotes: (callb
             /> 
           </Grid2>
         </Grid2>
+        {note.is_archived ?
+          <Grid2 container spacing={1} sx={{ mb: 1 }}>
+            <Grid2 size={4} sx={{ display: "flex", alignItems: "center" }}>
+              <IconStatus sx={{ mr: 0.75 }} />
+              <Typography variant="h5">Status &nbsp;</Typography>
+            </Grid2>
+            <Grid2>
+              <Typography variant="h5">Archived</Typography>
+            </Grid2>
+          </Grid2>
+         : null}
         <Grid2 container spacing={1}>
           <Grid2 size={4} sx={{ display: "flex", alignItems: "center" }}>
             <IconClock sx={{ mr: 0.75 }} />
-            <Typography variant="h5">Last Edited: &nbsp;</Typography>
+            <Typography variant="h5">Last Edited &nbsp;</Typography>
           </Grid2>
           <Grid2 onChange={handleTimeChange} sx={{ cursor: 'pointer' }}>
-          <Typography variant="h5">{formatDate(typeof lastEdited === 'string' ? lastEdited : lastEdited.toISOString())}</Typography>
+            <Typography variant="h5">{formatDate(typeof lastEdited === 'string' ? lastEdited : lastEdited.toISOString())}</Typography>
           </Grid2>
         </Grid2>
       </Box>
