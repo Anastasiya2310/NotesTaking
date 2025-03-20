@@ -50,7 +50,7 @@ function SidebarRight({ id, is_archived, setNotes }: SidebarRightProps){
       <Box sx={{ pl: 2, py: 2.5, height: `calc(100vh - 130px)` }}>
         <Button variant="outlined" 
           sx={{ "justifyContent": "flex-start", width: "100%", mb: 1.5, px: 2, py: 1.5 }}
-          onClick={() => toggleIsArchived ? toggleIsArchived(id, is_archived) : handleOpen}
+          onClick={() => is_archived ? toggleIsArchived(id, is_archived) : handleOpen()}
         >
           {is_archived 
             ? <><IconRestore sx={{ mr: 1 }} /><Typography variant="h4">Restore Note</Typography></>
