@@ -1,7 +1,8 @@
-import { Typography, Box, TextField, Grid2 } from '@mui/material'
+import { Typography, Box, Grid2 } from '@mui/material'
 import IconSettings from '../../assets/icons/IconSettings';
+import Search from '../Search/Search'
 
-function Header({ title }: {title: string}) {
+function Header({ title, searchQuery, setSearchQuery }: {title: string, searchQuery: string, setSearchQuery: (query:string) => void }) {
   return (
     <>
       <Grid2 container sx={{ px: 4, py: 2, width: "100%", justifyContent: "space-between", alignItems: "center", maxHeight: "81px", borderBottom:(theme) => `1px solid ${theme.palette.neutral?.[200]}` }}>
@@ -10,14 +11,7 @@ function Header({ title }: {title: string}) {
         </Box>
         <Box>
           <Grid2 container sx={{ alignItems: "center" }}>
-            <TextField id="outlined-basic" label="Search by title, content or tags..." defaultValue="" variant="outlined" sx={{ 
-              width: {
-                xs: "100%",
-                sm: "100%",
-                md: "100%",
-                lg: "300px"
-              } 
-            }} />
+            <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
             <IconSettings sx={{ ml: 3, color:(theme) => theme.palette.neutral?.[500] }}/>
           </Grid2>
         </Box>
