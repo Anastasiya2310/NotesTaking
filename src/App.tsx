@@ -21,18 +21,30 @@ import { IconPlus }  from "./assets/icons";
 import useFetchData from "./hooks/useFetchData";
 
 function App() {
-  const { data, loading, error } = useFetchData("/notes");
+  const { data, loading, error } = useFetchData('/notes');
   const [notes, setNotes] = useState<INotesList>([]);
-  const [activeTag, setActiveTag] = useState("");
+  const [activeTag, setActiveTag] = useState('');
   let tagsArray = notes.flatMap((obj) => obj.tags);
   let tagsUnique = [...new Set(tagsArray)];
   const appliedTheme = useTheme();
   const isLargeScreen = useMediaQuery(appliedTheme.breakpoints.up('lg'));
   const [selectedNoteId, setSelectedNoteId] = useState(0);
   const [showArchived, setShowArchived] = useState(false);
-  const filteredIsArchived = notes?.filter(note => !showArchived ? (activeTag === "" || note.tags?.includes(activeTag)) : note.is_archived);
-  filteredIsArchived.sort((a, b) => new Date(b.last_edited).getTime() - new Date(a.last_edited).getTime());
-  const [title, setTitle] = useState("All Notes");
+  const [title, setTitle] = useState('All Notes');
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const searchedNotes = searchQuery ? notes.filter(note => {
+    const query = searchQuery.toLowerCase();
+    return (
+      note.title.toLowerCase().includes(query) ||
+      note.content.toLowerCase().includes(query) ||
+      note.tags.some(tag => tag.toLowerCase().includes(query))
+    )
+  }) : notes;
+
+  const filteredNotes = searchQuery ? searchedNotes : notes?.filter(note => showArchived ? note.is_archived : (activeTag === "" || note.tags?.includes(activeTag)));
+  filteredNotes.sort((a, b) => new Date(b.last_edited).getTime() - new Date(a.last_edited).getTime());
+
   const newNote = {id: 0, title: "Enter a title...", tags: [], content: "Start typing youre note here...", last_edited: new Date().toISOString(), is_archived: false}
   
   const updateNote = useCallback(() => {
@@ -48,10 +60,10 @@ function App() {
   }, [data, updateNote]);
 
   useEffect(() => {
-    if(filteredIsArchived.length > 0 && !filteredIsArchived.some(note => note.id === selectedNoteId)) {
-      setSelectedNoteId(filteredIsArchived[0].id);
+    if(filteredNotes.length > 0 && !filteredNotes.some(note => note.id === selectedNoteId)) {
+      setSelectedNoteId(filteredNotes[0].id);
     }
-  }, [filteredIsArchived, selectedNoteId]);
+  }, [filteredNotes, selectedNoteId]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -87,8 +99,8 @@ function App() {
             />
           </Box>
           <Grid2 size={{ xs: 12, lg: 9 }} sx={{ flexDirection: "column", alignItems: "flex-start" }}>
-            <Header title={title} />
-            <TabContext value={filteredIsArchived.some(note => note.id === selectedNoteId) ? selectedNoteId : (filteredIsArchived[0]?.id)}>
+            <Header title={title} searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+            <TabContext value={filteredNotes.some(note => note.id === selectedNoteId) ? selectedNoteId : (filteredNotes[0]?.id)}>
               <Grid2 container spacing={3} sx={{ alignItems: "flex-start", px: 4, width: "100%" }}>
                 <Grid2 size={{ lg: 3 }}>
                   <Box sx={{ height: `calc(100vh - 90px)`, overflow: "scroll", flexDirection: "column", pr: 2, pt: 2.5, textAlign: "left", borderRight: 1, borderColor: "neutral.200"}}>
@@ -119,7 +131,7 @@ function App() {
                       </Box>
                       {showArchived ? <Typography variant="h5" sx={{ color: "neutral.700", mb: 2, overflowWrap: "break-word", whiteSpace: "normal" }}>All your archived notes are stored here. You can restore or delete them anytime.</Typography> : null }
                       {activeTag !== "" ? <Typography variant="h5" sx={{ color: "neutral.700", mb: 2, overflowWrap: "break-word", whiteSpace: "normal" }}>All notes with the ”{activeTag}” tag are shown here.</Typography> : null }
-                      {filteredIsArchived?.map((note) => (
+                      {filteredNotes?.map((note) => (
                         <Tab 
                           key={note.id} 
                           label={<SidebarNotes note={note} />} 
@@ -147,7 +159,7 @@ function App() {
                 </Grid2>
 
                 <Grid2 size={{ lg: 6 }}>
-                  {filteredIsArchived?.map((note) => (
+                  {filteredNotes?.map((note) => (
                     <TabPanel key={note.id} value={note.id} sx={{ px: 0 }}>
                       <Content note={note} setNotes={setNotes} tagsUnique={tagsUnique} updateNote={updateNote}/>
                     </TabPanel>
