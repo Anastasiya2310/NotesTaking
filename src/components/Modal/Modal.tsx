@@ -12,7 +12,7 @@ function Modal({ setOpenModal, openModal, id, is_archived, setNotes } :
     setNotes: React.Dispatch<React.SetStateAction<INotesList>>
   }) {
 
-  const theme = useTheme(); // Get theme from ThemeProvider
+  const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const toggleIsArchived = async(id:number, currentIsArchived:boolean) => {

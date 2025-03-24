@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import "./App.css"
 import "@fontsource/inter"
 import { Typography,
@@ -15,7 +15,7 @@ import SidebarLeft from "./components/SidebarLeft/SidebarLeft"
 import SidebarNotes from "./components/SidebarNotes/SidebarNotes"
 import SidebarRight from "./components/SidebarRight/SidebarRight"
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { ITitle, INotesList, INote } from "./interfaces/interfaces";
+import { ITitle, INotesList } from "./interfaces/interfaces";
 import Header from "./components/Header/Header";
 import { IconPlus }  from "./assets/icons";
 import useFetchData from "./hooks/useFetchData";
@@ -33,16 +33,19 @@ function App() {
   const filteredIsArchived = notes?.filter(note => !showArchived ? (activeTag === "" || note.tags?.includes(activeTag)) : note.is_archived);
   filteredIsArchived.sort((a, b) => new Date(b.last_edited).getTime() - new Date(a.last_edited).getTime());
   const [title, setTitle] = useState("All Notes");
-  const tempNote = {id: 0, title: "Enter a title...", tags: [], content: "Start typing youre note here...", last_edited: new Date().toISOString(), is_archived: false}
-  const [newNote, setNewNote] = useState<INote>(tempNote);
+  const newNote = {id: 0, title: "Enter a title...", tags: [], content: "Start typing youre note here...", last_edited: new Date().toISOString(), is_archived: false}
   
-  useEffect(() => {
-    if(data) {
+  const updateNote = useCallback(() => {
+    if (data) {
       setNotes([...data]
         .filter(note => note.id !== 0)
-        .sort((a, b) => new Date(b.last_edited).getTime() - new Date(a.last_edited).getTime()))
+        .sort((a, b) => new Date(b.last_edited).getTime() - new Date(a.last_edited).getTime()));
     }
-  }, [data]);
+  }, [data, setNotes]);
+  
+  useEffect(() => {
+    updateNote();
+  }, [data, updateNote]);
 
   useEffect(() => {
     if(filteredIsArchived.length > 0 && !filteredIsArchived.some(note => note.id === selectedNoteId)) {
@@ -146,7 +149,7 @@ function App() {
                 <Grid2 size={{ lg: 6 }}>
                   {filteredIsArchived?.map((note) => (
                     <TabPanel key={note.id} value={note.id} sx={{ px: 0 }}>
-                      <Content note={note} setNotes={setNotes} tagsUnique={tagsUnique} setNewNote={setNewNote}/>
+                      <Content note={note} setNotes={setNotes} tagsUnique={tagsUnique} updateNote={updateNote}/>
                     </TabPanel>
                   ))}
                 </Grid2>
