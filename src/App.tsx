@@ -8,7 +8,9 @@ import { Typography,
         useMediaQuery,
         useTheme,
         Tab,
-        Button } from '@mui/material'
+        Button,
+        Snackbar, 
+        Alert } from '@mui/material'
 import theme from './theme'
 import Content from "./components/Content/Content"
 import SidebarLeft from "./components/SidebarLeft/SidebarLeft"
@@ -21,17 +23,30 @@ import { IconPlus }  from "./assets/icons";
 import useFetchData from "./hooks/useFetchData";
 
 function App() {
-  const { data, loading, error, refetch } = useFetchData('/notes');
+  const { data, loading, error, refetch } = useFetchData("/notes");
   const [notes, setNotes] = useState<INotesList>([]);
-  const [activeTag, setActiveTag] = useState('');
+  const [activeTag, setActiveTag] = useState("");
   let tagsArray = notes.flatMap((obj) => obj.tags);
   let tagsUnique = [...new Set(tagsArray)];
   const appliedTheme = useTheme();
-  const isLargeScreen = useMediaQuery(appliedTheme.breakpoints.up('lg'));
+  const isLargeScreen = useMediaQuery(appliedTheme.breakpoints.up("lg"));
   const [selectedNoteId, setSelectedNoteId] = useState(0);
   const [showArchived, setShowArchived] = useState(false);
-  const [title, setTitle] = useState('All Notes');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [title, setTitle] = useState("All Notes");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("success");
+
+  const handleSnackbarOpen = (message: string, severity: "success" | "error") => {
+    setSnackbarOpen(true);
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+  }
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  }
 
   const searchedNotes = searchQuery ? notes.filter(note => {
     const query = searchQuery.toLowerCase();
@@ -162,7 +177,7 @@ function App() {
                 <Grid2 size={{ lg: 6 }}>
                   {filteredNotes?.map((note) => (
                     <TabPanel key={note.id} value={note.id} sx={{ px: 0 }}>
-                      <Content note={note} setNotes={setNotes} tagsUnique={tagsUnique} updateNote={updateNote} refetch={refetch}/>
+                      <Content note={note} setNotes={setNotes} tagsUnique={tagsUnique} updateNote={updateNote} refetch={refetch} handleSnackbarOpen={handleSnackbarOpen} />
                     </TabPanel>
                   ))}
                 </Grid2>
@@ -174,6 +189,7 @@ function App() {
                       id={selectedNote.id} 
                       is_archived={selectedNote.is_archived}
                       setNotes={setNotes}
+                      handleSnackbarOpen={handleSnackbarOpen}
                     />
                   )}
                   </Box>
@@ -182,6 +198,23 @@ function App() {
             </TabContext>
           </Grid2>
         </Grid2>
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={6000}
+          onClose={handleSnackbarClose}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "right"
+          }}
+          sx={{
+            width: "380px",
+            border: "1px solid neutral.200"
+          }}
+        >
+          <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: "380px",border: "1px solid", borderColor: "neutral.200", borderRadius: "8px", backgroundColor: "transparent" }}>
+            {snackbarMessage}
+          </Alert>
+        </Snackbar>
       </Typography>
     </ThemeProvider>
   );

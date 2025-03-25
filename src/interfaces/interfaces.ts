@@ -45,4 +45,5 @@ export interface SidebarRightProps {
   id: number;
   is_archived: boolean;
   setNotes: React.Dispatch<React.SetStateAction<INotesList>>;
+  handleSnackbarOpen: (message: string, severity: "success" | "error") => void;
 }
