@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { INotesList } from "../interfaces/interfaces"
 import axios from "axios";
 
@@ -7,20 +7,25 @@ const useFetchData = (url:string) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchData = async() => {
-      try {
-        const response = await axios.get<INotesList>(url);
-        setData(response.data);
-      } catch {
-        setError("Failed to fetch data")
-      } finally {
-        setLoading(false)
-      }
+  const fetchData = useCallback(async (showLoading = true) => {
+    if (showLoading) setLoading(true);
+    setError(null);
+
+    try {
+      const response = await axios.get<INotesList>(url);
+      setData(response.data);
+    } catch {
+      setError("Failed to fetch data");
+    } finally {
+      if (showLoading) setLoading(false);
     }
-    fetchData();
   }, [url]);
-  return { data, loading, error };
+
+  useEffect(() => {
+    fetchData(true);
+  }, [fetchData]);
+
+  return { data, loading, error, refetch: () => fetchData(false) };
 };
 
 export default useFetchData;
