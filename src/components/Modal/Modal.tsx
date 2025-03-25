@@ -1,40 +1,15 @@
-import React from "react"
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, Box, Divider, useMediaQuery, useTheme, Typography } from "@mui/material"
-import { INote, INotesList } from "../../interfaces/interfaces"
-import { IconArchive }  from "../../assets/icons"
-import axiosInstance from "../../axiosInstance"
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, Box, Divider, useMediaQuery, Typography } from "@mui/material"
+import { IconArchive, IconDelete }  from "../../assets/icons"
 
-function Modal({ setOpenModal, openModal, id, is_archived, setNotes } : 
+function Modal({ setOpenModal, openModal, actionType, handleAction, id } : 
   { setOpenModal: (value: boolean) => void , 
     openModal: boolean, 
-    id: number, 
-    is_archived: boolean,
-    setNotes: React.Dispatch<React.SetStateAction<INotesList>>
+    actionType: "archive" | "delete", 
+    handleAction: (id: number) => void,
+    id: number
   }) {
 
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-
-  const toggleIsArchived = async(id:number, currentIsArchived:boolean) => {
-    try {
-      const response = await axiosInstance.post("./notes/archive",{
-        id: id,
-        is_archived: !currentIsArchived,
-      });
-      if(response.status === 200) {
-        setNotes((prevNotes: INotesList) => {
-          return prevNotes.map((note:INote) => {
-            return note.id === id ? { ...note, is_archived: !currentIsArchived }: note
-          });
-        });
-        handleClose();
-      }
-      
-    } catch(error) {
-      console.error("Failed to update note", error);
-    }
-  }
-
+  const fullScreen = useMediaQuery('breakpoints.down("md")');
   const handleClose = () => {
     setOpenModal(false);
   }
@@ -51,14 +26,22 @@ function Modal({ setOpenModal, openModal, id, is_archived, setNotes } :
       }}
     >
       <Box display="flex" flexDirection="row" sx={{ p: 2.5 }}>
-        <IconArchive sx={{ p: 1.25, backgroundColor: "neutral.100", borderRadius: 1 }} />
+        {actionType === "archive" ? (
+          <IconArchive sx={{ p: 1.25, backgroundColor: "neutral.100", borderRadius: 1 }} />
+        ) : (
+          <IconDelete sx={{ p: 1.25, backgroundColor: "neutral.100", borderRadius: 1 }} />
+        )}
         <Box>
           <DialogTitle component="h3" id="responsive-dialog-title" sx={{ p: 0, pl: 2, pb: 0.75}}>
-            <Typography variant="h3">{"Archive Note"}</Typography>
+            <Typography variant="h3">{actionType === "archive" ? "Archive Note" : "Delete Note"}</Typography>
           </DialogTitle>
           <DialogContent sx={{ p: 0 }}>
             <DialogContentText sx={{ pl: 2 }}>
-              Are you sure you want to archive this note? You can find it in the Archived Notes section and restore it anytime.
+            {actionType === "archive" ? (
+                "Are you sure you want to archive this note? You can find it in the Archived Notes section and restore it anytime."
+              ) : (
+                "Are you sure you want to permanently delete this note? This action cannot be undone."
+              )}
             </DialogContentText>
           </DialogContent>
         </Box>
@@ -70,8 +53,8 @@ function Modal({ setOpenModal, openModal, id, is_archived, setNotes } :
         <Button autoFocus onClick={handleClose} sx={{ px: 2, py: 1.5, backgroundColor: "neutral.100" }}>
           <Typography variant="h4">Cancel</Typography>
         </Button>
-        <Button variant="contained" onClick={ () => toggleIsArchived(id, is_archived) } sx={{ px: 2, py: 1.5 }} autoFocus>
-        <Typography variant="h4">Archive Note</Typography>
+        <Button variant="contained" onClick={ () => handleAction(id) } sx={{ px: 2, py: 1.5, backgroundColor: actionType === "delete" ? "error.main" : "primary.main" }} autoFocus>
+          <Typography variant="h4">{actionType === "archive" ? "Archive Note" : "Delete Note"}</Typography>
         </Button>
       </DialogActions>
     </Dialog>
