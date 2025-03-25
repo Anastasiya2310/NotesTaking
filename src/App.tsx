@@ -21,7 +21,7 @@ import { IconPlus }  from "./assets/icons";
 import useFetchData from "./hooks/useFetchData";
 
 function App() {
-  const { data, loading, error } = useFetchData('/notes');
+  const { data, loading, error, refetch } = useFetchData('/notes');
   const [notes, setNotes] = useState<INotesList>([]);
   const [activeTag, setActiveTag] = useState('');
   let tagsArray = notes.flatMap((obj) => obj.tags);
@@ -47,7 +47,7 @@ function App() {
 
   const newNote = {id: 0, title: "Enter a title...", tags: [], content: "Start typing youre note here...", last_edited: new Date().toISOString(), is_archived: false}
   
-  const updateNote = useCallback(() => {
+  const updateNote = useCallback(async () => {
     if (data) {
       setNotes([...data]
         .filter(note => note.id !== 0)
@@ -58,6 +58,7 @@ function App() {
   useEffect(() => {
     updateNote();
   }, [data, updateNote]);
+
 
   useEffect(() => {
     if(filteredNotes.length > 0 && !filteredNotes.some(note => note.id === selectedNoteId)) {
@@ -161,7 +162,7 @@ function App() {
                 <Grid2 size={{ lg: 6 }}>
                   {filteredNotes?.map((note) => (
                     <TabPanel key={note.id} value={note.id} sx={{ px: 0 }}>
-                      <Content note={note} setNotes={setNotes} tagsUnique={tagsUnique} updateNote={updateNote}/>
+                      <Content note={note} setNotes={setNotes} tagsUnique={tagsUnique} updateNote={updateNote} refetch={refetch}/>
                     </TabPanel>
                   ))}
                 </Grid2>

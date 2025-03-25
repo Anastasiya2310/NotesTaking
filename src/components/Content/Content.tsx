@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { INote, INotesList } from "../../interfaces/interfaces"
 import { formatDate } from "../../utils/dateUtils"
 import { Typography, Box, Divider, Grid2, Button, TextField, SelectChangeEvent } from "@mui/material"
@@ -6,12 +6,27 @@ import { IconClock, IconTag, IconStatus } from "../../assets/icons"
 import MultipleSelectCheckmarks from "../MultipleSelect/MultipleSelect"
 import axiosInstance from "../../axiosInstance"
 
-function Content({ note, setNotes, tagsUnique, updateNote }: { note: INote, setNotes: (callback: (prevNotes: INote[]) => INote[]) => void, tagsUnique: string[], updateNote: () => void}) {
+function Content({ note, setNotes, tagsUnique, updateNote, refetch }: 
+  { note: INote, 
+    setNotes: (callback: (prevNotes: INote[]) => INote[]) => void, 
+    tagsUnique: string[], 
+    updateNote: () => void, 
+    refetch: () => void }) {
+
   const [title, setTitle] = useState(note.title || "Enter a title...");
   const [lastEdited, setLastEdited] = useState<Date | string>(note.last_edited || new Date());
   const [content, setContent] = useState(note.content || "Start typing your note here...");
   const [selectedTags, setSelectedTags] = useState<string[]>(note.tags || []);
   const tags = tagsUnique;
+
+  useEffect(() => {
+    if (note.id) {
+      setTitle(note.title);
+      setLastEdited(note.last_edited || new Date());
+      setContent(note.content);
+      setSelectedTags(note.tags || []);
+    }
+  }, [note]);
 
   const handleTagChange = (event: SelectChangeEvent<typeof selectedTags>) => {
     const {
@@ -20,6 +35,11 @@ function Content({ note, setNotes, tagsUnique, updateNote }: { note: INote, setN
     setSelectedTags(
       typeof value === "string" ? value.split(",") : value,
     );
+  };
+
+  const handleCancel = () => {
+    refetch();
+    updateNote();
   };
 
   const handleSave = async() => {
@@ -177,7 +197,7 @@ function Content({ note, setNotes, tagsUnique, updateNote }: { note: INote, setN
         <Button variant="contained" sx={{ mr: 2 }} onClick={handleSave}>
           <Typography variant="h4">Save Note</Typography>
         </Button>
-        <Button variant="containedCancel" onClick={updateNote}>
+        <Button variant="containedCancel" onClick={handleCancel}>
           <Typography variant="h4">Cancel</Typography>
         </Button>
       </Box>
