@@ -6,12 +6,13 @@ import { IconClock, IconTag, IconStatus } from "../../assets/icons"
 import MultipleSelectCheckmarks from "../MultipleSelect/MultipleSelect"
 import axiosInstance from "../../axiosInstance"
 
-function Content({ note, setNotes, tagsUnique, updateNote, refetch }: 
+function Content({ note, setNotes, tagsUnique, updateNote, refetch, handleSnackbarOpen }: 
   { note: INote, 
     setNotes: (callback: (prevNotes: INote[]) => INote[]) => void, 
     tagsUnique: string[], 
     updateNote: () => void, 
-    refetch: () => void }) {
+    refetch: () => void,
+    handleSnackbarOpen: (message: string, severity: "success" | "error") => void }) {
 
   const [title, setTitle] = useState(note.title || "Enter a title...");
   const [lastEdited, setLastEdited] = useState<Date | string>(note.last_edited || new Date());
@@ -57,6 +58,7 @@ function Content({ note, setNotes, tagsUnique, updateNote, refetch }:
           setNotes((prevNotes:INotesList) => 
             prevNotes.map((item) => (item.id === note.id ? updatedNote : item))
           );
+          handleSnackbarOpen("Note saved successfully!", "success");
         }
       } else {
         const response = await axiosInstance.post("/notes", updatedNote);
@@ -66,9 +68,11 @@ function Content({ note, setNotes, tagsUnique, updateNote, refetch }:
             createdNote,
             ...prevNotes.filter((item) => item.id !== 0)
           ]);
+          handleSnackbarOpen("Note saved successfully!", "success");
         }
       }
     } catch(error) {
+      handleSnackbarOpen("Note nave not been saved!", "error");
       console.error("Error saving note: ", error)
     }
   }

@@ -5,7 +5,7 @@ import { SidebarRightProps, INotesList, INote } from "../../interfaces/interface
 import axiosInstance from "../../axiosInstance"
 import Modal from "../Modal/Modal"
 
-function SidebarRight({ id, is_archived, setNotes }: SidebarRightProps){
+function SidebarRight({ id, is_archived, setNotes, handleSnackbarOpen }: SidebarRightProps){
   const [openModal, setOpenModal] = useState(false);
   const [actionType, setActionType] = useState<"archive" | "delete">("archive");
   const handleOpen = (action: "archive" | "delete") => {
@@ -25,6 +25,7 @@ function SidebarRight({ id, is_archived, setNotes }: SidebarRightProps){
             return note.id === id ? { ...note, is_archived: !currentIsArchived }: note
           });
         });
+        handleSnackbarOpen(`Note is ${!is_archived ? 'archived' : 'restored'}`, "success");
         setOpenModal(false);
       }
       
@@ -41,6 +42,7 @@ function SidebarRight({ id, is_archived, setNotes }: SidebarRightProps){
         setNotes((prevNotes: INotesList) => {
           return prevNotes.filter(note => note.id !== id)
         });
+        handleSnackbarOpen("Note was successfully removed!", "success");
       }
       
     } catch(error) {
