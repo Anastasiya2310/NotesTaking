@@ -7,7 +7,9 @@ import Modal from "../Modal/Modal"
 
 function SidebarRight({ id, is_archived, setNotes }: SidebarRightProps){
   const [openModal, setOpenModal] = useState(false);
-  const handleOpen = () => {
+  const [actionType, setActionType] = useState<"archive" | "delete">("archive");
+  const handleOpen = (action: "archive" | "delete") => {
+    setActionType(action);
     setOpenModal(true);
   }
   
@@ -23,6 +25,7 @@ function SidebarRight({ id, is_archived, setNotes }: SidebarRightProps){
             return note.id === id ? { ...note, is_archived: !currentIsArchived }: note
           });
         });
+        setOpenModal(false);
       }
       
     } catch(error) {
@@ -50,7 +53,7 @@ function SidebarRight({ id, is_archived, setNotes }: SidebarRightProps){
       <Box sx={{ pl: 2, py: 2.5, height: `calc(100vh - 130px)` }}>
         <Button variant="outlined" 
           sx={{ "justifyContent": "flex-start", width: "100%", mb: 1.5, px: 2, py: 1.5 }}
-          onClick={() => is_archived ? toggleIsArchived(id, is_archived) : handleOpen()}
+          onClick={() => is_archived ? toggleIsArchived(id, is_archived) : handleOpen("archive")}
         >
           {is_archived 
             ? <><IconRestore sx={{ mr: 1 }} /><Typography variant="h4">Restore Note</Typography></>
@@ -59,13 +62,13 @@ function SidebarRight({ id, is_archived, setNotes }: SidebarRightProps){
         </Button>
         <Button variant="outlined" 
           sx={{ "justifyContent": "flex-start", width: "100%", px: 2, py: 1.5 }}
-          onClick={() => deleteNote(id)}
+          onClick={() => handleOpen("delete")}
         >
           <IconDelete sx={{ mr: 1 }} />
           <Typography variant="h4">Delete Note</Typography>
         </Button>
       </Box>
-      <Modal setOpenModal={setOpenModal} openModal={openModal} id={id} is_archived = {is_archived} setNotes={setNotes} />
+      <Modal setOpenModal={setOpenModal} openModal={openModal} id={id} actionType={actionType} handleAction={actionType === "archive" ? () => toggleIsArchived(id, is_archived) : () => deleteNote(id)}  />
     </Box>
   );
 }
