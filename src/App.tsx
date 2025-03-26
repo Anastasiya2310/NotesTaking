@@ -90,6 +90,7 @@ function App() {
   const headerTitle:ITitle = {
     all: "All Notes",
     archived: "Archived Notes",
+    settings: "Settings",
   }
   const selectedNote = notes.find(note => note.id === selectedNoteId);
 
@@ -118,95 +119,95 @@ function App() {
             />
           </Box>
           <Grid2 size={{ xs: 12, lg: 9 }} sx={{ flexDirection: "column", alignItems: "flex-start" }}>
-            <Header title={title} searchQuery={searchQuery} setSearchQuery={setSearchQuery} showSettings={showSettings} setShowSettings={setShowSettings} />
-            <TabContext value={filteredNotes.some(note => note.id === selectedNoteId) ? selectedNoteId : (filteredNotes[0]?.id)}>
-              <Grid2 container spacing={3} sx={{ alignItems: "flex-start", px: 4, width: "100%" }}>
-                <Grid2 size={{ lg: 3 }}>
-                  <Box sx={{ height: `calc(100vh - 90px)`, overflow: "scroll", flexDirection: "column", pr: 2, pt: 2.5, textAlign: "left", borderRight: 1, borderColor: "neutral.200"}}>
-                    <TabList 
-                      onChange={(_event:React.SyntheticEvent, newValue:number) => { setSelectedNoteId(newValue)}}
-                      variant="scrollable"
-                      orientation="vertical"
-                      scrollButtons={false}
-                      sx={{ 
-                        height: `calc(100vh - 90px)`,
-                        textAlign: "left",
-                        "& .MuiTabs-indicator": {
-                          display: "none",
-                        }, 
-                      }}
-                    >
-                      <Box sx={{ pb: 2 }}>
-                        <Button variant="contained" 
-                          sx={{ display: "flex", justifyContent: "center", width: "100%", mb: 1.5, px: 2, py: 1.5 }} 
-                          onClick={() => {
-                            setSelectedNoteId(newNote.id)
-                            setNotes((prevNotes) => [newNote, ...prevNotes ])
-                          }}
-                        >
-                          <IconPlus sx={{ mr: 1 }} />
-                          <Typography variant="h4">Create New Note</Typography>
-                        </Button>
-                      </Box>
-                      {showArchived ? <Typography variant="h5" sx={{ color: "neutral.700", mb: 2, overflowWrap: "break-word", whiteSpace: "normal" }}>All your archived notes are stored here. You can restore or delete them anytime.</Typography> : null }
-                      {activeTag !== "" ? <Typography variant="h5" sx={{ color: "neutral.700", mb: 2, overflowWrap: "break-word", whiteSpace: "normal" }}>All notes with the ”{activeTag}” tag are shown here.</Typography> : null }
-                      {!showSettings ? (
-                        filteredNotes?.map((note:INote) => (
-                          <Tab 
-                            key={note.id} 
-                            label={<SidebarNotes note={note} />} 
-                            value={note.id} 
-                            sx={{ 
-                              textTransform: "capitalize",
-                              display: "flex",
-                              alignItems: "flex-start",
-                              p: 1,
-                              borderBottom: 1, 
-                              borderColor: "neutral.200",
-                              "&.Mui-selected": {
-                                borderRadius: 0.75,
-                                backgroundColor: "neutral.100",
-                                color: "neutral.900",
-                                borderBottom: 1,
-                                borderColor: "transparent",
-                              },
+            <Header title={!showSettings ? title : headerTitle.settings} searchQuery={searchQuery} setSearchQuery={setSearchQuery} showSettings={showSettings} setShowSettings={setShowSettings} />
+            {!showSettings ? (
+              <TabContext value={filteredNotes.some(note => note.id === selectedNoteId) ? selectedNoteId : (filteredNotes[0]?.id)}>
+                <Grid2 container spacing={3} sx={{ alignItems: "flex-start", px: 4, width: "100%" }}>
+                  <Grid2 size={{ lg: 3 }}>
+                    <Box sx={{ height: `calc(100vh - 90px)`, overflow: "scroll", flexDirection: "column", pr: 2, pt: 2.5, textAlign: "left", borderRight: 1, borderColor: "neutral.200"}}>
+                      <TabList 
+                        onChange={(_event:React.SyntheticEvent, newValue:number) => { setSelectedNoteId(newValue)}}
+                        variant="scrollable"
+                        orientation="vertical"
+                        scrollButtons={false}
+                        sx={{ 
+                          height: `calc(100vh - 90px)`,
+                          textAlign: "left",
+                          "& .MuiTabs-indicator": {
+                            display: "none",
+                          }, 
+                        }}
+                      >
+                        <Box sx={{ pb: 2 }}>
+                          <Button variant="contained" 
+                            sx={{ display: "flex", justifyContent: "center", width: "100%", mb: 1.5, px: 2, py: 1.5 }} 
+                            onClick={() => {
+                              setSelectedNoteId(newNote.id)
+                              setNotes((prevNotes) => [newNote, ...prevNotes ])
                             }}
-                          />
-                        ))): <Settings /> }
-                      
-                    </TabList>
-                  </Box>
-                </Grid2>
+                          >
+                            <IconPlus sx={{ mr: 1 }} />
+                            <Typography variant="h4">Create New Note</Typography>
+                          </Button>
+                        </Box>
+                        {showArchived ? <Typography variant="h5" sx={{ color: "neutral.700", mb: 2, overflowWrap: "break-word", whiteSpace: "normal" }}>All your archived notes are stored here. You can restore or delete them anytime.</Typography> : null }
+                        {activeTag !== "" ? <Typography variant="h5" sx={{ color: "neutral.700", mb: 2, overflowWrap: "break-word", whiteSpace: "normal" }}>All notes with the ”{activeTag}” tag are shown here.</Typography> : null }
+                          {filteredNotes?.map((note:INote) => (
+                            <Tab 
+                              key={note.id} 
+                              label={<SidebarNotes note={note} />} 
+                              value={note.id} 
+                              sx={{ 
+                                textTransform: "capitalize",
+                                display: "flex",
+                                alignItems: "flex-start",
+                                p: 1,
+                                borderBottom: 1, 
+                                borderColor: "neutral.200",
+                                "&.Mui-selected": {
+                                  borderRadius: 0.75,
+                                  backgroundColor: "neutral.100",
+                                  color: "neutral.900",
+                                  borderBottom: 1,
+                                  borderColor: "transparent",
+                                },
+                              }}
+                            />
+                          ))}
+                        
+                      </TabList>
+                    </Box>
+                  </Grid2>
 
-                <Grid2 size={{ lg: 6 }}>
-                  {filteredNotes?.map((note) => (
-                    <TabPanel key={note.id} value={note.id} sx={{ px: 0 }}>
-                      <Content 
-                        note={note} 
-                        setNotes={setNotes} 
-                        tagsUnique={tagsUnique} 
-                        updateNote={updateNote} 
-                        refetch={refetch} 
-                        handleSnackbarOpen={handleSnackbarOpen} 
+                  <Grid2 size={{ lg: 6 }}>
+                    {filteredNotes?.map((note) => (
+                      <TabPanel key={note.id} value={note.id} sx={{ px: 0 }}>
+                        <Content 
+                          note={note} 
+                          setNotes={setNotes} 
+                          tagsUnique={tagsUnique} 
+                          updateNote={updateNote} 
+                          refetch={refetch} 
+                          handleSnackbarOpen={handleSnackbarOpen} 
+                        />
+                      </TabPanel>
+                    ))}
+                  </Grid2>
+
+                  <Grid2 size={{ lg: 3 }}>
+                    <Box sx={{ borderLeft: 1, borderColor: "neutral.200" }}>
+                    {selectedNote && (
+                      <SidebarRight 
+                        id={selectedNote.id} 
+                        is_archived={selectedNote.is_archived}
+                        setNotes={setNotes}
+                        handleSnackbarOpen={handleSnackbarOpen}
                       />
-                    </TabPanel>
-                  ))}
+                    )}
+                    </Box>
+                  </Grid2>
                 </Grid2>
-
-                <Grid2 size={{ lg: 3 }}>
-                  <Box sx={{ borderLeft: 1, borderColor: "neutral.200" }}>
-                  {selectedNote && (
-                    <SidebarRight 
-                      id={selectedNote.id} 
-                      is_archived={selectedNote.is_archived}
-                      setNotes={setNotes}
-                      handleSnackbarOpen={handleSnackbarOpen}
-                    />
-                  )}
-                  </Box>
-                </Grid2>
-              </Grid2>
-            </TabContext>
+              </TabContext>) : <Settings />}
           </Grid2>
         </Grid2>
         <Snackbar

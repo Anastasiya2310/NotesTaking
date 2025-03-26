@@ -23,6 +23,7 @@ export interface ITagsList {
 export interface ITitle {
   all: string;
   archived: string;
+  settings: string;
 }
 
 export interface ISidebarLeftProps extends ITagsList {

@@ -1,17 +1,23 @@
+import { useState } from "react";
 import { Grid2, Box, Tab, Typography, Radio, RadioGroup, FormControlLabel, FormControl } from '@mui/material'
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 
 function Settings() {
+  const [tabValue, setTabValue] = useState("tab1");
 
+  const handleTabChange = (e: React.SyntheticEvent, newValue: string) => {
+    setTabValue(newValue);
+  }
   return (
     <Grid2 size={{ xs: 12, lg: 9 }} sx={{ flexDirection: "column", alignItems: "flex-start" }}>
-      <TabContext value="tab1">
+      <TabContext value={tabValue}>
         <Grid2 container spacing={3} sx={{ alignItems: "flex-start", px: 4, width: "100%" }}>
           <Grid2 size={{ lg: 3 }}>
             <Box sx={{ height: `calc(100vh - 90px)`, overflow: "scroll", flexDirection: "column", pr: 2, pt: 2.5, textAlign: "left", borderRight: 1, borderColor: "neutral.200"}}>
               <TabList 
                 variant="scrollable"
                 orientation="vertical"
+                onChange={handleTabChange}
                 sx={{ 
                   height: `calc(100vh - 90px)`,
                   textAlign: "left",
