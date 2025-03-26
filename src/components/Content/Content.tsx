@@ -12,7 +12,7 @@ function Content({ note, setNotes, tagsUnique, updateNote, refetch, handleSnackb
     tagsUnique: string[], 
     updateNote: () => void, 
     refetch: () => void,
-    handleSnackbarOpen: (message: string, severity: "success" | "error") => void }) {
+    handleSnackbarOpen: (message: string, severity: "success" | "error") => void}) {
 
   const [title, setTitle] = useState(note.title || "Enter a title...");
   const [lastEdited, setLastEdited] = useState<Date | string>(note.last_edited || new Date());

@@ -17,10 +17,11 @@ import SidebarLeft from "./components/SidebarLeft/SidebarLeft"
 import SidebarNotes from "./components/SidebarNotes/SidebarNotes"
 import SidebarRight from "./components/SidebarRight/SidebarRight"
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { ITitle, INotesList } from "./interfaces/interfaces";
+import { ITitle, INotesList, INote } from "./interfaces/interfaces";
 import Header from "./components/Header/Header";
 import { IconPlus }  from "./assets/icons";
 import useFetchData from "./hooks/useFetchData";
+import Settings from "./components/Settings/Settings";
 
 function App() {
   const { data, loading, error, refetch } = useFetchData("/notes");
@@ -37,6 +38,8 @@ function App() {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("success");
+  const [showSettings, setShowSettings] = useState(false);
+  // const [colorTheme, setColorTheme] = useState<"light" | "dark" | "system">("light");
 
   const handleSnackbarOpen = (message: string, severity: "success" | "error") => {
     setSnackbarOpen(true);
@@ -115,7 +118,7 @@ function App() {
             />
           </Box>
           <Grid2 size={{ xs: 12, lg: 9 }} sx={{ flexDirection: "column", alignItems: "flex-start" }}>
-            <Header title={title} searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+            <Header title={title} searchQuery={searchQuery} setSearchQuery={setSearchQuery} showSettings={showSettings} setShowSettings={setShowSettings} />
             <TabContext value={filteredNotes.some(note => note.id === selectedNoteId) ? selectedNoteId : (filteredNotes[0]?.id)}>
               <Grid2 container spacing={3} sx={{ alignItems: "flex-start", px: 4, width: "100%" }}>
                 <Grid2 size={{ lg: 3 }}>
@@ -147,29 +150,30 @@ function App() {
                       </Box>
                       {showArchived ? <Typography variant="h5" sx={{ color: "neutral.700", mb: 2, overflowWrap: "break-word", whiteSpace: "normal" }}>All your archived notes are stored here. You can restore or delete them anytime.</Typography> : null }
                       {activeTag !== "" ? <Typography variant="h5" sx={{ color: "neutral.700", mb: 2, overflowWrap: "break-word", whiteSpace: "normal" }}>All notes with the ”{activeTag}” tag are shown here.</Typography> : null }
-                      {filteredNotes?.map((note) => (
-                        <Tab 
-                          key={note.id} 
-                          label={<SidebarNotes note={note} />} 
-                          value={note.id} 
-                          sx={{ 
-                            textTransform: "capitalize",
-                            display: "flex",
-                            alignItems: "flex-start",
-                            p: 1,
-                            borderBottom: 1, 
-                            borderColor: "neutral.200",
-                            "&.Mui-selected": {
-                              borderRadius: 0.75,
-                              backgroundColor: "neutral.100",
-                              color: "neutral.900",
-                              borderBottom: 1,
-                              borderColor: "transparent",
-                            },
-                          }}
-                        />
-                        
-                      ))}
+                      {!showSettings ? (
+                        filteredNotes?.map((note:INote) => (
+                          <Tab 
+                            key={note.id} 
+                            label={<SidebarNotes note={note} />} 
+                            value={note.id} 
+                            sx={{ 
+                              textTransform: "capitalize",
+                              display: "flex",
+                              alignItems: "flex-start",
+                              p: 1,
+                              borderBottom: 1, 
+                              borderColor: "neutral.200",
+                              "&.Mui-selected": {
+                                borderRadius: 0.75,
+                                backgroundColor: "neutral.100",
+                                color: "neutral.900",
+                                borderBottom: 1,
+                                borderColor: "transparent",
+                              },
+                            }}
+                          />
+                        ))): <Settings /> }
+                      
                     </TabList>
                   </Box>
                 </Grid2>
@@ -177,7 +181,14 @@ function App() {
                 <Grid2 size={{ lg: 6 }}>
                   {filteredNotes?.map((note) => (
                     <TabPanel key={note.id} value={note.id} sx={{ px: 0 }}>
-                      <Content note={note} setNotes={setNotes} tagsUnique={tagsUnique} updateNote={updateNote} refetch={refetch} handleSnackbarOpen={handleSnackbarOpen} />
+                      <Content 
+                        note={note} 
+                        setNotes={setNotes} 
+                        tagsUnique={tagsUnique} 
+                        updateNote={updateNote} 
+                        refetch={refetch} 
+                        handleSnackbarOpen={handleSnackbarOpen} 
+                      />
                     </TabPanel>
                   ))}
                 </Grid2>
