@@ -9,10 +9,9 @@ function Settings() {
     setTabValue(newValue);
   }
   return (
-    // <Grid2 size={{ xs: 12, lg: 12 }} sx={{ flexDirection: "column", alignItems: "flex-start" }}>
+    <Grid2 container sx={{ flexDirection: "column", alignItems: "flex-start", px: 4, width: "100%" }}>
       <TabContext value={tabValue}>
-        <Grid2 container spacing={3} size={{ xs: 12, lg: 12 }} sx={{ flexDirection: "column", alignItems: "flex-start", px: 4, width: "100%" }}>
-          <Grid2 size={{ lg: 3 }}>
+        <Grid2 size={{ xl: 3 }}>
             <Box sx={{ 
               height: `calc(100vh - 90px)`, 
               overflow: "scroll", 
@@ -103,28 +102,27 @@ function Settings() {
                 />
               </TabList>
             </Box>
-          </Grid2>
+        </Grid2>
 
-          <Grid2 size={{ lg: 9 }}>
-            <TabPanel key="01" value="01" sx={{ px: 0 }}>
-              <Typography variant="h1" component="h1">Font Theme</Typography>
-              <Typography variant="body1" component="div">Choose your own theme</Typography>
-              <FormControl>
-                <RadioGroup
-                  aria-labelledby="demo-radio-buttons-group-label"
-                  defaultValue="Sans-serif"
-                  name="radio-buttons-group"
-                >
-                  <FormControlLabel value="Sans-serif" control={<Radio />} label="Sans-serif" />
-                  <FormControlLabel value="Serif" control={<Radio />} label="Serif" />
-                  <FormControlLabel value="Monospace" control={<Radio />} label="Monospace" />
-                </RadioGroup>
-              </FormControl>
-            </TabPanel>
-          </Grid2>
+        <Grid2 size={{ xl: 9 }}>
+          <TabPanel key="01" value="01" sx={{ px: 0 }}>
+            <Typography variant="h1" component="h1">Font Theme</Typography>
+            <Typography variant="body1" component="div">Choose your own theme</Typography>
+            <FormControl>
+              <RadioGroup
+                aria-labelledby="demo-radio-buttons-group-label"
+                defaultValue="Sans-serif"
+                name="radio-buttons-group"
+              >
+                <FormControlLabel value="Sans-serif" control={<Radio />} label="Sans-serif" />
+                <FormControlLabel value="Serif" control={<Radio />} label="Serif" />
+                <FormControlLabel value="Monospace" control={<Radio />} label="Monospace" />
+              </RadioGroup>
+            </FormControl>
+          </TabPanel>
         </Grid2>
       </TabContext>
-    // </Grid2>
+    </Grid2>
   )
 }
 
