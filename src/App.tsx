@@ -110,7 +110,8 @@ function App() {
             lg: "1110px",
             xl: "1440px"
           },
-          margin: "0 auto"
+          margin: "0 auto",
+          flexDirection: "row"
         }}>
           {isTablet && (
             <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 100 }} elevation={3}>
@@ -148,14 +149,14 @@ function App() {
             </Grid2>
           )}
           
-          <Grid2 container spacing={3} sx={{ flexDirection: "column", alignItems: "flex-start" }}>
+          <Grid2 container spacing={3} sx={{ width: `calc(100% - 272px)`, alignItems: "flex-start" }}>
             <Grid2 size={{ xl: 12 }}>
               <Header title={!showSettings ? title : headerTitle.settings} searchQuery={searchQuery} setSearchQuery={setSearchQuery} showSettings={showSettings} setShowSettings={setShowSettings} />
             </Grid2>
             <Grid2 container size={{ xl: 12 }} sx={{ alignItems: "flex-start", px: 4, width: "100%" }}>
               {!showSettings ? (
               <TabContext value={filteredNotes.some(note => note.id === selectedNoteId) ? selectedNoteId : (filteredNotes[0]?.id)}>
-                <Grid2 size={{ lg: 3 }}>
+                <Grid2 size={{ xl: 3 }}>
                   <Box sx={{ height: `calc(100vh - 90px)`, overflow: "scroll", flexDirection: "column", pr: 2, pt: 2.5, textAlign: "left", borderRight: 1, borderColor: "neutral.200"}}>
                     <TabList 
                       onChange={(_event:React.SyntheticEvent, newValue:number) => { setSelectedNoteId(newValue)}}
@@ -211,7 +212,7 @@ function App() {
                   </Box>
                 </Grid2>
 
-                <Grid2 size={{ lg: 6 }}>
+                <Grid2 size={{ xl: 6 }}>
                   {filteredNotes?.map((note) => (
                     <TabPanel key={note.id} value={note.id} sx={{ px: 0 }}>
                       <Content 
@@ -226,7 +227,7 @@ function App() {
                   ))}
                 </Grid2>
 
-                <Grid2 size={{ lg: 3 }}>
+                <Grid2 size={{ xl: 3 }}>
                   <Box sx={{ borderLeft: 1, borderColor: "neutral.200" }}>
                   {selectedNote && (
                     <SidebarRight 
@@ -239,7 +240,9 @@ function App() {
                   </Box>
                 </Grid2>
 
-                </TabContext>) : <Settings />
+              </TabContext>) : (
+                  <Settings />
+                )
               }
             </Grid2>
           </Grid2>
