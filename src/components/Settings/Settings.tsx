@@ -9,11 +9,26 @@ function Settings() {
     setTabValue(newValue);
   }
   return (
-    <Grid2 size={{ xs: 12, lg: 9 }} sx={{ flexDirection: "column", alignItems: "flex-start" }}>
+    // <Grid2 size={{ xs: 12, lg: 12 }} sx={{ flexDirection: "column", alignItems: "flex-start" }}>
       <TabContext value={tabValue}>
-        <Grid2 container spacing={3} sx={{ alignItems: "flex-start", px: 4, width: "100%" }}>
+        <Grid2 container spacing={3} size={{ xs: 12, lg: 12 }} sx={{ flexDirection: "column", alignItems: "flex-start", px: 4, width: "100%" }}>
           <Grid2 size={{ lg: 3 }}>
-            <Box sx={{ height: `calc(100vh - 90px)`, overflow: "scroll", flexDirection: "column", pr: 2, pt: 2.5, textAlign: "left", borderRight: 1, borderColor: "neutral.200"}}>
+            <Box sx={{ 
+              height: `calc(100vh - 90px)`, 
+              overflow: "scroll", 
+              flexDirection: "column", 
+              pr: 2, 
+              pt: 2.5, 
+              textAlign: "left", 
+              borderRight: 1, 
+              borderColor: "neutral.200",
+              width: {
+                xs: "100%",
+                sm: "100%",
+                md: "100%",
+                lg: 210,
+              }
+            }}>
               <TabList 
                 variant="scrollable"
                 orientation="vertical"
@@ -109,7 +124,7 @@ function Settings() {
           </Grid2>
         </Grid2>
       </TabContext>
-    </Grid2>
+    // </Grid2>
   )
 }
 

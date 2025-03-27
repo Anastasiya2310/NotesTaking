@@ -13,7 +13,7 @@ function SidebarNotes({ note }: { note: INote }) {
           overflow: "hidden", 
           whiteSpace: "nowrap", 
           textOverflow: "ellipsis", 
-          maxWidth: "200px" 
+          // width: "210px"
         }}>
         {note.title}
       </Typography>

@@ -10,13 +10,6 @@ declare module "@mui/material/styles" {
   interface PaletteOptions {
     neutral?: typeof neutral;
   }
-  interface BreakpointOverrides {
-    xs: true;
-    sm: true;
-    md: true;
-    lg: true;
-    xl: false;
-  }
   interface Theme {
     custom: {
       columnSettings: typeof columnSettings;
