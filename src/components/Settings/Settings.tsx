@@ -1,13 +1,40 @@
 import { useState } from "react";
 import { Grid2, Box, Tab, Typography, Radio, RadioGroup, FormControlLabel, FormControl } from '@mui/material'
 import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { IconSun, IconLock, IconFont, IconChevronR } from "../../assets/icons"
 
 function Settings() {
   const [tabValue, setTabValue] = useState(0);
+  const settingsMenu = [
+    { key: "colorTheme", label: "Color Theme", icon: <IconSun />, options: ["Light mode", "Dark mode", "System"] },
+    { key: "fontTheme", label: "Font Theme", icon: <IconFont />, options: ["Sans-serif", "Serif", "Monospace"] },
+    { key: "changePass", label: "Change Password", icon: <IconLock />, options: ["Pass1", "Pass2", "Pass3"] },
+  ];
+
+  const SettingsContent = ({title, description, options}: {title: string, description: string, options: string[]}) => {
+    return (
+      <>
+        <Typography variant="h1" component="h1">{title}</Typography>
+        <Typography variant="body1" component="div">{description}</Typography>
+        <FormControl>
+          <RadioGroup
+            aria-labelledby="demo-radio-buttons-group-label"
+            defaultValue={options[0]}
+            name="radio-buttons-group"
+          >
+            {options.map((option) => (
+              <FormControlLabel value={option} control={<Radio />} label={option} />
+            ))}
+          </RadioGroup>
+        </FormControl>
+      </>
+    )
+  }
 
   const handleTabChange = (e: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   }
+
   return (
     <Grid2 container sx={{ flexDirection: "row", alignItems: "flex-start", width: "100%" }}>
       <TabContext value={tabValue}>
@@ -17,7 +44,6 @@ function Settings() {
             overflow: "scroll", 
             flexDirection: "column", 
             pr: 2, 
-            pt: 2.5, 
             textAlign: "left", 
             borderRight: 1, 
             borderColor: "neutral.200",
@@ -40,113 +66,42 @@ function Settings() {
                 }, 
               }}
             >
-              <Tab 
-                label="Color Theme" 
-                value={0} 
-                sx={{ 
-                  textTransform: "capitalize",
-                  display: "flex",
-                  alignItems: "flex-start",
-                  p: 1,
-                  borderBottom: 1, 
-                  borderColor: "neutral.200",
-                  "&.Mui-selected": {
-                    borderRadius: 0.75,
-                    backgroundColor: "neutral.100",
-                    color: "neutral.900",
-                    borderBottom: 1,
-                    borderColor: "transparent",
-                  },
-                }}
-              />
-              <Tab 
-                label="Font Theme" 
-                value={1} 
-                sx={{ 
-                  textTransform: "capitalize",
-                  display: "flex",
-                  alignItems: "flex-start",
-                  p: 1,
-                  borderBottom: 1, 
-                  borderColor: "neutral.200",
-                  "&.Mui-selected": {
-                    borderRadius: 0.75,
-                    backgroundColor: "neutral.100",
-                    color: "neutral.900",
-                    borderBottom: 1,
-                    borderColor: "transparent",
-                  },
-                }}
-              />
-              <Tab 
-                label="Change Password" 
-                value={2} 
-                sx={{ 
-                  textTransform: "capitalize",
-                  display: "flex",
-                  alignItems: "flex-start",
-                  p: 1,
-                  borderBottom: 1, 
-                  borderColor: "neutral.200",
-                  "&.Mui-selected": {
-                    borderRadius: 0.75,
-                    backgroundColor: "neutral.100",
-                    color: "neutral.900",
-                    borderBottom: 1,
-                    borderColor: "transparent",
-                  },
-                }}
-              />
+              {settingsMenu.map((item, index) => (
+                <Tab 
+                  key={item.key}
+                  label={
+                    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", gap: 1 }}>
+                      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                        {item.icon}
+                        {item.label}
+                      </Box>
+                      {tabValue === index ? <IconChevronR /> : null}
+                    </Box>
+                  }
+                  value={index} 
+                  sx={{ 
+                    textTransform: "capitalize",
+                    display: "flex",
+                    alignItems: "flex-start",
+                    p: 1,
+                    "&.Mui-selected": {
+                      borderRadius: 0.75,
+                      backgroundColor: "neutral.100",
+                      color: "neutral.900",
+                    },
+                  }}
+                />
+              ))}
             </TabList>
           </Box>
         </Grid2>
 
         <Grid2 size={{ xl: 9 }}>
-          <TabPanel value={0} sx={{ px: 0 }}>
-            <Typography variant="h1" component="h1">Color Theme</Typography>
-            <Typography variant="body1" component="div">Choose your color theme:</Typography>
-            <FormControl>
-              <RadioGroup
-                aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue="Light mode"
-                name="radio-buttons-group"
-              >
-                <FormControlLabel value="Light mode" control={<Radio />} label="Light mode" />
-                <FormControlLabel value="Dark mode" control={<Radio />} label="Dark mode" />
-                <FormControlLabel value="System" control={<Radio />} label="System" />
-              </RadioGroup>
-            </FormControl>
-          </TabPanel>
-          <TabPanel value={1} sx={{ px: 0 }}>
-            <Typography variant="h1" component="h1">Font Theme</Typography>
-            <Typography variant="body1" component="div">Choose your font theme:</Typography>
-            <FormControl>
-              <RadioGroup
-                aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue="Sans-serif"
-                name="radio-buttons-group"
-              >
-                <FormControlLabel value="Sans-serif" control={<Radio />} label="Sans-serif" />
-                <FormControlLabel value="Serif" control={<Radio />} label="Serif" />
-                <FormControlLabel value="Monospace" control={<Radio />} label="Monospace" />
-              </RadioGroup>
-            </FormControl>
-          </TabPanel>
-          <TabPanel value={2} sx={{ px: 0 }}>
-            <Typography variant="h1" component="h1">Change Password</Typography>
-            <Typography variant="body1" component="div">Choose your Password</Typography>
-            <FormControl>
-              <RadioGroup
-                aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue="Pass1"
-                name="radio-buttons-group"
-              >
-                <FormControlLabel value="Pass1" control={<Radio />} label="Pass1" />
-                <FormControlLabel value="Pass2" control={<Radio />} label="Pass2" />
-                <FormControlLabel value="PAss3" control={<Radio />} label="Pass3" />
-              </RadioGroup>
-            </FormControl>
-          </TabPanel>
+          {settingsMenu.map((item, index) => (
+            <TabPanel key={item.key} value={index} sx={{ px: 0 }}>
+              <SettingsContent title={item.label} description={item.key.includes("changePass") ? item.label : `Choose your ${item.label}`} options={item.options} />
+            </TabPanel>
+          ))}
         </Grid2>
       </TabContext>
     </Grid2>
