@@ -21,3 +21,4 @@ export { default as IconStatus } from "./IconStatus";
 export { default as IconSun } from "./IconSun";
 export { default as IconSystemTheme } from "./IconSystemTheme";
 export { default as IconTag } from "./IconTag";
+export { default as IconFont } from "./IconFont";
