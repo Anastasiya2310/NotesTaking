@@ -150,7 +150,7 @@ function App() {
             </Grid2>
           )}
           
-          <Grid2 container spacing={3} sx={{ width: `calc(100% - 272px)`, alignItems: "flex-start" }}>
+          <Grid2 container sx={{ width: `calc(100% - 272px)`, alignItems: "flex-start" }}>
             <Grid2 size={{ xl: 12 }}>
               <Header title={!showSettings ? title : headerTitle.settings} searchQuery={searchQuery} setSearchQuery={setSearchQuery} showSettings={showSettings} setShowSettings={setShowSettings} />
             </Grid2>
@@ -215,7 +215,7 @@ function App() {
 
                 <Grid2 size={{ xl: 6 }}>
                   {filteredNotes?.map((note) => (
-                    <TabPanel key={note.id} value={note.id} sx={{ px: 0 }}>
+                    <TabPanel key={note.id} value={note.id} sx={{ px: 2.5 }}>
                       <Content 
                         note={note} 
                         setNotes={setNotes} 
