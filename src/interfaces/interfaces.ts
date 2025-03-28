@@ -32,6 +32,7 @@ export interface ISidebarLeftProps extends ITagsList {
   headerTitle: ITitle;
   setActiveTag: (value: string) => void;
   activeTag: string;
+  setShowSettings: (value: boolean) => void;
 }
 
 export interface IFilteredTags {
