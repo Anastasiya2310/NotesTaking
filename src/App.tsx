@@ -145,6 +145,7 @@ function App() {
                 headerTitle={headerTitle}
                 setActiveTag={setActiveTag} 
                 activeTag={activeTag}
+                setShowSettings={setShowSettings}
               />
             </Grid2>
           )}
