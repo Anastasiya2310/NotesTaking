@@ -111,7 +111,8 @@ function App() {
             xl: "1440px"
           },
           margin: "0 auto",
-          flexDirection: "row"
+          flexDirection: "row",
+          "image-rendering": "auto",
         }}>
           {isTablet && (
             <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 100 }} elevation={3}>
