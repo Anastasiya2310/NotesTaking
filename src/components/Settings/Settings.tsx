@@ -1,5 +1,15 @@
 import { useState } from "react";
-import { Grid2, Box, Tab, Typography, Radio, RadioGroup, FormControlLabel, FormControl } from '@mui/material'
+import { 
+  Grid2, 
+  Box, 
+  Tab, 
+  Typography, 
+  Radio, 
+  RadioGroup, 
+  FormControlLabel, 
+  FormControl,
+  Button
+} from '@mui/material'
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { 
   IconSun, 
@@ -12,6 +22,7 @@ import {
   IconSerif,
   IconMonospace 
 } from "../../assets/icons"
+import ChangePassForm from "../ChangePassForm/ChangePassForm";
 
 function Settings() {
   const [tabValue, setTabValue] = useState(0);
@@ -36,61 +47,70 @@ function Settings() {
     { 
       key: "changePass", 
       label: "Change Password", 
-      icon: <IconLock />
+      icon: <IconLock />,
+      form: <ChangePassForm />
     }
   ];
 
-  const SettingsContent = ({title, description, options, optionsIcons, optionDescription }: {title: string, description: string, options?: string[], optionsIcons?:React.ReactNode[], optionDescription?:string[] }) => {
+  const SettingsContent = ({title, description, options, optionsIcons, optionDescription, form }: {title: string, description?: string | null, options?: string[], optionsIcons?:React.ReactNode[], optionDescription?:string[], form?: React.ReactNode[]}) => {
     const [selectedValue, setSelectedValue] = useState(options ? options[0] : "");
     return (
       <>
-        <Box sx={{ mb: 3 }}>
+        <Box sx={{ 
+          mb: 3
+        }}>
           <Typography variant="h3" component="h3">{title}</Typography>
-          <Typography variant="h5" component="h5" sx={{ my: 1 }}>{description}</Typography>
+          {description ? (
+            <Typography variant="h5" component="h5" sx={{ my: 1 }}>{description}</Typography>
+          ) : null}
         </Box>
-        <FormControl 
-          sx={{ 
-            width: {
-              lg: "530px"
-            } 
-          }}>
+        <FormControl fullWidth>
           <RadioGroup
             aria-labelledby="demo-radio-buttons-group-label"
             value={selectedValue}
             defaultValue={selectedValue}
             onChange={(event) => setSelectedValue(event.target.value)}
             name="radio-buttons-group"
+            sx={{ width: {
+              lg: "530px",
+            } }}
           >
             {options?.map((option, index) => (
-              <FormControlLabel 
-                value={option} 
-                label={
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                    <Box sx={{ width: "24px", height: "24px", p: 1, border: "1px solid", borderColor: "neutral.200", borderRadius: 1.5, backgroundColor: "white" }}>{optionsIcons && optionsIcons[index]}</Box>
-                    <Box sx={{ display: "flex", flexDirection: "column" }}>
-                      <Typography variant="body1">{option}</Typography>
-                      <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                        {optionDescription && optionDescription[index]}
-                      </Typography>
+              <>
+                <FormControlLabel 
+                  value={option} 
+                  label={
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 1, width: {lg: "350px"}, boxSizing:"border-box" }}>
+                      <Box sx={{ width: "24px", height: "24px", p: 1, border: "1px solid", borderColor: "neutral.200", borderRadius: 1.5, backgroundColor: "white" }}>{optionsIcons && optionsIcons[index]}</Box>
+                      <Box sx={{ display: "flex", flexDirection: "column" }}>
+                        <Typography variant="body1">{option}</Typography>
+                        <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                          {optionDescription && optionDescription[index]}
+                        </Typography>
+                      </Box>
                     </Box>
-                  </Box>
-                } 
-                control={<Radio />} 
-                sx={{ 
-                  flexDirection: "row-reverse", 
-                  justifyContent: "space-between", 
-                  width: "100%", 
-                  ml: 0, 
-                  p: 2, 
-                  border: "1px solid", 
-                  borderColor: "neutral.200", 
-                  borderRadius: 1.5, 
-                  mb: 2,
-                  backgroundColor: selectedValue === option ? "neutral.100" : "transparent"
-                }}
-              />
+                  } 
+                  control={<Radio />} 
+                  sx={{ 
+                    flexDirection: "row-reverse", 
+                    justifyContent: "space-between", 
+                    ml: 0,
+                    mb: 2,
+                    mr: 0, 
+                    p: 2, 
+                    border: "1px solid", 
+                    borderColor: "neutral.200", 
+                    borderRadius: 1.5, 
+                    backgroundColor: selectedValue === option ? "neutral.100" : "transparent",
+                    maxWidth: {
+                      lg: "530px"
+                    }
+                  }}
+                />
+              </>
             ))}
           </RadioGroup>
+          {options ? <Box sx={{ width: "530px", display: "flex", justifyContent: "flex-end" }}><Button variant="contained">Apply changes</Button></Box> : null}
         </FormControl>
       </>
     )
@@ -165,7 +185,8 @@ function Settings() {
         <Grid2 size={{ xl: 9 }}>
           {settingsMenu.map((item, index) => (
             <TabPanel key={item.key} value={index} sx={{ px: 2.5 }}>
-              <SettingsContent title={item.label} description={item.key.includes("changePass") ? item.label : `Choose your ${item.label.toLowerCase()}:`} options={item.options} optionsIcons={item.optionsIcons} optionDescription={item.optionDescription} />
+              <SettingsContent title={item.label} description={item.key.includes("changePass") ? null : `Choose your ${item.label.toLowerCase()}:`} options={item.options} optionsIcons={item.optionsIcons} optionDescription={item.optionDescription} />
+              {item.form ? item.form : null}
             </TabPanel>
           ))}
         </Grid2>
