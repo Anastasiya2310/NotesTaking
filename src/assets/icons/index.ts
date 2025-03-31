@@ -22,3 +22,6 @@ export { default as IconSun } from "./IconSun";
 export { default as IconSystemTheme } from "./IconSystemTheme";
 export { default as IconTag } from "./IconTag";
 export { default as IconFont } from "./IconFont";
+export { default as IconSansSerif } from "./IconSansSerif";
+export { default as IconSerif } from "./IconSerif";
+export { default as IconMonospace } from "./IconMonospace";
