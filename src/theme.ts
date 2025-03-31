@@ -190,7 +190,10 @@ const theme: ThemeOptions = createTheme({
         }
       ]
     }
-  }
+  },
+  colorSchemes: {
+    dark: true,
+  },
 });
 
 export default theme;

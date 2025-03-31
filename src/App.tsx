@@ -3,6 +3,7 @@ import "./App.css"
 import "@fontsource/inter"
 import { Typography,
         ThemeProvider,
+        useColorScheme,
         Box,
         Grid2,
         useMediaQuery,
@@ -45,8 +46,8 @@ function App() {
   const isTablet = useMediaQuery(appliedTheme.breakpoints?.between("md", "lg"));
   const isXL = useMediaQuery(appliedTheme.breakpoints?.up("xl"));
   const [tabletMenuValue, setTabletMenuValue] = useState(0);
-  // const [colorTheme, setColorTheme] = useState<"light" | "dark" | "system">("light");
-
+  const { mode, setMode } = useColorScheme();
+  
   const handleSnackbarOpen = (message: string, severity: "success" | "error") => {
     setSnackbarOpen(true);
     setSnackbarMessage(message);
@@ -99,6 +100,10 @@ function App() {
     settings: "Settings",
   }
   const selectedNote = notes.find(note => note.id === selectedNoteId);
+
+  if (!mode) {
+    return null;
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -243,7 +248,7 @@ function App() {
                 </Grid2>
 
               </TabContext>) : (
-                  <Settings />
+                  <Settings mode={mode} setMode={setMode}/>
                 )
               }
             </Grid2>
