@@ -24,7 +24,9 @@ import {
 } from "../../assets/icons"
 import ChangePassForm from "../ChangePassForm/ChangePassForm";
 
-function Settings() {
+type ColorTheme = "dark" | "light" | "system";
+
+function Settings({ mode, setMode }: {mode: string, setMode:(mode: ColorTheme) => void}) {
   const [tabValue, setTabValue] = useState(0);
 
   const settingsMenu = [
