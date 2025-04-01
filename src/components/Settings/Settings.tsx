@@ -1,21 +1,13 @@
 import { useState } from "react";
 import { 
   Grid2, 
-  Box, 
-  Tab, 
-  Typography, 
-  Radio, 
-  RadioGroup, 
-  FormControlLabel, 
-  FormControl,
-  Button
+  Box
 } from '@mui/material'
-import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { TabContext, TabPanel } from "@mui/lab";
 import { 
   IconSun, 
   IconLock, 
   IconFont, 
-  IconChevronR, 
   IconMoon, 
   IconSystemTheme,
   IconSansSerif, 
@@ -23,13 +15,16 @@ import {
   IconMonospace 
 } from "../../assets/icons"
 import ChangePassForm from "../ChangePassForm/ChangePassForm";
+import SettingsContent from "../SettingsContent/SettingsContent";
+import SettingsSidebar from "../SettingsSidebar/SettingsSidebar";
+import { ISettingsSidebar } from "../../interfaces/interfaces";
 
 type ColorTheme = "dark" | "light" | "system";
 
 function Settings({ mode, setMode }: {mode: string, setMode:(mode: ColorTheme) => void}) {
   const [tabValue, setTabValue] = useState(0);
 
-  const settingsMenu = [
+  const settingsMenu:ISettingsSidebar[] = [
     { 
       key: "colorTheme", 
       label: "Color Theme", 
@@ -53,70 +48,6 @@ function Settings({ mode, setMode }: {mode: string, setMode:(mode: ColorTheme) =
       form: <ChangePassForm />
     }
   ];
-
-  const SettingsContent = ({title, description, options, optionsIcons, optionDescription, form }: {title: string, description?: string | null, options?: string[], optionsIcons?:React.ReactNode[], optionDescription?:string[], form?: React.ReactNode[]}) => {
-    const [selectedValue, setSelectedValue] = useState(options ? options[0] : "");
-    return (
-      <>
-        <Box sx={{ 
-          mb: 3
-        }}>
-          <Typography variant="h3" component="h3">{title}</Typography>
-          {description ? (
-            <Typography variant="h5" component="h5" sx={{ my: 1 }}>{description}</Typography>
-          ) : null}
-        </Box>
-        <FormControl fullWidth>
-          <RadioGroup
-            aria-labelledby="demo-radio-buttons-group-label"
-            value={selectedValue}
-            defaultValue={selectedValue}
-            onChange={(event) => setSelectedValue(event.target.value)}
-            name="radio-buttons-group"
-            sx={{ width: {
-              lg: "530px",
-            } }}
-          >
-            {options?.map((option, index) => (
-              <>
-                <FormControlLabel 
-                  value={option} 
-                  label={
-                    <Box sx={{ display: "flex", alignItems: "center", gap: 1, width: {lg: "350px"}, boxSizing:"border-box" }}>
-                      <Box sx={{ width: "24px", height: "24px", p: 1, border: "1px solid", borderColor: "neutral.200", borderRadius: 1.5, backgroundColor: "white" }}>{optionsIcons && optionsIcons[index]}</Box>
-                      <Box sx={{ display: "flex", flexDirection: "column" }}>
-                        <Typography variant="body1">{option}</Typography>
-                        <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                          {optionDescription && optionDescription[index]}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  } 
-                  control={<Radio />} 
-                  sx={{ 
-                    flexDirection: "row-reverse", 
-                    justifyContent: "space-between", 
-                    ml: 0,
-                    mb: 2,
-                    mr: 0, 
-                    p: 2, 
-                    border: "1px solid", 
-                    borderColor: "neutral.200", 
-                    borderRadius: 1.5, 
-                    backgroundColor: selectedValue === option ? "neutral.100" : "transparent",
-                    maxWidth: {
-                      lg: "530px"
-                    }
-                  }}
-                />
-              </>
-            ))}
-          </RadioGroup>
-          {options ? <Box sx={{ width: "530px", display: "flex", justifyContent: "flex-end" }}><Button variant="contained">Apply changes</Button></Box> : null}
-        </FormControl>
-      </>
-    )
-  }
 
   const handleTabChange = (e: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
@@ -142,45 +73,7 @@ function Settings({ mode, setMode }: {mode: string, setMode:(mode: ColorTheme) =
               lg: 241,
             }
           }}>
-            <TabList 
-              variant="scrollable"
-              orientation="vertical"
-              onChange={handleTabChange}
-              sx={{ 
-                height: `calc(100vh - 90px)`,
-                textAlign: "left",
-                "& .MuiTabs-indicator": {
-                  display: "none",
-                }, 
-              }}
-            >
-              {settingsMenu.map((item, index) => (
-                <Tab 
-                  key={item.key}
-                  label={
-                    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", gap: 1 }}>
-                      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                        {item.icon}
-                        {item.label}
-                      </Box>
-                      {tabValue === index ? <IconChevronR /> : null}
-                    </Box>
-                  }
-                  value={index} 
-                  sx={{ 
-                    textTransform: "capitalize",
-                    display: "flex",
-                    alignItems: "flex-start",
-                    p: 1,
-                    "&.Mui-selected": {
-                      borderRadius: 0.75,
-                      backgroundColor: "neutral.100",
-                      color: "neutral.900",
-                    },
-                  }}
-                />
-              ))}
-            </TabList>
+            <SettingsSidebar tabValue={tabValue} setTabValue={setTabValue} settingsMenu={settingsMenu} handleTabChange={handleTabChange} />
           </Box>
         </Grid2>
 
