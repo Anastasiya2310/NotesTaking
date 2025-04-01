@@ -49,3 +49,13 @@ export interface SidebarRightProps {
   setNotes: React.Dispatch<React.SetStateAction<INotesList>>;
   handleSnackbarOpen: (message: string, severity: "success" | "error") => void;
 }
+
+export interface ISettingsSidebar {
+  key: string, 
+  label: string, 
+  icon: React.ReactNode, 
+  options?: string[],
+  optionDescription?: string[],
+  optionsIcons?: React.ReactNode[],
+  form?: React.ReactNode,
+}

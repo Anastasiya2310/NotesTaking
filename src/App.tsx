@@ -101,9 +101,9 @@ function App() {
   }
   const selectedNote = notes.find(note => note.id === selectedNoteId);
 
-  if (!mode) {
-    return null;
-  }
+  // if (!mode) {
+  //   return null;
+  // }
 
   return (
     <ThemeProvider theme={theme}>
@@ -248,7 +248,7 @@ function App() {
                 </Grid2>
 
               </TabContext>) : (
-                  <Settings mode={mode} setMode={setMode}/>
+                  <Settings mode={mode || "light"} setMode={setMode}/>
                 )
               }
             </Grid2>
