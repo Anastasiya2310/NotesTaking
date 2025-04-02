@@ -20,6 +20,7 @@ function SettingsSidebar({ tabValue, setTabValue, settingsMenu, handleTabChange 
         sx={{ 
           height: `calc(100vh - 90px)`,
           textAlign: "left",
+          mt: 3,
           "& .MuiTabs-indicator": {
             display: "none",
           }, 

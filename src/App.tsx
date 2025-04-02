@@ -3,7 +3,6 @@ import "./App.css"
 import "@fontsource/inter"
 import { Typography,
         ThemeProvider,
-        useColorScheme,
         Box,
         Grid2,
         useMediaQuery,
@@ -15,6 +14,8 @@ import { Typography,
         BottomNavigation, 
         BottomNavigationAction,
         Paper } from '@mui/material'
+import { useColorScheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 import theme from './theme'
 import Content from "./components/Content/Content"
 import SidebarLeft from "./components/SidebarLeft/SidebarLeft"
@@ -44,7 +45,7 @@ function App() {
   const [showSettings, setShowSettings] = useState(false);
   // const isMobile = useMediaQuery(appliedTheme.breakpoints?.down("md"))
   const isTablet = useMediaQuery(appliedTheme.breakpoints?.between("md", "lg"));
-  const isXL = useMediaQuery(appliedTheme.breakpoints?.up("xl"));
+  const lgScreens = useMediaQuery(appliedTheme.breakpoints?.up("lg"));
   const [tabletMenuValue, setTabletMenuValue] = useState(0);
   const { mode, setMode } = useColorScheme();
   
@@ -107,13 +108,15 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <Typography variant="body1" component="div">
         <Grid2 container sx={{ flexGrow: 1, 
           maxWidth: {
             xs: "100%",
             sm: "768px",
-            lg: "1110px",
-            xl: "1440px"
+            md: "900px",
+            lg: "1200px",
+            xl: "1400px"
           },
           margin: "0 auto",
           flexDirection: "row",
@@ -138,7 +141,7 @@ function App() {
               
           )}
 
-          {isXL && (
+          {lgScreens && (
             <Grid2 sx={{ 
               width: "272px", 
               height: 'calc(100vh - 130px)',
