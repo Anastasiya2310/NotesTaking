@@ -93,20 +93,48 @@ const columnSettings = {
 };
 
 const theme: ThemeOptions = createTheme({
-  palette: {
-    primary: {
-      main: "#335CFF",
-      dark: "#2547D0",
-      light: "#EBF1FF",
+  colorSchemes: {
+    light: {
+      palette: {
+        primary: {
+          main: "#335CFF",
+          dark: "#2547D0",
+          light: "#EBF1FF",
+        },
+        neutral,
+        success: {
+          main: "#21C16B",
+          light: "#D1FBE9",
+        },
+        error: {
+          main: "#FB3748",
+          light: "#FFD5D8",
+        }
+      }
     },
-    neutral,
-    success: {
-      main: "#21C16B",
-      light: "#D1FBE9",
-    },
-    error: {
-      main: "#FB3748",
-      light: "#FFD5D8",
+    dark: {
+      palette: {
+        primary: {
+          main: "#335CFF",
+          dark: "#2547D0",
+          light: "#EBF1FF",
+        },
+        neutral,
+        success: {
+          main: "#21C16B",
+          light: "#D1FBE9",
+        },
+        error: {
+          main: "#FB3748",
+          light: "#FFD5D8",
+        },
+        background: {
+          default: "black",
+        },
+        text: {
+          primary: "white"
+        }
+      }
     }
   },
   typography: {
@@ -139,17 +167,7 @@ const theme: ThemeOptions = createTheme({
     }
   },
   spacing: (factor: number) => spacingValues[factor as keyof typeof spacingValues] ?? factor * 8,
-  // breakpoints: {
-  //   values: {
-  //     xs: 320,
-  //     sm: 768,
-  //     md: 1104,
-  //     lg: 1440,
-  //   },
-  // },
-  // custom: {
-  //   columnSettings,
-  // },
+
   shape: shape,
   components: {
     MuiButton: {
@@ -191,8 +209,14 @@ const theme: ThemeOptions = createTheme({
       ]
     }
   },
-  colorSchemes: {
-    dark: true,
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1400,
+    },
   },
 });
 
