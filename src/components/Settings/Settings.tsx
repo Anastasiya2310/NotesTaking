@@ -19,9 +19,7 @@ import SettingsContent from "../SettingsContent/SettingsContent";
 import SettingsSidebar from "../SettingsSidebar/SettingsSidebar";
 import { ISettingsSidebar } from "../../interfaces/interfaces";
 
-type ColorTheme = "dark" | "light" | "system";
-
-function Settings({ mode, setMode }: {mode: string, setMode:(mode: ColorTheme) => void}) {
+function Settings() {
   const [tabValue, setTabValue] = useState(0);
 
   const settingsMenu:ISettingsSidebar[] = [
@@ -80,7 +78,7 @@ function Settings({ mode, setMode }: {mode: string, setMode:(mode: ColorTheme) =
         <Grid2 size={{ xl: 9 }}>
           {settingsMenu.map((item, index) => (
             <TabPanel key={item.key} value={index} sx={{ px: 2.5 }}>
-              <SettingsContent title={item.label} description={item.key.includes("changePass") ? null : `Choose your ${item.label.toLowerCase()}:`} options={item.options} optionsIcons={item.optionsIcons} optionDescription={item.optionDescription} />
+              <SettingsContent title={item.label} description={item.key.includes("changePass") ? null : `Choose your ${item.label.toLowerCase()}:`} options={item.options} optionsIcons={item.optionsIcons} optionDescription={item.optionDescription} settingKey="colorTheme" />
               {item.form ? item.form : null}
             </TabPanel>
           ))}

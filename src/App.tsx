@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from "react";
 import "./App.css"
 import "@fontsource/inter"
 import { Typography,
-        ThemeProvider,
         Box,
         Grid2,
         useMediaQuery,
@@ -14,9 +13,6 @@ import { Typography,
         BottomNavigation, 
         BottomNavigationAction,
         Paper } from '@mui/material'
-import { useColorScheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import theme from './theme'
 import Content from "./components/Content/Content"
 import SidebarLeft from "./components/SidebarLeft/SidebarLeft"
 import SidebarNotes from "./components/SidebarNotes/SidebarNotes"
@@ -27,6 +23,7 @@ import Header from "./components/Header/Header";
 import { IconPlus, IconHome, IconSearch, IconArchive, IconTag, IconSettings }  from "./assets/icons";
 import useFetchData from "./hooks/useFetchData";
 import Settings from "./components/Settings/Settings";
+import { ThemeProviderContainer } from "./components/ThemeContext/ThemeContext";
 
 function App() {
   const { data, loading, error, refetch } = useFetchData("/notes");
@@ -47,7 +44,6 @@ function App() {
   const isTablet = useMediaQuery(appliedTheme.breakpoints?.between("md", "lg"));
   const lgScreens = useMediaQuery(appliedTheme.breakpoints?.up("lg"));
   const [tabletMenuValue, setTabletMenuValue] = useState(0);
-  const { mode, setMode } = useColorScheme();
   
   const handleSnackbarOpen = (message: string, severity: "success" | "error") => {
     setSnackbarOpen(true);
@@ -102,13 +98,8 @@ function App() {
   }
   const selectedNote = notes.find(note => note.id === selectedNoteId);
 
-  // if (!mode) {
-  //   return null;
-  // }
-
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
+    <ThemeProviderContainer>
       <Typography variant="body1" component="div">
         <Grid2 container sx={{ flexGrow: 1, 
           maxWidth: {
@@ -138,7 +129,6 @@ function App() {
                 <BottomNavigationAction label="Settings" icon={<IconSettings />} />
               </BottomNavigation> 
             </Paper>
-              
           )}
 
           {lgScreens && (
@@ -251,7 +241,7 @@ function App() {
                 </Grid2>
 
               </TabContext>) : (
-                  <Settings mode={mode || "light"} setMode={setMode}/>
+                  <Settings/>
                 )
               }
             </Grid2>
@@ -275,7 +265,7 @@ function App() {
           </Snackbar>
         </Grid2>
       </Typography>
-    </ThemeProvider>
+    </ThemeProviderContainer>
   );
 }
 
