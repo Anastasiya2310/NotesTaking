@@ -59,3 +59,11 @@ export interface ISettingsSidebar {
   optionsIcons?: React.ReactNode[],
   form?: React.ReactNode,
 }
+
+export type ThemeMode = "light" | "dark" | "system";
+export interface IThemeContextType {
+  mode: ThemeMode,
+  selectedMode: "light" | "dark",
+  toggleMode: (newMode: ThemeMode) => void,
+  persistMode: (mode: ThemeMode) => void
+}

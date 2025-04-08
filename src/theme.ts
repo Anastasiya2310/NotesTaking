@@ -1,4 +1,4 @@
-import { createTheme, ThemeOptions } from "@mui/material/styles";
+import { createTheme, Components, Theme } from "@mui/material/styles";
 // import "@fontsource/inter";
 // import "@fontsource/noto-serif";
 // import "@fontsource/source-code-pro";
@@ -92,132 +92,149 @@ const columnSettings = {
   },
 };
 
-const theme: ThemeOptions = createTheme({
-  colorSchemes: {
-    light: {
-      palette: {
-        primary: {
-          main: "#335CFF",
-          dark: "#2547D0",
-          light: "#EBF1FF",
-        },
-        neutral,
-        success: {
-          main: "#21C16B",
-          light: "#D1FBE9",
-        },
-        error: {
-          main: "#FB3748",
-          light: "#FFD5D8",
-        }
-      }
-    },
-    dark: {
-      palette: {
-        primary: {
-          main: "#335CFF",
-          dark: "#2547D0",
-          light: "#EBF1FF",
-        },
-        neutral,
-        success: {
-          main: "#21C16B",
-          light: "#D1FBE9",
-        },
-        error: {
-          main: "#FB3748",
-          light: "#FFD5D8",
-        },
-        background: {
-          default: "black",
-        },
-        text: {
-          primary: "white"
-        }
-      }
-    }
+const sharedTypography = {
+  fontFamily: `"Inter", sans-serif`,
+  h1: {
+    fontSize: "1.5rem",// 24px
+    lineHeight: "120%",
+    letterSpacing: "-0.5px",
+    fontWeight: "bold",
   },
-  typography: {
-    fontFamily: `"Inter", sans-serif`,
-    h1: {
-      fontSize: "1.5rem",// 24px
-      lineHeight: "120%",
-      letterSpacing: "-0.5px",
-      fontWeight: "bold",
-    },
-    h2: {
-      fontSize: "1.25rem",// 20px
-      lineHeight: "120%",
-      letterSpacing: "-0.5px",
-      fontWeight: "bold",
-    },
-    h3: {
-      fontSize: "1rem",// 16px
-      lineHeight: "120%",
-      letterSpacing: "-0.3px",
-      fontWeight: "semi-bold",
-    },
-    h4: {...sharedStyle, fontWeight: "normal"},
-    h5: {...sharedStyle, fontWeight: "normal"},
-    h6: {
-      fontSize: "0.75rem",// 12px
-      lineHeight: "120%",
-      letterSpacing: "-0.2px",
-      fontWeight: "normal"
-    }
+  h2: {
+    fontSize: "1.25rem",// 20px
+    lineHeight: "120%",
+    letterSpacing: "-0.5px",
+    fontWeight: "bold",
   },
-  spacing: (factor: number) => spacingValues[factor as keyof typeof spacingValues] ?? factor * 8,
+  h3: {
+    fontSize: "1rem",// 16px
+    lineHeight: "120%",
+    letterSpacing: "-0.3px",
+    fontWeight: "semi-bold",
+  },
+  h4: {...sharedStyle, fontWeight: "normal"},
+  h5: {...sharedStyle, fontWeight: "normal"},
+  h6: {
+    fontSize: "0.75rem",// 12px
+    lineHeight: "120%",
+    letterSpacing: "-0.2px",
+    fontWeight: "normal"
+  }
+};
 
-  shape: shape,
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          textTransform: "none",
+const sharedComponents: Components<Theme> = {
+  MuiButton: {
+    styleOverrides: {
+      root: {
+        textTransform: "none",
+        boxShadow: "none",
+        padding: "12px 16px",
+        color: neutral[700],
+        "&.MuiButton-text:hover": {
+          backgroundColor: neutral[100],
+        },
+        "&:hover": {
           boxShadow: "none",
+        },
+        "&:active": {
+          backgroundColor: neutral[100],
+        },
+        "&.MuiButton-contained": {
+          color: "white",
+        },
+        "&.MuiButton-outlined": {
+          borderColor: neutral[300],
+        }
+      }
+    },
+    variants: [
+      {
+        props: {
+          variant: "containedCancel",
+        },
+        style: {
+          backgroundColor: neutral[100],
+          borderRadius: "8px",
+          color: neutral[600],
           padding: "12px 16px",
-          color: neutral[700],
-          "&.MuiButton-text:hover": {
-            backgroundColor: neutral[100],
-          },
-          "&:hover": {
-            boxShadow: "none",
-          },
-          "&:active": {
-            backgroundColor: neutral[100],
-          },
-          "&.MuiButton-contained": {
-            color: "white",
-          },
-          "&.MuiButton-outlined": {
-            borderColor: neutral[300],
-          }
         }
-      },
-      variants: [
-        {
-          props: {
-            variant: "containedCancel",
-          },
-          style: {
-            backgroundColor: neutral[100],
-            borderRadius: "8px",
-            color: neutral[600],
-            padding: "12px 16px",
-          }
-        }
-      ]
-    }
+      }
+    ]
   },
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 600,
-      md: 900,
-      lg: 1200,
-      xl: 1400,
+  MuiSvgIcon: {
+    styleOverrides: {
+      root: {
+        width: 24,
+        height: 24,
+      },
     },
   },
+};
+
+const sharedBreakpoints = {
+  values: {
+    xs: 0,
+    sm: 600,
+    md: 900,
+    lg: 1200,
+    xl: 1400,
+  }
+}
+
+const sharedSpacing = (factor: number) => spacingValues[factor as keyof typeof spacingValues] ?? factor * 8
+
+const lightTheme = createTheme({
+  palette: {
+    primary: {
+      main: "#335CFF",
+      dark: "#2547D0",
+      light: "#EBF1FF",
+    },
+    neutral,
+    success: {
+      main: "#21C16B",
+      light: "#D1FBE9",
+    },
+    error: {
+      main: "#FB3748",
+      light: "#FFD5D8",
+    }
+  },
+  typography: sharedTypography,
+  spacing: sharedSpacing,
+  shape: shape,
+  components: sharedComponents,
+  breakpoints: sharedBreakpoints,
 });
 
-export default theme;
+const darkTheme = createTheme({
+  palette: {
+    primary: {
+      main: "#335CFF",
+      dark: "#2547D0",
+      light: "#EBF1FF",
+    },
+    neutral,
+    success: {
+      main: "#21C16B",
+      light: "#D1FBE9",
+    },
+    error: {
+      main: "#FB3748",
+      light: "#FFD5D8",
+    },
+    background: {
+      default: neutral[950],
+    },
+    text: {
+      primary: neutral[300]
+    }
+  },
+  typography: sharedTypography,
+  spacing: sharedSpacing,
+  shape: shape,
+  components: sharedComponents,
+  breakpoints: sharedBreakpoints,
+});
+
+export { lightTheme, darkTheme };

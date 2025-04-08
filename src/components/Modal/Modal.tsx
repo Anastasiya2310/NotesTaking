@@ -27,9 +27,9 @@ function Modal({ setOpenModal, openModal, actionType, handleAction, id } :
     >
       <Box display="flex" flexDirection="row" sx={{ p: 2.5 }}>
         {actionType === "archive" ? (
-          <IconArchive sx={{ p: 1.25, backgroundColor: "neutral.100", borderRadius: 1 }} />
+          <IconArchive sx={{ p: 1.25, backgroundColor: "neutral.100", borderRadius: 1, boxSizing: "content-box" }} />
         ) : (
-          <IconDelete sx={{ p: 1.25, backgroundColor: "neutral.100", borderRadius: 1 }} />
+          <IconDelete sx={{ p: 1.25, backgroundColor: "neutral.100", borderRadius: 1, boxSizing: "content-box" }} />
         )}
         <Box>
           <DialogTitle component="h3" id="responsive-dialog-title" sx={{ p: 0, pl: 2, pb: 0.75}}>
