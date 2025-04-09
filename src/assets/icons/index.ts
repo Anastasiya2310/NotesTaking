@@ -25,3 +25,4 @@ export { default as IconFont } from "./IconFont";
 export { default as IconSansSerif } from "./IconSansSerif";
 export { default as IconSerif } from "./IconSerif";
 export { default as IconMonospace } from "./IconMonospace";
+export { default as Logo } from "./Logo";

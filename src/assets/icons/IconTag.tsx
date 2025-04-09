@@ -20,7 +20,7 @@ function IconTag(props: SvgIconProps){
         strokeWidth={1.2}
         d="M9.907 8.315a1.607 1.607 0 0 1-1.61 1.583c-.872-.002-1.599-.73-1.594-1.596a1.604 1.604 0 0 1 1.633-1.607c.864.003 1.575.736 1.571 1.62Z"
         clipRule="evenodd"
-      />e
+      />
     </SvgIcon>
   )
 }

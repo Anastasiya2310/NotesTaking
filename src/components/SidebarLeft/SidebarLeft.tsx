@@ -1,9 +1,9 @@
 import { useState } from "react";
 import TagsList from "../TagsList/TagsList"
-import logo from "../../assets/images/logo.svg";
 import { ISidebarLeftProps } from "../../interfaces/interfaces";
 import { Grid2, Box, Divider, Button, Typography } from "@mui/material";
-import { IconTag, IconHome, IconArchive, IconChevronR } from "../../assets/icons";
+import { IconTag, IconHome, IconArchive, IconChevronR, Logo } from "../../assets/icons";
+import { Link } from "react-router-dom";
 
 function SidebarLeft({ tags, setShowArchived, setTitle, headerTitle, setActiveTag, activeTag, setShowSettings}: ISidebarLeftProps) {
   const handleTagClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -22,7 +22,9 @@ function SidebarLeft({ tags, setShowArchived, setTitle, headerTitle, setActiveTa
       <Box sx={{ px: 2 }}>
         <Box sx={{ py: 1.5 }}>
           <Box sx={{ width: "100%", height: "auto", py: 1.5 }}>
-            <Box component="img" src={logo} alt="Logo" />
+            <Link to="/">
+              <Logo sx={{ width: "96px", height: "28px", color: "text.primary"}}/>
+            </Link>
           </Box>
           <Button
             onClick={() => {
@@ -33,7 +35,7 @@ function SidebarLeft({ tags, setShowArchived, setTitle, headerTitle, setActiveTa
               setShowSettings(false);
             }}
             variant="text"
-            sx={{ backgroundColor: (activeButton === headerTitle.all) ? "neutral.100" : "transparent", width: "100%", px: 1.5, py: 1.25, justifyContent: "space-between", alignItems: "center" }}
+            sx={{ backgroundColor: (activeButton === headerTitle.all) ? "background.notesActive" : "transparent", width: "100%", px: 1.5, py: 1.25, justifyContent: "space-between", alignItems: "center", color: "text.primary" }}
           >
             <Box sx={{ display: "flex", alignItems: "center" }}>
               {(activeButton === headerTitle.all) ? <IconHome sx={{ mr: 1, color: "primary.main" }}/> : <IconHome sx={{ mr: 1 }} />}
@@ -52,7 +54,7 @@ function SidebarLeft({ tags, setShowArchived, setTitle, headerTitle, setActiveTa
               setShowSettings(false);
             }}
             variant="text"
-            sx={{ backgroundColor: (activeButton === headerTitle.archived) ? "neutral.100" : "transparent", width: "100%", px: 1.5, py: 1.25, justifyContent: "space-between", alignItems: "center" }}
+            sx={{ backgroundColor: (activeButton === headerTitle.archived) ? "background.notesActive" : "transparent", width: "100%", px: 1.5, py: 1.25, justifyContent: "space-between", alignItems: "center" }}
           >
             <Box sx={{ display: "flex", alignItems: "center" }}>
               {(activeButton === headerTitle.archived) ? <IconArchive sx={{ mr: 1, color: "primary.main" }}/> : <IconArchive sx={{ mr: 1 }} /> }
@@ -70,7 +72,7 @@ function SidebarLeft({ tags, setShowArchived, setTitle, headerTitle, setActiveTa
             items={tags}
             renderItem={(tag) => (
               <Grid2 container>
-                <Button sx={{ backgroundColor: (activeButton === tag) ? "neutral.100" : "transparent", px: 1.5, py: 1.25, width: "100%", justifyContent: "space-between", alignItems: "center" }}
+                <Button sx={{ backgroundColor: (activeButton === tag) ? "background.notesActive" : "transparent", px: 1.5, py: 1.25, width: "100%", justifyContent: "space-between", alignItems: "center" }}
                   onClick={handleTagClick}>
                   <Box sx={{ display: "flex", alignItems: "center" }}>
                     {(activeButton === tag) ? <IconTag sx={{ mr: 1, color: "primary.main" }}/> : <IconTag sx={{ mr: 1 }}/>}

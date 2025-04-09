@@ -46,11 +46,11 @@ function SettingsSidebar({ tabValue, setTabValue, settingsMenu, handleTabChange 
               alignItems: "flex-start",
               p: 1,
               "&.Mui-selected": {
-                color: "neutral.900",
+                color: "text.primary",
               },
               ...(tabValue === index && {
                 borderRadius: 0.75,
-                backgroundColor: "neutral.100",
+                backgroundColor: "background.notesActive",
               }),
             }}
           />

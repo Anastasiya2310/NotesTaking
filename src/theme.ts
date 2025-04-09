@@ -20,8 +20,16 @@ declare module "@mui/material/styles" {
       columnSettings?: typeof columnSettings;
     }
   }
-}
 
+  interface TypeBackground {
+    notesActive?: string;
+    tagsInCard?: string;
+  }
+
+  interface TypeText {
+    datesInCard?: string;
+  }
+}
 declare module "@mui/material/Button" {
   interface ButtonPropsVariantOverrides {
     containedCancel: true
@@ -129,23 +137,10 @@ const sharedComponents: Components<Theme> = {
         textTransform: "none",
         boxShadow: "none",
         padding: "12px 16px",
-        color: neutral[700],
-        "&.MuiButton-text:hover": {
-          backgroundColor: neutral[100],
-        },
         "&:hover": {
           boxShadow: "none",
         },
-        "&:active": {
-          backgroundColor: neutral[100],
-        },
-        "&.MuiButton-contained": {
-          color: "white",
-        },
-        "&.MuiButton-outlined": {
-          borderColor: neutral[300],
-        }
-      }
+      },
     },
     variants: [
       {
@@ -164,8 +159,8 @@ const sharedComponents: Components<Theme> = {
   MuiSvgIcon: {
     styleOverrides: {
       root: {
-        width: 24,
-        height: 24,
+        minWidth: 24,
+        minHeight: 24,
       },
     },
   },
@@ -198,12 +193,45 @@ const lightTheme = createTheme({
     error: {
       main: "#FB3748",
       light: "#FFD5D8",
-    }
+    },
+    background: {
+      default: "#FFFFFF",
+      notesActive: neutral[100],
+      tagsInCard: neutral[200],
+    },
+    text: {
+      primary: neutral[950],
+      secondary: neutral[700],
+      datesInCard: neutral[700],
+    },
+    divider: neutral[200]
   },
   typography: sharedTypography,
   spacing: sharedSpacing,
   shape: shape,
-  components: sharedComponents,
+  components: {
+    ...sharedComponents,
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          ...(typeof sharedComponents.MuiButton?.styleOverrides?.root === 'object' ? sharedComponents.MuiButton.styleOverrides.root : {}),
+          color: neutral[700],
+          "&.MuiButton-text:hover": {
+            backgroundColor: neutral[100],
+          },
+          "&:active": {
+            backgroundColor: neutral[100],
+          },
+          "&.MuiButton-contained": {
+            color: "white",
+          },
+          "&.MuiButton-outlined": {
+            borderColor: neutral[300],
+          }
+        }
+      },
+    },
+  },
   breakpoints: sharedBreakpoints,
 });
 
@@ -225,15 +253,73 @@ const darkTheme = createTheme({
     },
     background: {
       default: neutral[950],
+      notesActive: neutral[800],
+      tagsInCard: neutral[600],
     },
     text: {
-      primary: neutral[300]
-    }
+      primary: "#FFFFFF",
+      secondary: neutral[100],
+      datesInCard: neutral[300],
+    },
+    divider: neutral[800]
   },
-  typography: sharedTypography,
+  typography: {
+    ...sharedTypography,
+    h1: {
+      ...sharedTypography.h1,
+    },
+    h2: {
+      ...sharedTypography.h2,
+    },
+    h3: {
+      ...sharedTypography.h3,
+    },
+    h4: {
+      ...sharedTypography.h4,
+      color: neutral[200],
+    },
+    h5: {
+      ...sharedTypography.h5,
+    },
+    h6: {
+      ...sharedTypography.h6,
+    },
+    body1: {
+      color: "#FFFFFF",
+    },
+  },
   spacing: sharedSpacing,
   shape: shape,
-  components: sharedComponents,
+  components: {
+    ...sharedComponents,
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          ...(typeof sharedComponents.MuiButton?.styleOverrides?.root === 'object' ? sharedComponents.MuiButton.styleOverrides.root : {}),
+          color: neutral[100],
+          "&.MuiButton-text:hover": {
+            backgroundColor: neutral[800],
+          },
+          "&:active": {
+            backgroundColor: neutral[800],
+          },
+          "&.MuiButton-contained": {
+            color: "white",
+          },
+          "&.MuiButton-outlined": {
+            borderColor: neutral[800],
+          }
+        }
+      },
+    },
+    MuiSvgIcon: {
+      styleOverrides: {
+        root: {
+          color: "#FFFFFF"
+        }
+      }
+    }
+  },
   breakpoints: sharedBreakpoints,
 });
 
