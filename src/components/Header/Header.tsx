@@ -11,7 +11,7 @@ function Header({ title, searchQuery, setSearchQuery, showSettings, setShowSetti
  }) {
   return (
     <>
-      <Grid2 container sx={{ px: 4, py: 2, width: "100%", justifyContent: "space-between", alignItems: "center", maxHeight: "81px", borderBottom:(theme) => `1px solid ${theme.palette.neutral?.[200]}` }}>
+      <Grid2 container sx={{ px: 4, py: 2, width: "100%", justifyContent: "space-between", alignItems: "center", maxHeight: "81px", borderBottom:(theme) => `1px solid ${theme.palette.divider}` }}>
         <Box component="header">
           <Typography variant="h1">{title}</Typography>
         </Box>

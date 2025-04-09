@@ -85,7 +85,7 @@ const SettingsContent = ({title, description, options, optionsIcons, optionDescr
               key={option} 
               label={
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1, width: {lg: "350px"}, boxSizing: "border-box"}}>
-                  <Box sx={{ width: "42px", height: "42px", p: 1, border: "1px solid", borderColor: "neutral.200", borderRadius: 1.5, backgroundColor: "white" }}>{optionsIcons && optionsIcons[index]}</Box>
+                  <Box sx={{ width: "42px", height: "42px", p: 1, border: "1px solid", borderColor: "divider", borderRadius: 1.5, backgroundColor: "background.default" }}>{optionsIcons && optionsIcons[index]}</Box>
                   <Box sx={{ display: "flex", flexDirection: "column" }}>
                     <Typography variant="body1">{option}</Typography>
                     <Typography variant="body2" sx={{ color: "text.secondary" }}>
@@ -104,9 +104,9 @@ const SettingsContent = ({title, description, options, optionsIcons, optionDescr
                 mr: 0, 
                 p: 2, 
                 border: "1px solid", 
-                borderColor: "neutral.200", 
+                borderColor: "divider", 
                 borderRadius: 1.5, 
-                backgroundColor: selectedValue === option ? "neutral.100" : "transparent",
+                backgroundColor: selectedValue === option ? "background.notesActive" : "transparent",
                 maxWidth: {
                   lg: "530px"
                 }

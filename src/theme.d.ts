@@ -35,4 +35,13 @@ declare module "@mui/material/styles" {
       950: string;
     };
   }
+
+  interface TypeBackground {
+    notesActive?: string;
+    tagsInCard?: string;
+  }
+
+  interface TypeText {
+    datesInCard?: string;
+  }
 }

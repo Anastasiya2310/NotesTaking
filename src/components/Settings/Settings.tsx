@@ -63,7 +63,7 @@ function Settings() {
             pt: 2.5, 
             textAlign: "left", 
             borderRight: 1, 
-            borderColor: "neutral.200",
+            borderColor: "divider",
             width: {
               xs: "100%",
               sm: "100%",

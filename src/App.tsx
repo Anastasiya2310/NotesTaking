@@ -157,7 +157,7 @@ function App() {
               {!showSettings ? (
               <TabContext value={filteredNotes.some(note => note.id === selectedNoteId) ? selectedNoteId : (filteredNotes[0]?.id)}>
                 <Grid2 size={{ xl: 3 }}>
-                  <Box sx={{ height: `calc(100vh - 90px)`, overflow: "scroll", flexDirection: "column", pr: 2, pt: 2.5, textAlign: "left", borderRight: 1, borderColor: "neutral.200"}}>
+                  <Box sx={{ height: `calc(100vh - 90px)`, overflow: "scroll", flexDirection: "column", pr: 2, pt: 2.5, textAlign: "left", borderRight: 1, borderColor: "divider"}}>
                     <TabList 
                       onChange={(_event:React.SyntheticEvent, newValue:number) => { setSelectedNoteId(newValue)}}
                       variant="scrollable"
@@ -183,8 +183,8 @@ function App() {
                           <Typography variant="h4">Create New Note</Typography>
                         </Button>
                       </Box>
-                      {showArchived ? <Typography variant="h5" sx={{ color: "neutral.700", mb: 2, overflowWrap: "break-word", whiteSpace: "normal" }}>All your archived notes are stored here. You can restore or delete them anytime.</Typography> : null }
-                      {activeTag !== "" ? <Typography variant="h5" sx={{ color: "neutral.700", mb: 2, overflowWrap: "break-word", whiteSpace: "normal" }}>All notes with the ”{activeTag}” tag are shown here.</Typography> : null }
+                      {showArchived ? <Typography variant="h5" sx={{ color: "text.secondary", mb: 2, overflowWrap: "break-word", whiteSpace: "normal" }}>All your archived notes are stored here. You can restore or delete them anytime.</Typography> : null }
+                      {activeTag !== "" ? <Typography variant="h5" sx={{ color: "text.secondary", mb: 2, overflowWrap: "break-word", whiteSpace: "normal" }}>All notes with the ”{activeTag}” tag are shown here.</Typography> : null }
                         {filteredNotes?.map((note:INote) => (
                           <Tab 
                             key={note.id} 
@@ -196,11 +196,11 @@ function App() {
                               alignItems: "flex-start",
                               p: 1,
                               borderBottom: 1, 
-                              borderColor: "neutral.200",
+                              borderColor: "divider",
                               "&.Mui-selected": {
                                 borderRadius: 0.75,
-                                backgroundColor: "neutral.100",
-                                color: "neutral.900",
+                                backgroundColor: "background.notesActive",
+                                color: "text.primary",
                                 borderBottom: 1,
                                 borderColor: "transparent",
                               },
@@ -228,7 +228,7 @@ function App() {
                 </Grid2>
 
                 <Grid2 size={{ xl: 3 }}>
-                  <Box sx={{ borderLeft: 1, borderColor: "neutral.200" }}>
+                  <Box sx={{ borderLeft: 1, borderColor: "divider" }}>
                   {selectedNote && (
                     <SidebarRight 
                       id={selectedNote.id} 
