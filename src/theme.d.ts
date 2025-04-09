@@ -43,5 +43,6 @@ declare module "@mui/material/styles" {
 
   interface TypeText {
     datesInCard?: string;
+    settingIcon?: string;
   }
 }
