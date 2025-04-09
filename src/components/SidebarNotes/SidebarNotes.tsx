@@ -3,7 +3,6 @@ import { formatDate } from "../../utils/dateUtils"
 import { Box, Typography } from "@mui/material";
 
 function SidebarNotes({ note }: { note: INote }) {
-
   return (
     <Box sx={{ width: "100%" }}>
       <Typography 

@@ -28,6 +28,7 @@ declare module "@mui/material/styles" {
 
   interface TypeText {
     datesInCard?: string;
+    settingIcon?: string;
   }
 }
 declare module "@mui/material/Button" {
@@ -203,6 +204,7 @@ const lightTheme = createTheme({
       primary: neutral[950],
       secondary: neutral[700],
       datesInCard: neutral[700],
+      settingIcon: neutral[500],
     },
     divider: neutral[200]
   },
@@ -260,6 +262,7 @@ const darkTheme = createTheme({
       primary: "#FFFFFF",
       secondary: neutral[100],
       datesInCard: neutral[300],
+      settingIcon: neutral[400],
     },
     divider: neutral[800]
   },

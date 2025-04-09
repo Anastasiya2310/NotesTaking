@@ -15,7 +15,15 @@ const Search = ({ searchQuery, setSearchQuery }: { searchQuery:string,  setSearc
         sm: "100%",
         md: "100%",
         lg: "300px"
-      } 
+      },
+      "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "divider",
+      },
+      "&:hover fieldset": {
+        borderColor: "divider",
+      }
+    }
     }} />
   )
 } 

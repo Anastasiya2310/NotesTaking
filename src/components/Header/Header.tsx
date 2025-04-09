@@ -19,7 +19,7 @@ function Header({ title, searchQuery, setSearchQuery, showSettings, setShowSetti
           <Grid2 container sx={{ alignItems: "center" }}>
             <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
             <Button onClick={() => setShowSettings(prev => !prev)} sx={{ ml: 3, p: 1, "&.MuiButton-text:hover": { backgroundColor: "transparent" }, "&:active": { backgroundColor: "transparent" } }}>
-              <IconSettings sx={{ color:(theme) => theme.palette.neutral?.[500], "&:hover": { color: (theme) =>  theme.palette.neutral?.[800]} }}/>
+              <IconSettings sx={{ color:(theme) => theme.palette.text.settingIcon, "&:hover": { color: (theme) =>  theme.palette.text.primary} }}/>
             </Button>
           </Grid2>
         </Box>
