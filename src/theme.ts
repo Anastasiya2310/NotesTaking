@@ -149,9 +149,7 @@ const sharedComponents: Components<Theme> = {
           variant: "containedCancel",
         },
         style: {
-          backgroundColor: neutral[100],
           borderRadius: "8px",
-          color: neutral[600],
           padding: "12px 16px",
         }
       }
@@ -232,6 +230,17 @@ const lightTheme = createTheme({
           }
         }
       },
+      variants: [
+        {
+          props: {
+            variant: "containedCancel",
+          },
+          style: {
+            backgroundColor: neutral[100],
+            color: neutral[600],
+          }
+        }
+      ],
     },
   },
   breakpoints: sharedBreakpoints,
@@ -314,6 +323,17 @@ const darkTheme = createTheme({
           }
         }
       },
+      variants: [
+        {
+          props: {
+            variant: "containedCancel",
+          },
+          style: {
+            backgroundColor: neutral[800],
+            color: neutral[400],
+          }
+        }
+      ],
     },
     MuiSvgIcon: {
       styleOverrides: {
