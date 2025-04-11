@@ -1,7 +1,7 @@
 import { createTheme, Components, Theme } from "@mui/material/styles";
-// import "@fontsource/inter";
-// import "@fontsource/noto-serif";
-// import "@fontsource/source-code-pro";
+import "@fontsource/inter";
+import "@fontsource/noto-serif";
+import "@fontsource/source-code-pro";
 
 declare module "@mui/material/styles" {
   interface Palette {
@@ -58,11 +58,13 @@ const sharedStyle = {
   letterSpacing: "-0.2px",
 }
 
-// const fontFamilies = {
-//   sansSerif: `"Inter", sans-serif`,
-//   serif: `"Noto Serif", serif`,
-//   mono: `"Source Code Pro", monospace`,
-// }
+const fontFamilies = {
+  "sans-serif": `"Inter", sans-serif`,
+  "serif": `"Noto Serif", serif`,
+  "monospace": `"Source Code Pro", monospace`,
+}
+
+export type FontThemeType = keyof typeof fontFamilies;
 
 const spacingValues = {
   0: 0,
@@ -177,7 +179,7 @@ const sharedBreakpoints = {
 
 const sharedSpacing = (factor: number) => spacingValues[factor as keyof typeof spacingValues] ?? factor * 8
 
-const lightTheme = createTheme({
+const lightTheme = (font: FontThemeType) => createTheme({
   palette: {
     primary: {
       main: "#335CFF",
@@ -206,7 +208,10 @@ const lightTheme = createTheme({
     },
     divider: neutral[200]
   },
-  typography: sharedTypography,
+  typography: {
+    ...sharedTypography,
+    fontFamily: fontFamilies[font],
+  },
   spacing: sharedSpacing,
   shape: shape,
   components: {
@@ -246,7 +251,7 @@ const lightTheme = createTheme({
   breakpoints: sharedBreakpoints,
 });
 
-const darkTheme = createTheme({
+const darkTheme = (font: FontThemeType) => createTheme({
   palette: {
     primary: {
       main: "#335CFF",
@@ -299,6 +304,7 @@ const darkTheme = createTheme({
     body1: {
       color: "#FFFFFF",
     },
+    fontFamily: fontFamilies[font],
   },
   spacing: sharedSpacing,
   shape: shape,

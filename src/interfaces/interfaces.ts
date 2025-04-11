@@ -61,9 +61,12 @@ export interface ISettingsSidebar {
 }
 
 export type ThemeMode = "light" | "dark" | "system";
+export type FontTheme = "sans-serif" | "serif" | "monospace";
 export interface IThemeContextType {
   mode: ThemeMode,
   selectedMode: "light" | "dark",
   toggleMode: (newMode: ThemeMode) => void,
-  persistMode: (mode: ThemeMode) => void
+  persistMode: (mode: ThemeMode) => void,
+  fontTheme: FontTheme,
+  setFontTheme: (font: FontTheme) => void,
 }
