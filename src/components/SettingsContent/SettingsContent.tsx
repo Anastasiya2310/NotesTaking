@@ -12,6 +12,7 @@ import { useThemeContext } from "../ThemeContext/ThemeContext";
 
 type ThemeMode = "light" | "dark" | "system";
 type ThemeLabels = "Light mode" | "Dark mode" | "System";
+type FontTheme = "sans-serif" | "serif" | "monospace";
 
 const SettingsContent = ({title, description, options, optionsIcons, optionDescription, form, settingKey }: 
   {title: string, 
@@ -29,35 +30,43 @@ const SettingsContent = ({title, description, options, optionsIcons, optionDescr
     "System": "system" as ThemeMode
   }), []);
 
+  const { mode, toggleMode, persistMode, fontTheme, setFontTheme } = useThemeContext();
   const [selectedValue, setSelectedValue] = useState(options ? options[0] : "");
 
-  const { mode, toggleMode, persistMode } = useThemeContext();
+  useEffect(() => {
+    if(settingKey === "colorTheme") {
+      const themeLabel = Object.keys(labelToTheme).find(key => labelToTheme[key as ThemeLabels] === mode) as ThemeLabels | undefined;
+      if (themeLabel) {
+        setSelectedValue(themeLabel);
+      }
+    }
+    if(settingKey === "fontTheme") {
+      setSelectedValue(fontTheme);
+    }
+  }, [mode, fontTheme, labelToTheme, settingKey])
 
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newLabel = event.target.value as ThemeLabels;
+    const newLabel = event.target.value;
     setSelectedValue(newLabel);
-  
-    const newMode = labelToTheme[newLabel];
-    if (newMode) {
-      toggleMode(newMode);
+
+    if(settingKey === "colorTheme") {
+      const newMode = labelToTheme[newLabel as ThemeLabels];
+      if (newMode) toggleMode(newMode);
+    }
+    if(settingKey === "fontTheme") {
+      setFontTheme(newLabel as FontTheme)
     }
   };
-
-  useEffect(() => {
-    const themeLabel = Object.keys(labelToTheme).find(key => labelToTheme[key as ThemeLabels] === mode) as ThemeLabels | undefined;
-    if (themeLabel) {
-      setSelectedValue(themeLabel);
-    }
-  }, [mode, labelToTheme]);
 
   const handleApplyChanges = () => {
     console.log("Apply button clicked. settingKey =", settingKey);
     if (settingKey === "colorTheme") {
       const newMode = labelToTheme[selectedValue as ThemeLabels];
-      console.log("Applying theme:", newMode);
-      if (newMode) {
-        persistMode(newMode);
-      }
+      if (newMode) persistMode(newMode);
+    }
+    if(settingKey === "fontTheme") {
+      setFontTheme(selectedValue as FontTheme);
+      localStorage.setItem("font-theme", selectedValue);
     }
   };
   
@@ -75,7 +84,7 @@ const SettingsContent = ({title, description, options, optionsIcons, optionDescr
           aria-labelledby="demo-radio-buttons-group-label"
           value={selectedValue}
           onChange={handleRadioChange}
-          name="radio-buttons-group"
+          name={`${settingKey}-radio-buttons-group`}
           sx={{ width: {
             lg: "530px",
           } }}

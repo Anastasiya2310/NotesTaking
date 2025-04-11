@@ -35,7 +35,7 @@ function Settings() {
       key: "fontTheme", 
       label: "Font Theme", 
       icon: <IconFont />, 
-      options: ["Sans-serif", "Serif", "Monospace"],
+      options: ["sans-serif", "serif", "monospace"],
       optionDescription: ["Clean and modern, easy to read.", "Classic and elegant for a timeless feel.", "Code-like, great for a technical vibe."],
       optionsIcons: [<IconSansSerif />, <IconSerif />, <IconMonospace />] 
     },
@@ -78,7 +78,7 @@ function Settings() {
         <Grid2 size={{ xl: 9 }}>
           {settingsMenu.map((item, index) => (
             <TabPanel key={item.key} value={index} sx={{ px: 2.5 }}>
-              <SettingsContent title={item.label} description={item.key.includes("changePass") ? null : `Choose your ${item.label.toLowerCase()}:`} options={item.options} optionsIcons={item.optionsIcons} optionDescription={item.optionDescription} settingKey="colorTheme" />
+              <SettingsContent title={item.label} description={item.key.includes("changePass") ? null : `Choose your ${item.label.toLowerCase()}:`} options={item.options} optionsIcons={item.optionsIcons} optionDescription={item.optionDescription} {...(!item.key.includes("changePass") && {settingKey: item.key })} />
               {item.form ? item.form : null}
             </TabPanel>
           ))}

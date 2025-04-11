@@ -1,8 +1,8 @@
 import { createContext, useContext, useEffect, useState, ReactNode, useMemo } from "react"
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles"
 import CssBaseline from "@mui/material/CssBaseline"
-import { lightTheme, darkTheme } from "../../theme"
-import { IThemeContextType, ThemeMode } from "../../interfaces/interfaces"
+import { lightTheme, darkTheme, FontThemeType } from "../../theme"
+import { IThemeContextType, ThemeMode, FontTheme } from "../../interfaces/interfaces"
 
 const ThemeContext = createContext<IThemeContextType | undefined>(undefined);
 
@@ -15,20 +15,19 @@ export const useThemeContext = () => {
 }
 
 export const ThemeProviderContainer = ({ children }: { children: ReactNode }) => {
-  const [mode, setMode] = useState<ThemeMode>("system"); // default, SSR-safe
-  const [isClient, setIsClient] = useState(false); // flag to avoid mismatch
-
+  const [mode, setMode] = useState<ThemeMode>("system");
+  const [isClient, setIsClient] = useState(false);
+  const [fontTheme, setFontTheme] = useState<FontThemeType>("sans-serif");
   const [systemMode, setSystemMode] = useState<"light" | "dark">(() => {
     return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
   });
 
   useEffect(() => {
-    setIsClient(true); // now it's safe to access localStorage
-
-    const stored = localStorage.getItem("app-theme");
-    if (stored === "light" || stored === "dark" || stored === "system") {
-      setMode(stored);
-    }
+    setIsClient(true);
+    const storedFont = localStorage.getItem("font-theme") as FontTheme;
+    const storedColor = localStorage.getItem("color-theme") as ThemeMode;
+    if(storedColor) setMode(storedColor);
+    if(storedFont) setFontTheme(storedFont);
   }, []);
 
   useEffect(() => {
@@ -43,18 +42,17 @@ export const ThemeProviderContainer = ({ children }: { children: ReactNode }) =>
   const selectedMode = mode === "system" ? systemMode : mode;
 
   const persistMode = (newMode: ThemeMode) => {
-    localStorage.setItem("app-theme", newMode);
+    localStorage.setItem("color-theme", newMode);
   };
 
   const theme = useMemo(() => {
-    return selectedMode === "light" ? lightTheme : darkTheme;
-  }, [selectedMode]);
+    return selectedMode === "light" ? lightTheme(fontTheme) : darkTheme(fontTheme);
+  }, [selectedMode, fontTheme]);
 
-  // Don't render anything until we know the client value (avoids mismatch)
   if (!isClient) return null;
 
   return (
-    <ThemeContext.Provider value={{ mode, selectedMode, toggleMode: setMode, persistMode }}>
+    <ThemeContext.Provider value={{ mode, selectedMode, toggleMode: setMode, persistMode, fontTheme, setFontTheme }}>
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
         { children }
